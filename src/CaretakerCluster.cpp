@@ -511,13 +511,18 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
                           offer, ! current->cluster_initialized(),
                           TaskType::COORDINATOR)) {
       lease.changed();  // make sure that the new state is saved
+      return;   // if we have used or declined the offer, we will not 
+                // want to run cluster init and will no longer have to
+                // return reservations or persistent volumes
     }
   }
 
   // plannedInstances is 0 if and only if we have shut down the cluster,
   // if this happened before the cluster was complete, there would be 
   // chaos.
-  if (plannedInstances > 0 && ! current->cluster_complete()) {
+  if (plannedInstances > 0 && 
+      runningInstances == plannedInstances &&
+      ! current->cluster_complete()) {
     LOG(INFO) << "Cluster is complete.";
     LOG(INFO) << "Initiating cluster initialisation procedure...";
     current->set_cluster_complete(true);
