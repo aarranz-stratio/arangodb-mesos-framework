@@ -33,6 +33,7 @@
 #include "ArangoScheduler.h"
 #include "ArangoManager.h"
 
+#include <unordered_set>
 #include <random>
 
 #include "pbjson.hpp"
