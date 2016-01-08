@@ -172,10 +172,10 @@ static bool COORDINATORS_WITH_DBSERVERS = false;
 static bool SECONDARY_SAME_SERVER = false;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief image name
+/// @brief docker image name
 ////////////////////////////////////////////////////////////////////////////////
 
-static string IMAGE = "arangodb/arangodb-mesos:latest";
+static string ARANGODB_IMAGE = "arangodb/arangodb-mesos:latest";
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                             static public methods
@@ -555,19 +555,19 @@ void Global::setSecondarySameServer (bool f) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief image to use
+/// @brief docker image to use
 ////////////////////////////////////////////////////////////////////////////////
 
-const string& Global::image () {
-  return IMAGE;
+const string& Global::arangoDBImage () {
+  return ARANGODB_IMAGE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief image to use
+/// @brief docker image to use
 ////////////////////////////////////////////////////////////////////////////////
 
-void Global::setImage (const std::string& val) {
-  IMAGE = val;
+void Global::setArangoDBImage (const std::string& val) {
+  ARANGODB_IMAGE = val;
 }
 
 // -----------------------------------------------------------------------------

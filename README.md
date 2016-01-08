@@ -9,7 +9,7 @@ distributed in binary form in the docker image
 
 which is built using the `Dockerfile` in
 
-    https://github.com/ArangoDB/arangodb-mesos-docker
+    https://github.com/ArangoDB/arangodb-mesos
 
 
 Introduction
@@ -48,8 +48,7 @@ queries or Foxx apps (which run on the coordinators).
 Installation
 ------------
 
-The framework scheduler as well as all executables of the database
-reside in a single Docker image:
+The framework scheduler resides in a single Docker image:
 
     arangodb/arangodb-mesos:latest
 
@@ -249,6 +248,12 @@ precedence.
     primary server, but not its own master. This is often sensible for
     a good distribution but not always. Note that if you have only
     one DBServer, then you must set this option to "false".
+
+  - `ARANGODB_IMAGE`, overriding `--arangodb_image`:
+
+    This string value contains the name of the docker image used to
+    deploy the ArangoDB tasks.
+
 
 The HTTP/REST API
 -----------------
