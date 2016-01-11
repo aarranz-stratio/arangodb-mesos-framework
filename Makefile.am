@@ -4,7 +4,8 @@
 ## --SECTION--                                                          protobuf
 ## -----------------------------------------------------------------------------
 
-PROTOC = @PROTOCOMPILER@
+PROTOC = $(top_srcdir)/mesos/build/3rdparty/libprocess/3rdparty/protobuf-2.5.0/src/protoc
+
 PROTOCFLAGS = -I$(top_srcdir)/src -I$(srcdir) -I$(top_srcdir)/mesos/include
 
 %.pb.cc %.pb.h: %.proto
