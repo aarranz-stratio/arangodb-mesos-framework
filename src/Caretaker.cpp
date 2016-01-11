@@ -573,6 +573,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   // docker info
   mesos::ContainerInfo::DockerInfo* docker = container.mutable_docker();
   docker->set_image(Global::arangoDBImage());
+  docker->set_privileged(Global::arangoDBPrivilegedImage());
   docker->set_network(mesos::ContainerInfo::DockerInfo::BRIDGE);
   docker->set_force_pull_image(true);
 

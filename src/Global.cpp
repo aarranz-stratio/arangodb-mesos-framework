@@ -177,6 +177,12 @@ static bool SECONDARY_SAME_SERVER = false;
 
 static string ARANGODB_IMAGE = "arangodb/arangodb-mesos:latest";
 
+////////////////////////////////////////////////////////////////////////////////
+/// @brief run docker image privileged
+////////////////////////////////////////////////////////////////////////////////
+
+static bool ARANGODB_PRIVILEGED_IMAGE = false;
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                             static public methods
 // -----------------------------------------------------------------------------
@@ -568,6 +574,22 @@ const string& Global::arangoDBImage () {
 
 void Global::setArangoDBImage (const std::string& val) {
   ARANGODB_IMAGE = val;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief run docker image privileged
+////////////////////////////////////////////////////////////////////////////////
+
+bool Global::arangoDBPrivilegedImage() {
+  return ARANGODB_PRIVILEGED_IMAGE;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief run docker image privileged
+////////////////////////////////////////////////////////////////////////////////
+
+void Global::setArangoDBPrivilegedImage(bool f) {
+  ARANGODB_PRIVILEGED_IMAGE = f;
 }
 
 // -----------------------------------------------------------------------------

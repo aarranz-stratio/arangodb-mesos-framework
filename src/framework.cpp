@@ -134,6 +134,8 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "  ARANGODB_COORDINATORS_WITH_DBSERVERS\n"
        << "                       overrides '--coordinators_with_dbservers'\n"
        << "  ARANGODB_IMAGE       overrides '--arangodb_image'\n"
+       << "  ARANGODB_PRIVILEGED_IMAGE\n"
+       << "                       overrides '--arangodb_privileged_image'\n"
        << "  MESOS_MASTER         overrides '--master'\n"
        << "\n"
        << "  MESOS_AUTHENTICATE   enable authentication\n"
@@ -141,6 +143,17 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "\n"
        << "  ARANGODB_ZK          overrides '--zk'\n"
        << "\n";
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief string command line argument to bool
+////////////////////////////////////////////////////////////////////////////////
+bool str2bool(const string in) {
+  if (in == "yes" || in == "true" || in == "y") {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -291,7 +304,12 @@ int main (int argc, char** argv) {
             "arangodb_image",
             "docker image to use on the agent",
             "");
-
+  
+  string arangoDBPrivilegedImage;
+  flags.add(&arangoDBPrivilegedImage,
+            "arangodb_privileged_image",
+            "start the arangodb image privileged",
+            "false");
   // address of master and zookeeper
   string master;
   flags.add(&master,
@@ -354,6 +372,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_SECONDARIES_WITH_DBSERVERS", secondariesWithDBservers);
   updateFromEnv("ARANGODB_COORDINATORS_WITH_DBSERVERS", coordinatorsWithDBservers);
   updateFromEnv("ARANGODB_IMAGE", arangoDBImage);
+  updateFromEnv("ARANGODB_PRIVILEGED_IMAGE", arangoDBPrivilegedImage);
 
   updateFromEnv("MESOS_MASTER", master);
   updateFromEnv("ARANGODB_ZK", zk);
@@ -373,6 +392,7 @@ int main (int argc, char** argv) {
   logging::initialize(argv[0], flags, true); // Catch signals.
 
   Global::setArangoDBImage(arangoDBImage);
+  LOG(INFO) << "ArangoDB Image: " << Global::arangoDBImage();
 
   if (mode == "standalone") {
     Global::setMode(OperationMode::STANDALONE);
@@ -386,47 +406,23 @@ int main (int argc, char** argv) {
   }
   LOG(INFO) << "Mode: " << mode;
 
-  if (async_repl == "yes" || async_repl == "true" || async_repl == "y") {
-    Global::setAsyncReplication(true);
-  }
-  else {
-    Global::setAsyncReplication(false);
-  }
+  Global::setAsyncReplication(str2bool(async_repl));
   LOG(INFO) << "Asynchronous replication flag: " << Global::asyncReplication();
 
   Global::setFrameworkName(frameworkName);
   Global::setVolumePath(volumePath);
 
-  if (secondariesWithDBservers == "yes" || secondariesWithDBservers == "true" ||
-      secondariesWithDBservers == "y") {
-    Global::setSecondariesWithDBservers(true);
-    LOG(INFO) << "SecondariesWithDBservers: true";
-  }
-  else {
-    Global::setSecondariesWithDBservers(false);
-    LOG(INFO) << "SecondariesWithDBservers: false";
-  }
+  Global::setSecondariesWithDBservers(str2bool(secondariesWithDBservers));
+  LOG(INFO) << "SecondariesWithDBservers: " << Global::secondariesWithDBservers();
 
-  if (coordinatorsWithDBservers == "yes" || coordinatorsWithDBservers == "true" ||
-      coordinatorsWithDBservers == "y") {
-    Global::setCoordinatorsWithDBservers(true);
-    LOG(INFO) << "CoordinatorsWithDBservers: true";
-  }
-  else {
-    Global::setCoordinatorsWithDBservers(false);
-    LOG(INFO) << "CoordinatorsWithDBservers: false";
-  }
+  Global::setCoordinatorsWithDBservers(str2bool(coordinatorsWithDBservers));
+  LOG(INFO) << "CoordinatorsWithDBservers: " << Global::coordinatorsWithDBservers();
+  
+  Global::setSecondarySameServer(str2bool(secondarySameServer));
+  LOG(INFO) << "SecondarySameServer: " << Global::secondarySameServer();
 
-  if (secondarySameServer == "yes" || secondarySameServer == "true" ||
-      secondarySameServer == "y") {
-    Global::setSecondarySameServer(true);
-    LOG(INFO) << "SecondarySameServer: true";
-  }
-  else {
-    Global::setSecondarySameServer(false);
-    LOG(INFO) << "SecondarySameServer: false";
-  }
-
+  Global::setArangoDBPrivilegedImage(str2bool(arangoDBPrivilegedImage));
+  LOG(INFO) << "ArangoDBPrivilegedImage: " << Global::arangoDBPrivilegedImage();
 
   LOG(INFO) << "Minimal resources agent: " << minimal_resources_agent;
   Global::setMinResourcesAgent(minimal_resources_agent);
