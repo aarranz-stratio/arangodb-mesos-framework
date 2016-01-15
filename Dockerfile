@@ -9,6 +9,7 @@ ADD ./mesos-scripts /mesos
 
 # add the arangodb framework
 ADD ./bin/arangodb-framework /mesos/arangodb-framework
+ADD ./assets /mesos/assets
 
 # start script
 ENTRYPOINT ["/mesos/framework.sh"]
