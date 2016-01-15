@@ -14,7 +14,14 @@ else
   ARANGODB_WEBUI="http://${ARANGODB_WEBUI_HOST}:${ARANGODB_WEBUI_PORT}"
 fi
 
+# The following exports will be used internally in the libprocess startup (which does the network binding to the master)
+
+# Apart from the webui port the framework needs another port for internal master => framework communication
 export LIBPROCESS_PORT=${PORT1}
+# Mesos will use this IP to communicate internally. When starting the framework in bridged mode our IP is however an internal docker IP
+# We now announce ourselves as $HOST to the master which is the SLAVES IP. By facilitating port publishing in the docker executor, connecting to $PORT1 of the slave
+# will be routed to the docker container :)
+export LIBPROCESS_ADVERTISE_IP=${HOST}
 
 env
 
