@@ -253,6 +253,11 @@ precedence.
 
     This string value contains the name of the docker image used to
     deploy the ArangoDB tasks.
+  
+  - `ARANGODB_PRIVILEGED_IMAGE`, overriding `--arangodb_privileged_image`:
+
+    Start arangodb containers `privileged` (see docker). This is useful for
+    debugging purposes.
 
 
 The HTTP/REST API
