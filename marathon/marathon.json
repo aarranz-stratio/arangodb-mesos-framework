@@ -1,0 +1,14 @@
+{
+  "id": "arangodb-framework",
+  "args": [ "framework" ],
+  "cpus": 0.2,
+  "mem": 64.0,
+  "instances": 1,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "arangodb/arangodb-mesos",
+      "network": "HOST"
+    }
+  }
+}
