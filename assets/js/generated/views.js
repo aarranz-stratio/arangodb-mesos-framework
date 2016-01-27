@@ -84,7 +84,7 @@
         type : 'GET',
         dataType : 'json',
         async: true,
-        url: '/v1/servers/' + encodeURIComponent(name)
+        url: 'v1/servers/' + encodeURIComponent(name)
       }).done(function(data) {
           self.layoutData = [];
           self.layoutNames= [];
@@ -155,7 +155,7 @@
         type : 'GET',
         dataType : 'json',
         async: true,
-        url: '/v1/cluster'
+        url: 'v1/cluster'
       }).done(function(data) {
         var i = 0;
         _.each(data.clusters, function(val, key) {
@@ -264,7 +264,7 @@
         type : 'GET',
         dataType : 'json',
         async: true,
-        url: '/v1/state.json'
+        url: 'v1/state.json'
       }).done(function(data) {
         $('.t-cluster-body').empty();
         self.drawServerLine2([
@@ -284,7 +284,7 @@
         type : 'GET',
         dataType : 'json',
         async: true,
-        url: '/v1/cluster'
+        url: 'v1/cluster'
       }).done(function(data) {
         if (data.clusters.length > 0) {
           $('.t-cluster-body').empty();
@@ -327,7 +327,7 @@
         type : 'GET',
         dataType : 'json',
         async: true,
-        url: '/v1/cluster/' + name
+        url: 'v1/cluster/' + name
         }).done(function(json) {
 
           tableContent = [
@@ -459,7 +459,7 @@
 
         $.ajax({
           type: "POST",
-          url: "/v1/cluster/"+encodeURIComponent(clusterName),
+          url: "v1/cluster/"+encodeURIComponent(clusterName),
           data: JSON.stringify(postMsg),
           contentType: "application/json",
           processData: false,
@@ -479,7 +479,7 @@
 
         $.ajax({
           type: "POST",
-          url: "/v1/cluster/"+encodeURIComponent(clusterName),
+          url: "v1/cluster/"+encodeURIComponent(clusterName),
           data: JSON.stringify(postMsg),
           contentType: "application/json",
           processData: false,
@@ -636,7 +636,7 @@
         type : 'GET',
         dataType : 'json',
         async: true,
-        url: '/v1/cluster'
+        url: 'v1/cluster'
       }).done(function(data) {
         var i = 0;
 
@@ -666,7 +666,7 @@
         type : 'GET',
         dataType : 'json',
         async: true,
-        url: '/v1/instances/'+encodeURIComponent(selected)
+        url: 'v1/instances/'+encodeURIComponent(selected)
       }).done(function(data) {
         $('.t-body').empty();
 
@@ -773,7 +773,7 @@
         type : 'GET',
         dataType : 'json',
         async: true,
-        url: '/v1/offers/'+encodeURIComponent(selected)
+        url: 'v1/offers/'+encodeURIComponent(selected)
       }).done(function(data) {
         $('.t-body').empty();
 
