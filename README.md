@@ -1,6 +1,8 @@
 ArangoDB framework for Mesos
 ============================
 
+**This is the legacy version supporting public slaves**
+
 This repository contains a C++ program that is a scheduler to create 
 a "framework" or "service" on Mesos to run ArangoDB clusters. It is
 distributed in binary form in the docker image
