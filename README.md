@@ -5,11 +5,7 @@ This repository contains a C++ program that is a scheduler to create
 a "framework" or "service" on Mesos to run ArangoDB clusters. It is
 distributed in binary form in the docker image
 
-    arangodb/arangodb-mesos
-
-which is built using the `Dockerfile` in
-
-    https://github.com/ArangoDB/arangodb-mesos
+    arangodb/arangodb-mesos-framework
 
 
 Introduction
@@ -59,7 +55,7 @@ do
         -e PORT0=8181 \
         -e MESOS_MASTER=zk://master.mesos:2181/mesos \
         -e ARANGODB_ZK=zk://master.mesos:2181/arangodb/arangodb \
-        arangodb/arangodb-mesos:latest \
+        arangodb/arangodb-mesos-framework:latest \
         framework <FURTHER-COMMAND-LINE-OPTIONS>
 
 where "8181" must be a free port on the host,
@@ -356,8 +352,10 @@ channels:
 Additionally, we track issues, bug reports and questions via the github
 issue trackers at
 
-  - [arangodb-dcos](https://github.com/ArangoDB/arangodb-dcos/issues):
+  - [arangodb-dcos](https://github.com/arangodb/arangodb-dcos/issues):
     the DCOS subcommand
-  - [arangodb-mesos](https://github.com/arangodb/arangodb-mesos/issues):
+  - [arangodb-mesos](https://github.com/arangodb/arangodb-mesos-docker/issues):
+    the mesos flavoured arangodb docker image
+  - [arangodb-mesos-framework](https://github.com/arangodb/arangodb-mesos-framework/issues):
     the ArangoDB framework/service
 

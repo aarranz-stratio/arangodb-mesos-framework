@@ -20,3 +20,6 @@ logging
 bin
 lib
 tst/res
+
+# project artifacts
+mesos-scripts/BUILDTAG
