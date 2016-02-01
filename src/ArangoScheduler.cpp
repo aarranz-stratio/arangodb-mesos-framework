@@ -245,7 +245,7 @@ mesos::TaskInfo ArangoScheduler::startInstance (
   task.mutable_command()->CopyFrom(command);
 
   mesos::DiscoveryInfo di;
-  di.set_visibility(mesos::DiscoveryInfo::FRAMEWORK);
+  di.set_visibility(mesos::DiscoveryInfo::CLUSTER);
   di.set_name(name);
   mesos::Ports po;
   auto p = po.add_ports();
