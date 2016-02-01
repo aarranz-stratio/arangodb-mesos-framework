@@ -511,7 +511,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   container.set_type(mesos::ContainerInfo::DOCKER);
 
   string myInternalName = task.name();
-  string myName = "ArangoDB_" + myInternalName;
+  string myName = "ArangoDB-" + myInternalName;
 
   // command to execute
   mesos::CommandInfo command;
