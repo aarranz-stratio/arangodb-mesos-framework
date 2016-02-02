@@ -255,6 +255,8 @@ mesos::TaskInfo ArangoScheduler::startInstance (
   di.mutable_ports()->CopyFrom(po);
   task.mutable_discovery()->CopyFrom(di);
 
+  LOG(INFO) << "Discovery visibility CLUSTER";
+
   // launch the tasks
   vector<mesos::TaskInfo> tasks;
   tasks.push_back(task);
