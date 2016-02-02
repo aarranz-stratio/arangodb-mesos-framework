@@ -34,6 +34,7 @@
 
 #include <atomic>
 #include <iostream>
+#include <algorithm>
 #include <string>
 
 #include <boost/algorithm/string.hpp>
@@ -216,7 +217,6 @@ void ArangoScheduler::declineOffer (const mesos::OfferID& offerId) const {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief starts an instances with a given offer and resources
 ////////////////////////////////////////////////////////////////////////////////
-
 mesos::TaskInfo ArangoScheduler::startInstance (
     string const& taskId,
     string const& name,
@@ -246,7 +246,9 @@ mesos::TaskInfo ArangoScheduler::startInstance (
 
   mesos::DiscoveryInfo di;
   di.set_visibility(mesos::DiscoveryInfo::CLUSTER);
-  di.set_name(name);
+  string lower = name;
+  std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+  di.set_name(lower);
   mesos::Ports po;
   auto p = po.add_ports();
   p->set_number(info.ports(0));
