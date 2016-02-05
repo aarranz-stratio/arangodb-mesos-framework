@@ -54,6 +54,8 @@ MESOS_ROLES=slave_public,arangodb
 MESOS_WEIGHTS=slave_public=1,arangodb=1
 ```
 
+Make sure to restart the master so mesos knows about the new role.
+
 Installation
 ------------
 
