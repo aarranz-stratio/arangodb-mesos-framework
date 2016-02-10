@@ -623,11 +623,7 @@ void ArangoManager::reconcileTasks () {
 static double const TryingToReserveTimeout = 300;  // seconds
 static double const TryingToPersistTimeout = 300;
 static double const TryingToStartTimeout   = 600; // docker pull might take
-static double const TryingToRestartTimeout = 300;
 static double const FailoverTimeout        = 600;
-static double const TryingToResurrectTimeout = 900;  // Patience before we
-                                                     // give up on a persistent
-                                                     // task.
 // Note that the failover timeout can be configured by the user via a
 // command line option.
 
