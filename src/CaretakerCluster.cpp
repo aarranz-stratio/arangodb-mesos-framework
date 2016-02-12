@@ -495,8 +495,11 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
     }
   }
   if (! toDestroy.empty()) {
+    std::string offerString;
+    pbjson::pb2json(&offer, offerString);
     LOG(INFO) << "Found a persistent disk(s) that nobody wants, "
-              << "will destroy:" << toDestroy;
+      << "will destroy:" << toDestroy
+      << " Original offer:" << offerString;
     Global::scheduler().destroyPersistent(offer, toDestroy);
     return;
   }
@@ -512,8 +515,11 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
     }
   }
   if (! toUnreserve.empty()) {
+    std::string offerString;
+    pbjson::pb2json(&offer, offerString);
     LOG(INFO) << "Found dynamically reserved resources that nobody wants, "
-              << "will unreserve:" << toUnreserve;
+              << "will unreserve:" << toUnreserve
+              << " Original offer:" << offerString;
     Global::scheduler().unreserveDynamically(offer, toUnreserve);
     return;
   }

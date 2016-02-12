@@ -444,7 +444,7 @@ vector<string> ArangoManager::dbserverEndpoints () {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ArangoManager::dispatch () {
-  static const int SLEEP_SEC = 10;
+  static const int SLEEP_SEC = 2;
   //static const int SLEEP_SEC = 1;
 
   prepareReconciliation();
