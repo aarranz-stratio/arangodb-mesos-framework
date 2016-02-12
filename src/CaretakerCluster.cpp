@@ -28,6 +28,7 @@
 #include "CaretakerCluster.h"
 
 #include "ArangoState.h"
+#include "ArangoManager.h"
 #include "Global.h"
 #include "ArangoScheduler.h"
 
@@ -257,7 +258,6 @@ void CaretakerCluster::updatePlan () {
   // need at least one DB server
   t = (int) targets->dbservers().instances();
   tasks = plan->mutable_dbservers();
-  TasksPlan* tasks2 = plan->mutable_secondaries();
   p = countPlannedInstances(plan->dbservers());
 
   if (t < p) {
@@ -277,22 +277,10 @@ void CaretakerCluster::updatePlan () {
       std::string name = "DBServer" 
                          + std::to_string(tasks->entries_size());
       task->set_name(name);
-
+      
+      // mop: by convention Current and Plan arrays have to have equal size
       TasksCurrent* dbservers = current->mutable_dbservers();
       dbservers->add_entries();
-
-      if (Global::asyncReplication()) {
-        TaskPlan* task2 = tasks2->add_entries();
-        task2->set_state(TASK_STATE_NEW);
-        std::string name2 = "Secondary"
-                            + std::to_string(tasks2->entries_size());
-        task2->set_name(name2);
-        task->set_sync_partner(name2);
-        task2->set_sync_partner(name);
-
-        TasksCurrent* secondaries = current->mutable_secondaries();
-        secondaries->add_entries();
-      }
     }
   }
 
@@ -397,55 +385,6 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
     // initialized.
   }
 
-  if (! current->cluster_initialized() &&
-      lease.state().targets().agents().instances() > 0) {
-    // Agency is running, make sure it is initialized:
-    LOG(INFO) << "Testing agency...";
-    std::string agentHost 
-      = current->agents().entries(0).hostname();
-    uint32_t port 
-      = current->agents().entries(0).ports(0);
-    std::string url = "http://" + agentHost + ":" + to_string(port) +
-                      "/v2/keys/arango/InitDone";
-    std::string body;
-    long httpCode = 0;
-    int res = doHTTPGet(url, body, httpCode);
-    if (res == 0 && httpCode == 200) {
-      // Quickly check the JSON result:
-      picojson::value s;
-      std::string err = picojson::parse(s, body);
-
-      res = -2;  // Will rest to 0 if all is OK
-      if (err.empty()) {
-        if (s.is<picojson::object>()) {
-          auto& o = s.get<picojson::object>();
-          auto& n = o["node"];
-          if (n.is<picojson::object>()) {
-            auto& oo = n.get<picojson::object>();
-            auto& v = oo["value"];
-            if (v.is<string>()) {
-              string vv = v.get<string>();
-              if (vv == "true") {
-                res = 0;  // all OK
-              }
-            }
-          }
-        }
-      }
-    }
-    if (res != 0 || httpCode != 200) {
-      // Ignore the offer, since the agency is not yet ready:
-      LOG(INFO)
-      << "agency is not yet properly initialized, decline offer "
-      << offer.id().value() << ", result: "
-      << res << ", HTTP result code: " << httpCode;
-      Global::scheduler().declineOffer(offer.id());
-      return;
-    }
-    LOG(INFO)
-    << "agency is up and running.";
-  }
-  
   // Now look after the DBservers:
   plannedInstances = countPlannedInstances(plan->dbservers());
   runningInstances = countRunningInstances(plan->dbservers());
@@ -469,34 +408,8 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
     // at the offer. This only happens when the cluster is already
     // initialized.
   }
-
-  // Now the secondaries, if needed:
-  if (Global::asyncReplication()) {
-    plannedInstances = countPlannedInstances(plan->secondaries());
-    runningInstances = countRunningInstances(plan->secondaries());
-    if (runningInstances < plannedInstances) {
-      LOG(INFO)
-      << "planned secondary DBServer instances: " << plannedInstances << ", "
-      << "running secondary DBServer instances: " << runningInstances;
-      // Try to use the offer for a new DBserver:
-      offerUsed = checkOfferOneType(lease, "secondary", true,
-                                    targets->secondaries(),
-                                    plan->mutable_secondaries(),
-                                    current->mutable_secondaries(),
-                                    offer, ! current->cluster_initialized(),
-                                    TaskType::SECONDARY_DBSERVER);
-
-      if (offerUsed) {
-        lease.changed();  // make sure new state is saved
-        return;
-      }
-      // Otherwise, fall through to give other task types a chance to look
-      // at the offer. This only happens when the cluster is already
-      // initialized.
-    }
-  }
-
-  // Finally, look after the coordinators:
+  
+  // Create coordinators:
   plannedInstances = countPlannedInstances(plan->coordinators());
   runningInstances = countRunningInstances(plan->coordinators());
   if (runningInstances < plannedInstances) {
@@ -516,6 +429,44 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
                 // return reservations or persistent volumes
     }
   }
+
+  // Now the secondaries, if needed. Must be done after coordinators have been started
+  // as they register themselves via coordinators
+  if (Global::asyncReplication()) {
+    // mop: the number of planned secondaries equals the number of currently running
+    // dbservers
+    plannedInstances = countRunningInstances(plan->dbservers());
+    runningInstances = countRunningInstances(plan->secondaries());
+    if (runningInstances < plannedInstances) {
+      LOG(INFO)
+      << "planned secondary DBServer instances: " << plannedInstances << ", "
+      << "running secondary DBServer instances: " << runningInstances;
+      
+      for (int i=0;i<plan->mutable_dbservers()->entries_size();i++) {
+        if (!plan->mutable_dbservers()->mutable_entries(i)->has_sync_partner()) {
+          Global::manager().startAndAssignSecondary(lease, plan->mutable_dbservers()->mutable_entries(i)->name());
+          break;
+        }
+      }
+
+      // Try to use the offer for a new DBserver:
+      offerUsed = checkOfferOneType(lease, "secondary", true,
+                                    targets->secondaries(),
+                                    plan->mutable_secondaries(),
+                                    current->mutable_secondaries(),
+                                    offer, ! current->cluster_initialized(),
+                                    TaskType::SECONDARY_DBSERVER);
+
+      if (offerUsed) {
+        lease.changed();  // make sure new state is saved
+        return;
+      }
+      // Otherwise, fall through to give other task types a chance to look
+      // at the offer. This only happens when the cluster is already
+      // initialized.
+    }
+  }
+
 
   // plannedInstances is 0 if and only if we have shut down the cluster,
   // if this happened before the cluster was complete, there would be 

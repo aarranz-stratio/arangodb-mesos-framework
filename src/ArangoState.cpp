@@ -205,6 +205,7 @@ std::string ArangoState::getAgencyURL (ArangoState::Lease& lease) {
 std::string ArangoState::getCoordinatorURL (ArangoState::Lease& lease) {
   auto const& coordinators = lease.state().current().coordinators();
   auto nr = coordinators.entries_size();
+  assert(nr > 0);
   long now = chrono::duration_cast<chrono::seconds>(
       chrono::steady_clock::now().time_since_epoch()).count();
   std::default_random_engine generator(now);

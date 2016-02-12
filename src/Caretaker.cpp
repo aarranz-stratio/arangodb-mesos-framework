@@ -514,40 +514,61 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   string myName = "ArangoDB-" + myInternalName;
 
   // command to execute
-  mesos::CommandInfo command;
   mesos::Environment environment;
+  mesos::Environment::Variable* roleEnv = environment.add_variables();
+  roleEnv->set_name("CLUSTER_ROLE");
+
   auto& state = lease.state();
 
   switch (taskType) {
     case TaskType::AGENT: {
+        roleEnv->set_value("agency");
+        break;
+      }
+    case TaskType::PRIMARY_DBSERVER: {
+        roleEnv->set_value("primary");
+        break;
+      }
+    case TaskType::SECONDARY_DBSERVER: {
+        roleEnv->set_value("secondary");
+        break;
+      }
+    case TaskType::COORDINATOR: {
+        roleEnv->set_value("coordinator");
+        break;
+      }
+    case TaskType::UNKNOWN: {
+      assert(false);
+      break;
+    }
+  }
+
+  switch (taskType) {
+    case TaskType::AGENT: {
       auto targets = state.targets();
-      command.set_value("agency");
       auto p = environment.add_variables();
-      p->set_name("numberOfDBServers");
-      p->set_value(to_string(targets.dbservers().instances()));
-      p = environment.add_variables();
-      p->set_name("numberOfCoordinators");
-      p->set_value(to_string(targets.coordinators().instances()));
-      p = environment.add_variables();
       p->set_name("asyncReplication");
       p->set_value(Global::asyncReplication() ? string("true") : string("false"));
       break;
     }
 
-    case TaskType::PRIMARY_DBSERVER:
-    case TaskType::COORDINATOR:
     case TaskType::SECONDARY_DBSERVER: {
-      if (Global::mode() == OperationMode::STANDALONE) {
-        command.set_value("standalone");
-      }
-      else {
+      // mop: intentional fall through
+      auto p = environment.add_variables();
+      p->set_name("CLUSTER_ID");
+      p->set_value(myInternalName);
+    }
+    case TaskType::PRIMARY_DBSERVER:
+    case TaskType::COORDINATOR: {
+      // mop: standalone will simply execute the image in default mode
+      if (Global::mode() != OperationMode::STANDALONE) {
         auto agents = state.current().agents();
-        command.set_value("cluster");
         string hostname = agents.entries(0).hostname();
         uint32_t port = agents.entries(0).ports(0);
-        command.add_arguments(
-            "tcp://" + getIPAddress(hostname) + ":" + to_string(port));
-        command.add_arguments(myInternalName);
+      
+        auto agencyEndpoint = environment.add_variables();
+        agencyEndpoint->set_name("AGENCY_ENDPOINT");
+        agencyEndpoint->set_value("tcp://" + getIPAddress(hostname) + ":" + to_string(port));
       }
       break;
     }
@@ -557,7 +578,8 @@ static void startArangoDBTask (ArangoState::Lease& lease,
       break;
     }
   }
-
+  
+  mesos::CommandInfo command;
   command.set_shell(false);
 
   // Find out the IP address:
@@ -607,7 +629,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   // volume
   mesos::Volume* volume = container.add_volumes();
-  volume->set_container_path("/data");
+  volume->set_container_path("/var/lib/arangodb");
   mesos::Resources res = info.resources();
   res = arangodb::filterIsDisk(res);
   const mesos::Resource& disk = *(res.begin());
@@ -1267,7 +1289,6 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
       return notInterested(offer, doDecline);
     }
   }
-
 
   // ...........................................................................
   // try to start directly, if we do not need a reservation
