@@ -789,7 +789,6 @@ static bool requestStartPersistent (ArangoState::Lease& lease,
       chrono::steady_clock::now().time_since_epoch()).count();
 
     task->set_state(TASK_STATE_TRYING_TO_START);
-    task->set_persistence_id(persistenceId);
     task->set_timestamp(now);
 
     taskCur->mutable_offer_id()->CopyFrom(offer.id());
@@ -891,7 +890,6 @@ static bool requestRestartPersistent (ArangoState::Lease& lease,
       chrono::steady_clock::now().time_since_epoch()).count();
 
     task->set_state(TASK_STATE_TRYING_TO_RESTART);
-    task->set_persistence_id(persistenceId);
     task->set_timestamp(now);
 
     taskCur->mutable_offer_id()->CopyFrom(offer.id());
@@ -1083,6 +1081,18 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
 
   string const& offerSlaveId = offer.slave_id().value();
   std::vector<int> required;
+  
+  std::string offerPersistenceId;
+  {
+    mesos::Resources res = offer.resources();
+    res = arangodb::filterIsDisk(res);
+    const mesos::Resource& disk = *(res.begin());
+    if (disk.has_disk()
+        && disk.disk().has_persistence()
+       ) {
+      offerPersistenceId = disk.disk().persistence().id();
+    }
+  }
 
   for (int i = 0; i < p; ++i) {
     TaskPlan* task = tasks->mutable_entries(i);
@@ -1091,6 +1101,16 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
     if (task->state() == TASK_STATE_NEW) {
       required.push_back(i);
       continue;
+    }
+
+    // mop: evil edge case...slave went down and was restarted after
+    // it was declared as lost...task did not yet find a suitable new
+    // slave and we are reoffered our original persistent volume...
+    // Upon restart the slave will have a new slave_id...Sync the
+    // new slave_id back to our internal structure so we can restart
+    // it on the new slave
+    if (!offerPersistenceId.empty() && task->persistence_id() == offerPersistenceId) {
+      taskCur->mutable_slave_id()->CopyFrom(offer.slave_id());
     }
 
     if (taskCur->slave_id().value() == offerSlaveId) {
