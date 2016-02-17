@@ -42,6 +42,10 @@ queries or Foxx apps (which run on the coordinators).
 
 Prerequisites
 -------------
+
+This version of the framework needs Apache Mesos Version >= 0.23, since
+we need the persistent primitives introduced in that version.
+
 For deploying arangodb in a mesos-0.26 cluster and below you will have
 to create a separate role "arangodb" on the master so be sure to start
 your master with `--roles=arangodb`.
