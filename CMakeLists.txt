@@ -41,7 +41,7 @@ if(NOT MESOS_FOUND_SOURCE_PATH)
 endif ()
 
 find_path(MHD_INCLUDE_DIR
-  libmicrohttpd/platform.h
+  microhttpd.h
 )
 find_library(MHD_LIBRARY
   microhttpd
