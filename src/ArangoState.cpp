@@ -35,8 +35,8 @@
 #include <state/leveldb.hpp>
 #include <state/zookeeper.hpp>
 
-#include <boost/regex.hpp>
 #include <random>
+#include <regex>
 
 using namespace arangodb;
 using namespace mesos::internal::state;
@@ -85,9 +85,9 @@ void ArangoState::init () {
     string zkNode       = "[^/]+(/[^/]+)*";
     string REGEX        = "zk://(" + userAndPass +"?" + hostAndPorts + ")(/" + zkNode + ")";
 
-    boost::regex re(REGEX);
-    boost::smatch m;
-    bool ok = boost::regex_match(_zk, m, re);
+    regex re(REGEX);
+    smatch m;
+    bool ok = regex_match(_zk, m, re);
 
     if (! ok) {
       LOG(ERROR) << "FATAL cannot parse zookeeper '" << _zk << "'";
