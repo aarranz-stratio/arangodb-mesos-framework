@@ -40,20 +40,6 @@ if(NOT MESOS_FOUND_SOURCE_PATH)
   message(FATAL_ERROR "Please provide -DMESOS_SOURCE_PATH or link the mesos source directory to ${CMAKE_BINARY_DIR}/mesos")
 endif ()
 
-find_path(MHD_INCLUDE_DIR
-  microhttpd.h
-)
-find_library(MHD_LIBRARY
-  microhttpd
-)
-find_package_handle_standard_args(Microhttpd  DEFAULT_MSG
-  MHD_LIBRARY MHD_INCLUDE_DIR)
-
-if ( NOT Microhttpd_FOUND)
-  message(FATAL_ERROR "libmicrohttpd not found!")
-endif()
-
-
 find_package(apr REQUIRED)
 find_package(Threads REQUIRED)
 find_package(CURL REQUIRED)
@@ -63,6 +49,7 @@ find_package(apr REQUIRED)
 find_package(svn REQUIRED)
 find_package(SASL2 REQUIRED)
 find_package(Libunwind REQUIRED)
+find_package(Libmicrohttpd REQUIRED)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/pbjson/src
@@ -78,7 +65,7 @@ include_directories(
   ${MESOS_FOUND_SOURCE_PATH}/build/src
   ${MESOS_FOUND_SOURCE_PATH}/build/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/picojson-1.3.0/
-  ${MHD_INCLUDE_DIR}
+  ${Libmicrohttpd_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
 )
 
@@ -103,6 +90,7 @@ target_link_libraries(
   ${ZLIB_LIBRARIES}
   ${SASL2_LIBRARIES}
   ${Libunwind_LIBRARIES}
+  ${Libmicrohttpd_LIBRARIES}
   ${CMAKE_DL_LIBS}
   Threads::Threads
 )
