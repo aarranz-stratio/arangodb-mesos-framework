@@ -50,6 +50,7 @@ find_package(svn REQUIRED)
 find_package(SASL2 REQUIRED)
 find_package(Libunwind REQUIRED)
 find_package(Libmicrohttpd REQUIRED)
+find_package(gflags)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/pbjson/src
@@ -74,8 +75,7 @@ target_link_libraries(
   libarangodb-mesos
 )
 
-target_link_libraries(
-  libarangodb-mesos
+set(LIBS
   ${MESOS_FOUND_SOURCE_PATH}/build/src/.libs/libmesos_no_3rdparty.a
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/.libs/libprocess.a
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/glog-0.3.3/.libs/libglog.a
@@ -83,7 +83,6 @@ target_link_libraries(
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/.libs/libzookeeper_st.a
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/leveldb/libleveldb.a
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/libev-4.15/.libs/libev.a
-  ${MHD_LIBRARY}
   ${CURL_LIBRARIES}
   ${apr_LIBRARIES}
   ${svn_LIBRARIES}
@@ -93,4 +92,13 @@ target_link_libraries(
   ${Libmicrohttpd_LIBRARIES}
   ${CMAKE_DL_LIBS}
   Threads::Threads
+)
+
+if(gflags_LIBRARY)
+  set(LIBS ${LIBS} ${gflags_LIBRARIES})
+endif()
+
+target_link_libraries(
+  libarangodb-mesos
+  ${LIBS}
 )
