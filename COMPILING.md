@@ -27,12 +27,12 @@ and also install Mesos.
 
 Inside the container: Install the requirements.
 
-    container> apt-get install libboost-dev libgoogle-glog-dev libmicrohttpd-dev 
+    container> apt-get install libboost-dev libgoogle-glog-dev libmicrohttpd-dev cmake
 
 Checkout and compile:
 
-    container> git clone https://github.com/arangodb/arangodb-mesos.git
-    container> cd arangodb-mesos
+    container> git clone https://github.com/arangodb/arangodb-mesos-framework.git
+    container> cd arangodb-mesos-framework
     container> mkdir build
     container> ln -s $PATH_TO_MESOS_SOURCES mesos
     container> cmake ../
