@@ -23,3 +23,5 @@ tst/res
 
 # project artifacts
 mesos-scripts/BUILDTAG
+
+build
