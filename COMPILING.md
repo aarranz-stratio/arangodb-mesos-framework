@@ -31,11 +31,11 @@ Inside the container: Install the requirements.
 
 Checkout and compile:
 
-    container> cd /home
     container> git clone https://github.com/arangodb/arangodb-mesos.git
     container> cd arangodb-mesos
-    container> autoreconf
-    container> ./configure
+    container> mkdir build
+    container> ln -s $PATH_TO_MESOS_SOURCES mesos
+    container> cmake ../
     container> make
 
 # Running
