@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (arangodb-mesos-framework)
 include(FindPackageHandleStandardArgs)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 add_executable(
   arangodb-mesos-framework
@@ -39,21 +40,6 @@ if(NOT MESOS_FOUND_SOURCE_PATH)
   message(FATAL_ERROR "Please provide -DMESOS_SOURCE_PATH or link the mesos source directory to ${CMAKE_BINARY_DIR}/mesos")
 endif ()
 
-find_path(MESOS_INCLUDE_DIR
-  mesos/mesos.hpp
-)
-
-find_library(MESOS_LIBRARY
-  NAMES mesos
-)
-
-find_package_handle_standard_args(Mesos  DEFAULT_MSG
-  MESOS_LIBRARY MESOS_INCLUDE_DIR)
-
-if ( NOT Mesos_FOUND)
-  message(FATAL_ERROR "Mesos not found!")
-endif()
-
 find_path(MHD_INCLUDE_DIR
   libmicrohttpd/platform.h
 )
@@ -68,20 +54,30 @@ if ( NOT Microhttpd_FOUND)
 endif()
 
 
-find_package (Threads REQUIRED)
-find_package (CURL REQUIRED)
+find_package(apr REQUIRED)
+find_package(Threads REQUIRED)
+find_package(CURL REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(Boost COMPONENTS regex REQUIRED)
+find_package(apr REQUIRED)
+find_package(svn REQUIRED)
+find_package(SASL2 REQUIRED)
+find_package(Libunwind REQUIRED)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/pbjson/src
+  ${MESOS_FOUND_SOURCE_PATH}/3rdparty/libprocess/include
+  ${MESOS_FOUND_SOURCE_PATH}/3rdparty/libprocess/3rdparty/stout/include
+  ${MESOS_FOUND_SOURCE_PATH}/include
+  ${MESOS_FOUND_SOURCE_PATH}/src
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/stout/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/generated
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/protobuf-2.5.0/src
   ${MESOS_FOUND_SOURCE_PATH}/build/src
-  ${MESOS_FOUND_SOURCE_PATH}/src
-  ${MESOS_INCLUDE_DIR}
+  ${MESOS_FOUND_SOURCE_PATH}/build/include
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/picojson-1.3.0/
   ${MHD_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
 )
@@ -89,9 +85,24 @@ include_directories(
 target_link_libraries(
   arangodb-mesos-framework
   libarangodb-mesos
-  ${MESOS_LIBRARY}
+)
+
+target_link_libraries(
+  libarangodb-mesos
+  ${MESOS_FOUND_SOURCE_PATH}/build/src/.libs/libmesos_no_3rdparty.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/.libs/libprocess.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/glog-0.3.3/.libs/libglog.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/protobuf-2.5.0/src/.libs/libprotobuf.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/.libs/libzookeeper_st.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/leveldb/libleveldb.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/libev-4.15/.libs/libev.a
   ${MHD_LIBRARY}
-  ${CMAKE_THREAD_LIBS_INIT}
   ${CURL_LIBRARIES}
-  ${Boost_REGEX_LIBRARY}
+  ${apr_LIBRARIES}
+  ${svn_LIBRARIES}
+  ${ZLIB_LIBRARIES}
+  ${SASL2_LIBRARIES}
+  ${Libunwind_LIBRARIES}
+  ${CMAKE_DL_LIBS}
+  Threads::Threads
 )
