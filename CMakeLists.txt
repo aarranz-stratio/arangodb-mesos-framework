@@ -98,7 +98,7 @@ set(LIBS
   ${Libunwind_LIBRARIES}
   ${Libmicrohttpd_LIBRARIES}
   ${CMAKE_DL_LIBS}
-  Threads::Threads
+  ${CMAKE_THREAD_LIBS_INIT}
 )
 
 if(gflags_LIBRARY)
