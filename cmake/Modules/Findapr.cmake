@@ -1,7 +1,7 @@
 find_path(
     apr_INCLUDE_DIR
       apr.h
-    PATH_SUFFIXES apr-1
+    PATH_SUFFIXES apr-1 apr-1.0
 )
 
 find_library(
