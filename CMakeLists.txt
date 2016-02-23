@@ -1,8 +1,12 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.1)
 project (arangodb-mesos-framework)
 include(FindPackageHandleStandardArgs)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 add_executable(
   arangodb-mesos-framework
   src/framework.cpp
@@ -22,9 +26,6 @@ add_library(
 	src/utils.cpp 
 	3rdParty/pbjson/src/pbjson.cpp
 )
-
-target_compile_features(arangodb-mesos-framework PRIVATE cxx_constexpr)
-target_compile_features(libarangodb-mesos PRIVATE cxx_constexpr)
 
 if(NOT MESOS_SOURCE_PATH)
   set(MESOS_SOURCE_PATH ${CMAKE_CURRENT_BINARY_DIR}/mesos)
