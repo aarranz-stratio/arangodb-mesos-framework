@@ -8,7 +8,7 @@ RUN apt-get install -y -qq libgoogle-glog0 libapr1 libsvn1 libboost-regex1.55.0 
 ADD ./mesos-scripts /mesos
 
 # add the arangodb framework
-ADD ./build/bin/arangodb-framework /mesos/arangodb-framework
+ADD ./build/bin/arangodb-mesos-framework /mesos/arangodb-framework
 ADD ./assets /mesos/assets
 
 # start script
