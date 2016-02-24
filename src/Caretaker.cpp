@@ -157,7 +157,7 @@ static bool isSuitableReservedOffer (mesos::Offer const& offer,
   required = required.flatten(Global::role(), Global::principal());
   // Now required is a single resource of type disk with our role.
 
-  for (mesos::Resource& res : offered) {
+  for (const mesos::Resource res : offered) {
     mesos::Resources oneResource;
     oneResource += res;
     if (oneResource.contains(required)) {
@@ -610,7 +610,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   volume->set_container_path("/data");
   mesos::Resources res = info.resources();
   res = arangodb::filterIsDisk(res);
-  mesos::Resource& disk = *(res.begin());
+  const mesos::Resource disk = *(res.begin());
   if (disk.has_disk() && disk.disk().has_volume()) {
     volume->set_host_path(info.container_path());
   }
