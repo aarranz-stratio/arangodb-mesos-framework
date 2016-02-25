@@ -1,0 +1,1 @@
+{"asyncReplication":true,"framework_name":"arangodb","health":true,"master_url":"http:\/\/172.17.0.2:5050\/","mode":"cluster","role":"arangodb","volume_path":"\/var\/lib\/arangodb"}
