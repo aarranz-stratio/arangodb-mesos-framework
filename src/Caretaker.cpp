@@ -62,31 +62,25 @@ static bool checkPorts (size_t numberOfPorts, const mesos::Offer& offer,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief checks if the minimum resources are satisfied, the flag withRole
-/// indicates whether or not the roles in the offer are taken into account.
-/// With withRole==false, the offer as well as the minimum resources are
+/// @brief checks if the minimum resources are satisfied
+/// the offer as well as the minimum resources are
 /// flattened to our role before the comparison and ports for all roles
-/// in the offer are counted. With withRole==true, the minimum resources
-/// are flattened to Global::role() and the offer is untouched to check
-/// the minimum.
+/// in the offer are counted. 
 /// For the ports we do not care about reservations, we simply see whether
 /// any ports for our role or "*" are included in the offer.
 ////////////////////////////////////////////////////////////////////////////////
 
 static bool isSuitableOffer (Target const& target,
-                             mesos::Offer const& offer,
-                             bool withRole) {
+                             mesos::Offer const& offer) {
   // Note that we do not care whether or not ports are reserved for us
   // or are role "*".
   std::string offerString;
-  if (! checkPorts(target.number_ports(), offer,
-                   withRole ? Global::role() : "" )) {
+  if (! checkPorts(target.number_ports(), offer, "" )) {
     pbjson::pb2json(&offer, offerString);
     LOG(INFO) 
     << "DEBUG isSuitableOffer: "
     << "offer " << offer.id().value() << " does not have " 
     << target.number_ports() << " ports"
-    << (withRole ? " for Role" + Global::role() : " for any role")
     << "\noffer: " << offerString;
     return false;
   }
@@ -111,24 +105,6 @@ static bool isSuitableOffer (Target const& target,
 
     return false;
   }
-
-  if (withRole) {
-    mesos::Resources defaultRole = arangodb::filterIsDefaultRole(found.get());
-    defaultRole = arangodb::filterNoRoundingError(defaultRole);
-    if (! defaultRole.empty()) {
-      pbjson::pb2json(&offer, offerString);
-       
-      LOG(INFO) 
-      << "DEBUG isSuitableOffer: "
-      << "offer " << offer.id().value() << " meets the " 
-      << "minimal resource requirements " << minimum
-      << " but needs role \"*\" for this: " << defaultRole
-      << "\noffer: " << offerString;
-
-      return false;
-    }
-  }
-
   return true;
 }
 
@@ -139,44 +115,28 @@ static bool isSuitableOffer (Target const& target,
 static bool isSuitableReservedOffer (mesos::Offer const& offer,
                                      Target const& target,
                                      mesos::Resources& toMakePersistent) {
-  // The condition here is that our minimal resources are all met with
-  // reserved resources and that there is a single disk resource that
-  // is not yet persistent for anybody and that we can make persistent
-  // for us:
-  if (! isSuitableOffer(target, offer, true)) {
-    LOG(INFO) << "Offer does not contain enough reserved resources.";
+  // mop: this will check the ports
+  if (!isSuitableOffer(target, offer)) {
     return false;
   }
 
-  // Now study the offered and needed disk resources only:
+  // mop: now we check our reserved resources (role dependent)
   mesos::Resources offered = offer.resources();
-  offered = arangodb::filterIsDisk(offered);
-
+  mesos::Resources reserved = offered.reserved(Global::role());
   mesos::Resources required = target.minimal_resources();
-  required = arangodb::filterIsDisk(required);
-  required = required.flatten(Global::role(), Global::principal());
-  // Now required is a single resource of type disk with our role.
+  required = required.flatten(Global::role());
 
-  for (const mesos::Resource& res : offered) {
-    mesos::Resources oneResource;
-    oneResource += res;
-    if (oneResource.contains(required)) {
-      toMakePersistent = required;
-      return true;
-    }
+  LOG(INFO) << "Reserved: " << reserved;
+  LOG(INFO) << "Target: " << required;
+  
+  auto found = reserved.find(required);
+  bool result = found.isSome();
+  LOG(INFO) << "isSuitableReservedResult: " << result;
+
+  if (result) {
+    toMakePersistent = filterIsDisk(found.get());
   }
-
-  std::string offerString;
-  pbjson::pb2json(&offer, offerString);
-   
-  LOG(INFO) 
-  << "DEBUG isSuitableReservedOffer: "
-  << "offer " << offer.id().value() << " meets the " 
-  << "minimal resource requirements "
-  << "but lacks a reserved disk resource to make persistent"
-  << "\noffer: " << offerString;
-
-  return false;
+  return result;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1190,7 +1150,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
   // ...........................................................................
   // check whether the offer is suitable:
   // ...........................................................................
-  if (! isSuitableOffer(target, offer, false)) {
+  if (! isSuitableOffer(target, offer)) {
     return notInterested(offer, doDecline);
   }
 

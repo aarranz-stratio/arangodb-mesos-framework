@@ -353,13 +353,13 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   << "TARGETS:" << Global::state().jsonTargets() << "\n"
   << "PLAN:"   << Global::state().jsonPlan() << "\n"
   << "CURRENT:"<< Global::state().jsonCurrent() << "\n";
+#endif
 
   std::string offerString;
   pbjson::pb2json(&offer, offerString);
 
   LOG(INFO)
   << "And here the offer:\n" << offerString << "\n";
-#endif
 
   int plannedInstances = countPlannedInstances(plan->agents());
   int runningInstances = countRunningInstances(plan->agents());
