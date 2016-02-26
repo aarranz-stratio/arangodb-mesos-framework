@@ -21,7 +21,7 @@ export LIBPROCESS_PORT=${PORT1}
 # Mesos will use this IP to communicate internally. When starting the framework in bridged mode our IP is however an internal docker IP
 # We now announce ourselves as $HOST to the master which is the SLAVES IP. By facilitating port publishing in the docker executor, connecting to $PORT1 of the slave
 # will be routed to the docker container :)
-export LIBPROCESS_ADVERTISE_IP=${HOST}
+export LIBPROCESS_ADVERTISE_IP=$(getent ahostsv4 $HOST | awk '{ print $1 }' | head -n 1)
 
 env
 
