@@ -12,12 +12,9 @@ const history = createHistory('/');
 const store = createStore(history, client);
 
 const assets = require('../webpack-assets.json');
-// mop: no idea how to set a proper basepath :S
-assets.javascript.main = assets.javascript.main.substr(1);
-assets.styles.main = assets.styles.main.substr(1);
 
 let src = '<!doctype html>\n' +
-      ReactDOM.renderToString(<Html assets={assets} store={store}/>);
+      ReactDOM.renderToString(<Html assets={assets} store={store} />);
 
 fs.writeFile(__dirname + '/../static/index.html', src, err => {
   if (err) {
