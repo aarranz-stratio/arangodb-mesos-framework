@@ -72,6 +72,12 @@ npm run build
 npm run start
 ```
 
+## Dumping static
+
+```bash
+npm run dump ../assets
+```
+
 ## Demo
 
 A demonstration of this app can be seen [running on heroku](https://react-redux.herokuapp.com), which is a deployment of the [heroku branch](https://github.com/erikras/react-redux-universal-hot-example/tree/heroku).

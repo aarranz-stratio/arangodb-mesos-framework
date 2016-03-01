@@ -24,6 +24,8 @@
   ],
   "main": "bin/server.js",
   "scripts": {
+    "dump": "npm run build && npm run dump-index",
+    "dump-index": "better-npm-run dump-index",
     "start": "concurrent --kill-others \"npm run start-prod\"",
     "start-prod": "better-npm-run start-prod",
     "start-prod-api": "better-npm-run",
@@ -52,6 +54,12 @@
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
         "APIPORT": 3030
+      }
+    },
+    "dump-index": {
+      "command": "node ./bin/dump-index.js",
+      "env": {
+        "NODE_ENV": "production"
       }
     },
     "start-dev": {
