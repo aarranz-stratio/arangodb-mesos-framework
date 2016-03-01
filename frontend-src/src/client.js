@@ -10,11 +10,12 @@ import {Provider} from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { ReduxAsyncConnect } from 'redux-async-connect';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
+import { useBasename } from 'history';
 
 import getRoutes from './routes';
 
 const client = new ApiClient();
-const history = useScroll(() => browserHistory)();
+const history = useBasename(() => browserHistory)({basename: window.location.pathname});
 const dest = document.getElementById('content');
 const store = createStore(history, client, window.__data);
 

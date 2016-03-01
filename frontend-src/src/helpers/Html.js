@@ -16,11 +16,13 @@ export default class Html extends Component {
   static propTypes = {
     assets: PropTypes.object,
     component: PropTypes.node,
+    // mop: hack....i am too dumb for this fancy stuff
+    isDumped: PropTypes.bool,
     store: PropTypes.object
   };
 
   render() {
-    const {assets, component, store} = this.props;
+    const {assets, component, isDumped, store} = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
     const head = Helmet.rewind();
 

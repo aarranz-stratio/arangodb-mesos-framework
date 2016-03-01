@@ -9,7 +9,7 @@ function formatUrl(path) {
     // Prepend host and port of the API server to the path.
     return 'http://' + config.apiHost + ':' + config.apiPort + adjustedPath;
   }
-  return '/v1' + adjustedPath;
+  return 'v1' + adjustedPath;
 }
 
 /*
