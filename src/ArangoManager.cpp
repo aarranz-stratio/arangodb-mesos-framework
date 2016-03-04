@@ -667,7 +667,9 @@ void ArangoManager::startAndAssignSecondary(ArangoState::Lease& lease, std::stri
     tpprim = tasksPlanPrimary->mutable_entries(j);
     LOG(INFO) << "Have primary " << tpprim->name();
     if (tpprim->name() == primaryName) {
-      previousSecondaryName = tpprim->sync_partner();
+      if (!tpprim->sync_partner().empty()) {
+        previousSecondaryName = tpprim->sync_partner();
+      }
       tpprim->set_sync_partner(name);
       break;
     }
