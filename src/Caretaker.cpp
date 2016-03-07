@@ -588,15 +588,15 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   mapping->set_protocol("tcp");
 
   // volume
-  mesos::Volume* volume = container.add_volumes();
-  volume->set_container_path("/var/lib/arangodb");
   mesos::Resources res = info.resources();
   res = arangodb::filterIsDisk(res);
   const mesos::Resource& disk = *(res.begin());
   if (disk.has_disk() && disk.disk().has_volume()) {
+    mesos::Volume* volume = container.add_volumes();
+    volume->set_container_path("/var/lib/arangodb");
     volume->set_host_path(info.container_path());
+    volume->set_mode(mesos::Volume::RW);
   }
-  volume->set_mode(mesos::Volume::RW);
 
   mesos::TaskID tid;
   tid.set_value(taskId);

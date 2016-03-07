@@ -138,9 +138,9 @@ namespace arangodb {
       }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief start a secondary server
+/// @brief register a secondary server
 ////////////////////////////////////////////////////////////////////////////////
-      void startAndAssignSecondary(ArangoState::Lease&, std::string const&);
+      bool registerNewSecondary(ArangoState::Lease&, std::string const& primaryName);
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                   private methods

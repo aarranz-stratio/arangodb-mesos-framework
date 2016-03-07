@@ -645,17 +645,10 @@ static double const TryingToResurrectTimeout = 30;  // Patience before we
                                                     // task.
 #endif
 
-void ArangoManager::startAndAssignSecondary(ArangoState::Lease& lease, std::string const& primaryName) {
+bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, std::string const& primaryName) {
   Plan* plan = lease.state().mutable_plan();
-  Current* current = lease.state().mutable_current();
-  
   TasksPlan* tasksPlanSecondary = plan->mutable_secondaries();
-  TasksCurrent* tasksCurrentSecondary = current->mutable_secondaries();
-
-  double now = chrono::duration_cast<chrono::seconds>(
-      chrono::steady_clock::now().time_since_epoch()).count();
-  
-  std::string name = "Secondary"
+  std::string secondaryName = "Secondary"
     + std::to_string(tasksPlanSecondary->entries_size() + 1);
 
   TasksPlan* tasksPlanPrimary = plan->mutable_dbservers();
@@ -670,7 +663,6 @@ void ArangoManager::startAndAssignSecondary(ArangoState::Lease& lease, std::stri
       if (!tpprim->sync_partner().empty()) {
         previousSecondaryName = tpprim->sync_partner();
       }
-      tpprim->set_sync_partner(name);
       break;
     }
   }
@@ -678,57 +670,63 @@ void ArangoManager::startAndAssignSecondary(ArangoState::Lease& lease, std::stri
   if (tpprim == nullptr) {
     throw std::runtime_error("Primary " + primaryName + " not found");
   }
+  
+  // Still needed: Tell the agency about this change and
+  // configure the new server there:
+  std::string resultBody;
+  std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
+
+  long httpCode = 0;
+  int res = 0;
+  auto logError = [&] (std::string msg) -> void {
+    LOG(ERROR) << "Problems with reconfiguring agency (secondary "
+      << "of primary " << primaryName << " from "
+      << previousSecondaryName << " to new " << secondaryName
+      << ")\n" << msg
+      << ", libcurl error code: " << res
+      << ", HTTP result code: " << httpCode
+      << ", retrying...";
+  };
+
+  std::string body 
+    =   R"({"primary":")" + primaryName + R"(",)"
+    + R"("oldSecondary":")" + previousSecondaryName + R"(",)"
+    + R"("newSecondary":")" + secondaryName + R"("})";
+
+  res = arangodb::doHTTPPut(coordinatorURL +
+      "/_admin/cluster/replaceSecondary",
+      body, resultBody, httpCode);
+
+  if (res != 0 || httpCode != 200) {
+    logError(resultBody);
+    return false;
+  }
+  LOG(INFO) << "Successfully reconfigured agency (secondary "
+    << "of primary " << primaryName << " from "
+    << previousSecondaryName << " to new " << secondaryName << ")";
+  
+  // mop: we successfully told the agency about our future secondary server
+  // now update our taskplan
+  tpprim->set_sync_partner(secondaryName);
+  Current* current = lease.state().mutable_current();
+
+  TasksCurrent* tasksCurrentSecondary = current->mutable_secondaries();
+
+  double now = chrono::duration_cast<chrono::seconds>(
+      chrono::steady_clock::now().time_since_epoch()).count();
+
 
   // Now create a new secondary:
   TaskPlan* tpnew = tasksPlanSecondary->add_entries();
   tpnew->set_state(TASK_STATE_NEW);
-  tpnew->set_name(name);
+  tpnew->set_name(secondaryName);
   tpnew->set_sync_partner(primaryName);
   tpnew->set_timestamp(now);
-  
+
   // mop: by convention: keep size in sync 
   tasksCurrentSecondary->add_entries();
 
-  // Still needed: Tell the agency about this change and
-  // configure the new server there:
-  std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
-  std::string resultBody;
-
-  // We try to reconfigure until the agency has answered...
-  while (true) {
-    long httpCode = 0;
-    int res = 0;
-    auto logError = [&] (std::string msg) -> void {
-      LOG(ERROR) << "Problems with reconfiguring agency (secondary "
-        << "of primary " << primaryName << " from "
-        << previousSecondaryName << " to new " << tpnew->name()
-        << ")\n" << msg
-        << ", libcurl error code: " << res
-        << ", HTTP result code: " << httpCode
-        << ", retrying...";
-      this_thread::sleep_for(chrono::seconds(2));
-    };
-
-    std::string body 
-      =   R"({"primary":")" + primaryName + R"(",)"
-      + R"("oldSecondary":")" + previousSecondaryName + R"(",)"
-      + R"("newSecondary":")" + tpnew->name() + R"("})";
-
-    res = arangodb::doHTTPPut(coordinatorURL +
-        "/_admin/cluster/replaceSecondary",
-        body, resultBody, httpCode);
-
-    if (res != 0 || httpCode != 200) {
-      logError(resultBody);
-      continue;
-    }
-    // All OK, let's get out of here:
-    break;
-  }
-
-  LOG(INFO) << "Successfully reconfigured agency (secondary "
-    << "of primary " << primaryName << " from "
-    << previousSecondaryName << " to new " << tpnew->name() << ")";
+  return true;
 }
 
 bool ArangoManager::checkTimeouts () {
@@ -880,7 +878,7 @@ bool ArangoManager::checkTimeouts () {
               ic->clear_container_path();
               ic->clear_task_info();
 
-              startAndAssignSecondary(l, primaryName);
+              registerNewSecondary(l, primaryName);
               l.changed();
             }
             else if (taskType == TaskType::PRIMARY_DBSERVER) {
