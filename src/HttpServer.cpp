@@ -28,7 +28,6 @@
 #include "HttpServer.h"
 
 #include "ArangoManager.h"
-#include "ArangoState.h"
 #include "Caretaker.h"
 #include "Global.h"
 #include "utils.h"
@@ -174,10 +173,12 @@ string HttpServerImpl::PUT_V1_IGNOREOFFERS (const string& name, const string& bo
 ////////////////////////////////////////////////////////////////////////////////
 
 string HttpServerImpl::GET_V1_STATE (const string&) {
+  auto lease = Global::state().lease();
+  
   picojson::object result;
   result["mode"] = picojson::value(Global::modeLC());
   result["asyncReplication"] = picojson::value(Global::asyncReplication());
-  result["health"] = picojson::value(true);
+  result["health"] = picojson::value(Global::state().clusterHealthy(lease));
   result["role"] = picojson::value(Global::role());
   result["framework_name"] = picojson::value(Global::frameworkName());
   result["master_url"] = picojson::value(Global::masterUrl());
@@ -376,7 +377,7 @@ static int answerRequest (
       else if (0 == strcmp(url, "/v1/health.json")) {
         conInfo->getMethod = &HttpServerImpl::GET_V1_HEALTH;
         auto lease = Global::state().lease();
-        if (!lease.state().current().cluster_initialized()) {
+        if (!Global::state().clusterHealthy(lease)) {
           conInfo->status = MHD_HTTP_SERVICE_UNAVAILABLE;
         }
       }
