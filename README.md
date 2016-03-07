@@ -231,19 +231,6 @@ precedence.
     This specifies the timeout in seconds until an automatic failover
     is done in case of a task failure.
 
-  - `ARANGODB_VOLUME_PATH`, overriding `--volume_path`:
-
-    All instances of ArangoDB will run in Docker containers and will
-    mount some directory below the path given here as a volume into the
-    container. That is, the actual persisted data and logs of the
-    database will reside below this path. Note that before the age of
-    persisted volumes this does not make much sense, since new instances
-    will usually be started by different Mesos slaves and thus will no
-    longer find the old state. Furthermore, nobody will clean up the
-    space used after termination! This will all be better when we have
-    persistent volumes and Mesos actually controls these resources in a
-    better way.
-
   - `ARANGODB_SECONDARIES_WITH_DBSERVERS`, overriding `--secondaries_with_dbservers`:
 
     If this boolean value is set to "true", then the secondary DBServers

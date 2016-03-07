@@ -182,7 +182,6 @@ string HttpServerImpl::GET_V1_STATE (const string&) {
   result["role"] = picojson::value(Global::role());
   result["framework_name"] = picojson::value(Global::frameworkName());
   result["master_url"] = picojson::value(Global::masterUrl());
-  result["volume_path"] = picojson::value(Global::volumePath());
 
   return picojson::value(result).serialize();
 }

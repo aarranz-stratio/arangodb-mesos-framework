@@ -596,11 +596,6 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   if (disk.has_disk() && disk.disk().has_volume()) {
     volume->set_host_path(info.container_path());
   }
-  else {
-    string path = "arangodb_" + Global::frameworkName() + "_" 
-                  + state.framework_id().value() + "_" + myName;
-    volume->set_host_path(Global::volumePath() + "/" + path);
-  }
   volume->set_mode(mesos::Volume::RW);
 
   mesos::TaskID tid;

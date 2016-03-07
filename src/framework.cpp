@@ -128,7 +128,6 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "  ARANGODB_HTTP_PORT   overrides '--http_port'\n"
        << "  ARANGODB_FAILOVER_TIMEOUT\n"
        << "                       overrides '--failover_timeout'\n"
-       << "  ARANGODB_VOLUME_PATH overrides '--volume_path'\n"
        << "  ARANGODB_SECONDARIES_WITH_DBSERVERS\n"
        << "                       overrides '--secondaries_with_dbservers'\n"
        << "  ARANGODB_COORDINATORS_WITH_DBSERVERS\n"
@@ -269,12 +268,6 @@ int main (int argc, char** argv) {
             "failover timeout in seconds",
             60 * 60 * 24 * 10);
 
-  string volumePath;
-  flags.add(&volumePath,
-            "volume_path",
-            "volume path (until persistent volumes become available)",
-            "/tmp");
-
   string resetState;
   flags.add(&resetState,
             "reset_state",
@@ -367,7 +360,6 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_WEBUI", webui);
   updateFromEnv("ARANGODB_HTTP_PORT", webuiPort);
   updateFromEnv("ARANGODB_FAILOVER_TIMEOUT", failoverTimeout);
-  updateFromEnv("ARANGODB_VOLUME_PATH", volumePath);
   updateFromEnv("ARANGODB_RESET_STATE", resetState);
   updateFromEnv("ARANGODB_SECONDARIES_WITH_DBSERVERS", secondariesWithDBservers);
   updateFromEnv("ARANGODB_COORDINATORS_WITH_DBSERVERS", coordinatorsWithDBservers);
@@ -410,7 +402,6 @@ int main (int argc, char** argv) {
   LOG(INFO) << "Asynchronous replication flag: " << Global::asyncReplication();
 
   Global::setFrameworkName(frameworkName);
-  Global::setVolumePath(volumePath);
 
   Global::setSecondariesWithDBservers(str2bool(secondariesWithDBservers));
   LOG(INFO) << "SecondariesWithDBservers: " << Global::secondariesWithDBservers();
