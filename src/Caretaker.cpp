@@ -501,13 +501,21 @@ static void startArangoDBTask (ArangoState::Lease& lease,
         command.set_value("standalone");
       }
       else {
-        auto agents = state.current().agents();
-        command.set_value("cluster");
-        string hostname = agents.entries(0).hostname();
-        uint32_t port = agents.entries(0).ports(0);
-        command.add_arguments(
-            "tcp://" + getIPAddress(hostname) + ":" + to_string(port));
-        command.add_arguments(myInternalName);
+        auto agency = Global::agency();
+
+        if (agency.empty()) {
+          auto agents = state.current().agents();
+          command.set_value("cluster");
+
+          string hostname = agents.entries(0).hostname();
+          uint32_t port = agents.entries(0).ports(0);
+          command.add_arguments(
+              "tcp://" + getIPAddress(hostname) + ":" + to_string(port));
+          command.add_arguments(myInternalName);
+        }
+        else {
+          command.add_arguments(agency);
+        }
       }
       break;
     }

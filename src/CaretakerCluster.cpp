@@ -56,26 +56,32 @@ CaretakerCluster::CaretakerCluster () {
 
   // AGENCY
   Target* agency = targets->mutable_agents();
-  // Will be: agency->set_instances(Global::nrAgents());
-  agency->set_instances(1);
-  agency->clear_minimal_resources();
-  agency->set_number_ports(1);
+  auto srv = Global::agency();
 
-  if (Global::minResourcesAgent().empty()) {
-    setStandardMinimum(agency, 0);
-  }
-  else {
-    Try<mesos::Resources> x
-        = mesos::Resources::parse(Global::minResourcesAgent());
-    if (x.isError()) {
-      LOG(ERROR) << "cannot parse minimum resources for agent:\n  '"
-                 << Global::minResourcesAgent() << "'";
+  if (srv.empty()) {
+    agency->set_instances(0);
+  } else {
+    // Will be: agency->set_instances(Global::nrAgents());
+    agency->set_instances(1);
+    agency->clear_minimal_resources();
+    agency->set_number_ports(1);
+
+    if (Global::minResourcesAgent().empty()) {
       setStandardMinimum(agency, 0);
     }
     else {
-      mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-      auto m = agency->mutable_minimal_resources();
-      m->CopyFrom(res);
+      Try<mesos::Resources> x
+          = mesos::Resources::parse(Global::minResourcesAgent());
+      if (x.isError()) {
+        LOG(ERROR) << "cannot parse minimum resources for agent:\n  '"
+                   << Global::minResourcesAgent() << "'";
+        setStandardMinimum(agency, 0);
+      }
+      else {
+        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        auto m = agency->mutable_minimal_resources();
+        m->CopyFrom(res);
+      }
     }
   }
 
@@ -543,6 +549,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
       toDestroy += res;
     }
   }
+
   if (! toDestroy.empty()) {
     LOG(INFO) << "Found a persistent disk(s) that nobody wants, "
               << "will destroy:" << toDestroy;
@@ -553,6 +560,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   // If there was no persistent disk, maybe there is a dynamic reservation,
   // if so, unreserve it:
   mesos::Resources toUnreserve;
+
   for (auto& res : offered) {
     if (res.role() == Global::role() &&
         res.has_reservation() &&
@@ -560,6 +568,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
       toUnreserve += res;
     }
   }
+
   if (! toUnreserve.empty()) {
     LOG(INFO) << "Found dynamically reserved resources that nobody wants, "
               << "will unreserve:" << toUnreserve;
@@ -571,6 +580,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   if (! current->cluster_initialized()) {
     LOG(INFO) << "Declining offer " << offer.id().value();
   }
+
   Global::scheduler().declineOffer(offer.id());
 }
 
