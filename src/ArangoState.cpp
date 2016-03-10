@@ -104,7 +104,7 @@ void ArangoState::init () {
   _state.mutable_targets()->set_asynchronous_replication(Global::asyncReplication());
   Target* te;
   te = _state.mutable_targets()->mutable_agents();
-  te->set_instances(Global::nrAgents());
+  te->set_instances(Global::agency().empty() ? 1 : 0);
   te->set_number_ports(1);
   te = _state.mutable_targets()->mutable_coordinators();
   te->set_instances(Global::nrCoordinators());
@@ -188,17 +188,6 @@ void ArangoState::destroy () {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief find the URL of our own agency
-////////////////////////////////////////////////////////////////////////////////
-
-std::string ArangoState::getAgencyURL (ArangoState::Lease& lease) {
-  auto const& agents = lease.state().current().agents();
-  std::string hostname = agents.entries(0).hostname();
-  uint32_t port = agents.entries(0).ports(0);
-  return "http://" + hostname + ":" + std::to_string(port) + "/v2/keys/arango";
-}
-
-////////////////////////////////////////////////////////////////////////////////
 /// @brief find the URL of some coordinator
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -214,8 +203,6 @@ std::string ArangoState::getCoordinatorURL (ArangoState::Lease& lease) {
   uint32_t port = coordinators.entries(which).ports(0);
   return "http://" + hostname + ":" + std::to_string(port);
 }
-
-
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                   private methods

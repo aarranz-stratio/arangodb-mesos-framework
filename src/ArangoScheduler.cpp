@@ -217,6 +217,7 @@ void ArangoScheduler::declineOffer (const mesos::OfferID& offerId) const {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief starts an instances with a given offer and resources
 ////////////////////////////////////////////////////////////////////////////////
+
 mesos::TaskInfo ArangoScheduler::startInstance (
     string const& taskId,
     string const& name,

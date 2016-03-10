@@ -1,11 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief ArangoDB Mesos Framework
-///
-/// @file
-///
 /// DISCLAIMER
 ///
-/// Copyright 2015 ArangoDB GmbH, Cologne, Germany
+/// Copyright 2015-2016 ArangoDB GmbH, Cologne, Germany
 ///
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -22,7 +18,6 @@
 /// Copyright holder is ArangoDB GmbH, Cologne, Germany
 ///
 /// @author Dr. Frank Celler
-/// @author Copyright 2015, ArangoDB GmbH, Cologne, Germany
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <libgen.h>
@@ -115,7 +110,7 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
           "                       overrides '--minimal_resources_secondary'\n"
        << "  ARANGODB_MINIMAL_RESOURCES_COORDINATOR\n"
           "                       overrides '--minimal_resources_coordinator'\n"
-       << "  ARANGODB_NR_AGENTS   overrides '--nr_agents'\n"
+       << "  ARANGODB_AGENCY      overrides '--agency'\n"
        << "  ARANGODB_NR_DBSERVERS\n"
        << "                       overrides '--nr_dbservers'\n"
        << "  ARANGODB_NR_COORDINATORS\n"
@@ -148,6 +143,7 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief string command line argument to bool
 ////////////////////////////////////////////////////////////////////////////////
+
 bool str2bool(const string in) {
   if (in == "yes" || in == "true" || in == "y") {
     return true;
@@ -218,8 +214,14 @@ int main (int argc, char** argv) {
   int nragents;
   flags.add(&nragents,
             "nr_agents",
-            "Number of agents in agency (etcd)",
-            1);
+            "deprecated (ignored)",
+             1);
+
+  string agency;
+  flags.add(&agency,
+            "agency",
+            "service locator for an external ETCD cluster",
+            "");
 
   int nrdbservers;
   flags.add(&nrdbservers,
@@ -343,12 +345,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_MINIMAL_RESOURCES_DBSERVER", minimal_resources_dbserver);
   updateFromEnv("ARANGODB_MINIMAL_RESOURCES_SECONDARY",  minimal_resources_secondary);
   updateFromEnv("ARANGODB_MINIMAL_RESOURCES_COORDINATOR", minimal_resources_coordinator);
-  updateFromEnv("ARANGODB_NR_AGENTS", nragents);
-
-  if (nragents != 1) {
-    nragents = 1;
-  }
-
+  updateFromEnv("ARANGODB_AGENCY", agency);
   updateFromEnv("ARANGODB_NR_DBSERVERS", nrdbservers);
 
   if (nrdbservers < 1) {
@@ -426,18 +423,24 @@ int main (int argc, char** argv) {
 
   LOG(INFO) << "Minimal resources agent: " << minimal_resources_agent;
   Global::setMinResourcesAgent(minimal_resources_agent);
+
   LOG(INFO) << "Minimal resources DBserver: " << minimal_resources_dbserver;
   Global::setMinResourcesDBServer(minimal_resources_dbserver);
+
   LOG(INFO) << "Minimal resources secondary DBserver: " 
             << minimal_resources_secondary;
   Global::setMinResourcesSecondary(minimal_resources_secondary);
+
   LOG(INFO) << "Minimal resources coordinator: " 
             << minimal_resources_coordinator;
   Global::setMinResourcesCoordinator(minimal_resources_coordinator);
-  LOG(INFO) << "Number of agents in agency: " << nragents;
-  Global::setNrAgents(nragents);
+
+  LOG(INFO) << "External agency: " << agency;
+  Global::setAgency(agency);
+
   LOG(INFO) << "Number of DBservers: " << nrdbservers;
   Global::setNrDBServers(nrdbservers);
+
   LOG(INFO) << "Number of coordinators: " << nrcoordinators;
   Global::setNrCoordinators(nrcoordinators);
 
