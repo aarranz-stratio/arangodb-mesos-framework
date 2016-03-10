@@ -37,18 +37,39 @@
 #include <algorithm>
 #include <string>
 
-#include <boost/algorithm/string.hpp>
 #include <curl/curl.h>
 
 #include <mesos/resources.hpp>
 
 using namespace std;
-using namespace boost;
 using namespace arangodb;
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                 private functions
 // -----------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief split string (cppref)
+////////////////////////////////////////////////////////////////////////////////
+const vector<string> explode(const string& s, const char& c)
+{
+  string buff{""};
+  vector<string> v;
+
+  for(auto n:s) {
+    if(n != c) {
+      buff+=n;
+    } else {
+      if(n == c && buff != "") {
+        v.push_back(buff);
+        buff = "";
+      }
+    }
+  }
+  if(buff != "") v.push_back(buff);
+
+  return v;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief checks the master version
@@ -72,8 +93,7 @@ static void checkVersion (string hostname, int port) {
           string version = v.get<string>();
 
           if (! version.empty()) {
-            vector<string> vv;
-            boost::split(vv, version, boost::is_any_of("."));
+            const vector<string> vv = explode(version, '.');
 
             int major = 0;
             int minor = 0;
