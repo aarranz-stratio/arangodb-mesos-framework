@@ -62,10 +62,10 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/pbjson/src
   ${MESOS_FOUND_SOURCE_PATH}/3rdparty/libprocess/include
   ${MESOS_FOUND_SOURCE_PATH}/3rdparty/libprocess/3rdparty/stout/include
-  ${MESOS_FOUND_SOURCE_PATH}/3rdparty/libprocess/3rdparty/boost-1.53.0
   ${MESOS_FOUND_SOURCE_PATH}/include
   ${MESOS_FOUND_SOURCE_PATH}/src
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/stout/include
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/boost-1.53.0
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/generated
