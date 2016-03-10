@@ -620,15 +620,15 @@ void ArangoManager::reconcileTasks () {
 /// @brief checks for timeout
 ////////////////////////////////////////////////////////////////////////////////
 
-static double const TryingToReserveTimeout = 300;  // seconds
-static double const TryingToPersistTimeout = 300;
+static double const TryingToReserveTimeout = 30;  // seconds
+static double const TryingToPersistTimeout = 30;
 static double const TryingToStartTimeout   = 600; // docker pull might take
 
 /* mop: time mesos will allow ourselves to restart properly. this must be set
  * to a high value. When this timeout is exceeded mesos will declare the whole
  * framework lost and it will kill all associated tasks!
  */
-static double const FailoverTimeout        = 604800;
+static double const FailoverTimeout        = 60;
 
 // Note that the failover timeout can be configured by the user via a
 // command line option.
