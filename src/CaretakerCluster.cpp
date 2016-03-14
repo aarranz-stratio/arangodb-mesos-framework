@@ -58,7 +58,7 @@ CaretakerCluster::CaretakerCluster () {
   Target* agency = targets->mutable_agents();
   auto srv = Global::agency();
 
-  if (srv.empty()) {
+  if (!srv.empty()) {
     agency->set_instances(0);
   } else {
     // Will be: agency->set_instances(Global::nrAgents());

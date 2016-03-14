@@ -514,7 +514,15 @@ static void startArangoDBTask (ArangoState::Lease& lease,
           command.add_arguments(myInternalName);
         }
         else {
-          command.add_arguments(agency);
+          command.set_value("cluster-agency");
+          command.add_arguments("srv://" + agency);
+          command.add_arguments(myInternalName);
+
+          auto targets = state.targets();
+
+          command.add_arguments(to_string(targets.dbservers().instances()));
+          command.add_arguments(to_string(targets.coordinators().instances()));
+          command.add_arguments(Global::asyncReplication() ? string("true") : string("false"));
         }
       }
       break;

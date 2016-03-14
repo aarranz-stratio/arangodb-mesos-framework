@@ -211,6 +211,12 @@ int main (int argc, char** argv) {
             "Minimal resources to accept for a coordinator",
             "");
 
+  int nragents;
+  flags.add(&nragents,
+            "nr_agents",
+            "deprecated (ignored)",
+             1);
+
   string agency;
   flags.add(&agency,
             "agency",
