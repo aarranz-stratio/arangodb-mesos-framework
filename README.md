@@ -7,6 +7,9 @@ distributed in binary form in the docker image
 
     arangodb/arangodb-mesos-framework
 
+The subcommands are described in 
+
+    https://github.com/arangoDB/arangodb-mesos
 
 Introduction
 ------------
@@ -40,15 +43,16 @@ of thumb, scale the DBserver layer up to get more storage space and
 scale the coordinator layer up if the bottleneck is CPU power for
 queries or Foxx apps (which run on the coordinators).
 
-Prerequisites
--------------
+Prerequisites for Installation
+------------------------------
 
-This version of the framework needs Apache Mesos Version >= 0.23, since
-we need the persistent primitives introduced in that version.
+This assumes that you have a working Mesosphere cluster and `dcos` command line
+utility. Note that you need at least Version 1.3 of DCOS because we need at
+least Version 0.23 of Apache Mesos to use the support for persistent volumes.
 
-For deploying arangodb in a mesos-0.26 cluster and below you will have
-to create a separate role "arangodb" on the master so be sure to start
-your master with `--roles=arangodb`.
+For deploying arangodb in a mesos-0.26 cluster and below you will have to create
+a separate role "arangodb" on the master so be sure to start your master with
+`--roles=arangodb`.
 
 On mesosphere dcos edit /opt/mesosphere/etc/mesos-master and ensure the
 role is present:
@@ -59,6 +63,29 @@ MESOS_WEIGHTS=slave_public=1,arangodb=1
 ```
 
 Make sure to restart the master so mesos knows about the new role.
+
+ArangoDB needs an ETCD to store the configuration of the cluster.  You can
+either use an existing ETCD cluster or ArangoDB will start a single ETCD
+instance for you.
+
+ETCD configuration for production
+---------------------------------
+
+In production it is recommended to use an ETCD cluster for resilience.  In order
+to setup an ETCD cluster, you need to follow the instructions given in
+[etcd-mesos](https://github.com/mesosphere/etcd-mesos). If you plan to use
+multiple ArangoDB clusters, you need to create an ETCD cluster with a unique
+name for each ArangoDB cluster.
+
+For example, if you named your ETCD named `etcd-arangodb`, then use the ETCD
+service locator `_etcd-server._client.etcd-arangodb.mesos`. Before starting
+`arangodb` via the command line, create an options file `options.json`
+
+    {"arangodb":{"agency":"_etcd-server._client.etcd-arangodb.mesos"}}
+
+and pass this file when starting
+
+    dcos package install arangodb --options=options.json
 
 Installation
 ------------
@@ -170,6 +197,20 @@ precedence.
     as well as for the default role "*", but not for any others. If you
     leave the default, you only get resource offers for the role "*" and
     none else, so "*" is not a wildcard!
+
+  - `ARANGODB_AGENCY` overriding `--agency`
+
+    If you want to use an external ETCD cluster, specificy the service
+    locator of the ETCD. If you omitted this option, then ArangoDB will
+    automatically start a single instance of ETCD - warning: this is
+    not fault tolerant and not recommended for production.
+
+    For example, if your ETCD cluster is called `etcd-arangodb`, use
+
+      `_etcd-server._client.etcd-arangodb.mesos`
+
+    See [etcd-mesos](https://github.com/mesosphere/etcd-mesos) for details.
+    You need to setup the ETCD framework before starting ArangoDB.
 
   - `ARANGODB_MINIMAL_RESOURCES_AGENT` overriding `--minimal_resources_agent`:
 
