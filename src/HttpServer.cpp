@@ -28,7 +28,6 @@
 #include "HttpServer.h"
 
 #include "ArangoManager.h"
-#include "ArangoState.h"
 #include "Caretaker.h"
 #include "Global.h"
 #include "utils.h"
@@ -174,10 +173,12 @@ string HttpServerImpl::PUT_V1_IGNOREOFFERS (const string& name, const string& bo
 ////////////////////////////////////////////////////////////////////////////////
 
 string HttpServerImpl::GET_V1_STATE (const string&) {
+  auto lease = Global::state().lease();
+  
   picojson::object result;
   result["mode"] = picojson::value(Global::modeLC());
   result["asyncReplication"] = picojson::value(Global::asyncReplication());
-  result["health"] = picojson::value(true);
+  result["health"] = picojson::value(Global::state().clusterHealthy(lease));
   result["role"] = picojson::value(Global::role());
   result["framework_name"] = picojson::value(Global::frameworkName());
   result["master_url"] = picojson::value(Global::masterUrl());
@@ -229,10 +230,7 @@ string HttpServerImpl::GET_V1_ENDPOINTS (const string&) {
 ////////////////////////////////////////////////////////////////////////////////
 
 string HttpServerImpl::GET_V1_HEALTH (const string&) {
-  picojson::object result;
-  result["health"] = picojson::value(true);
-
-  return picojson::value(result).serialize();
+  return "null";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -319,6 +317,7 @@ struct ConnectionInfo {
 
   string prefix;
   string body;
+  unsigned int status = MHD_HTTP_OK;
 
   string filename;
 
@@ -377,6 +376,10 @@ static int answerRequest (
       }
       else if (0 == strcmp(url, "/v1/health.json")) {
         conInfo->getMethod = &HttpServerImpl::GET_V1_HEALTH;
+        auto lease = Global::state().lease();
+        if (!Global::state().clusterHealthy(lease)) {
+          conInfo->status = MHD_HTTP_SERVICE_UNAVAILABLE;
+        }
       }
       else if (0 == strcmp(url, "/v1/endpoints.json")) {
         conInfo->getMethod = &HttpServerImpl::GET_V1_ENDPOINTS;
@@ -448,7 +451,7 @@ static int answerRequest (
       "Content-Type", 
       "application/json; charset=utf-8");
 
-    ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
+    ret = MHD_queue_response(connection, conInfo->status, response);
     MHD_destroy_response(response);
   }
 
@@ -475,7 +478,7 @@ static int answerRequest (
       "Content-Type", 
       "application/json; charset=utf-8");
 
-    ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
+    ret = MHD_queue_response(connection, conInfo->status, response);
     MHD_destroy_response(response);
   }
 
@@ -502,7 +505,7 @@ static int answerRequest (
       "Content-Type", 
       "application/json; charset=utf-8");
 
-    ret = MHD_queue_response(connection, MHD_HTTP_OK, response);
+    ret = MHD_queue_response(connection, conInfo->status, response);
     MHD_destroy_response(response);
   }
 

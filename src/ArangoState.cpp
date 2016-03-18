@@ -204,6 +204,14 @@ std::string ArangoState::getCoordinatorURL (ArangoState::Lease& lease) {
   return "http://" + hostname + ":" + std::to_string(port);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/// @brief is the cluster healthy?
+////////////////////////////////////////////////////////////////////////////////
+
+bool ArangoState::clusterHealthy(Lease& lease) {
+  return lease.state().current().cluster_initialized();
+}
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                                   private methods
 // -----------------------------------------------------------------------------
