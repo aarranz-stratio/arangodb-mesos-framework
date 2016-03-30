@@ -17,7 +17,7 @@ configure
 logging
 
 # output directories
-bin
+./bin
 lib
 tst/res
 
