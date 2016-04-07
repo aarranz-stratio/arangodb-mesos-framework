@@ -918,13 +918,14 @@ bool ArangoManager::checkTimeouts () {
                   _task2position[tpsecondcur->task_info().task_id().value()]
                       = std::make_pair(TaskType::SECONDARY_DBSERVER, j);
 
-                  // Still needed: Tell the agency about this change.
-                  std::string coordinatorURL 
-                      = Global::state().getCoordinatorURL(l);
                   std::string resultBody;
 
                   // We try to reconfigure until the agency has answered...
                   while (true) {
+                  // Still needed: Tell the agency about this change.
+                    std::string coordinatorURL 
+                        = Global::state().getCoordinatorURL(l);
+
                     long httpCode = 0;
                     int res = 0;
                     auto logError = [&] (std::string msg) -> void {
