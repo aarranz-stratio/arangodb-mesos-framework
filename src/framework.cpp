@@ -217,7 +217,7 @@ int main (int argc, char** argv) {
   int nragents;
   flags.add(&nragents,
             "nr_agents",
-            "Number of agents in agency (etcd)",
+            "Number of agents in agency",
             1);
 
   int nrdbservers;
