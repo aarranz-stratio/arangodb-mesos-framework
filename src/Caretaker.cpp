@@ -457,7 +457,8 @@ static void startArangoDBTask (ArangoState::Lease& lease,
                                TaskType taskType, int pos,
                                TaskPlan const& task,
                                TaskCurrent const& info) {
-
+  
+  LOG(INFO) << "Starting number " << pos;
   string taskId = UUID::random().toString();
 
   if (info.ports_size() != 1) {
@@ -505,10 +506,48 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   switch (taskType) {
     case TaskType::AGENT: {
-      auto targets = state.targets();
-      auto p = environment.add_variables();
-      p->set_name("asyncReplication");
-      p->set_value(Global::asyncReplication() ? string("true") : string("false"));
+      auto current = state.current();
+      auto plan = state.plan();
+      auto agencyId = environment.add_variables();
+
+      agencyId->set_name("AGENCY_ID");
+      agencyId->set_value(std::to_string(pos));
+      
+      auto agencySize = environment.add_variables();
+      agencySize->set_name("AGENCY_SIZE");
+      agencySize->set_value(std::to_string(plan.agents().entries().size()));
+      
+      // mop: it is the last agency...this may happen during startup
+      // or upon task restart..in any case this is the one that should
+      // notify the rest
+      if (state.current().agents().entries().size() == state.plan().agents().entries().size()) {
+        auto endpoints = environment.add_variables();
+        endpoints->set_name("AGENCY_ENDPOINTS");
+
+        std::string endpointsList;
+
+        auto& agentList = state.current().agents().entries();
+        bool isFirst = true;
+        bool doNotify = true;
+        for (const auto &it : agentList) {
+          if (it.ports().size() == 0) {
+            doNotify = false;
+            continue;
+          }
+          if (!isFirst) {
+            endpointsList += " ";
+          } else {
+            isFirst = false;
+          }
+
+          endpointsList += "tcp://" + getIPAddress(it.hostname()) + ":" + to_string(it.ports(0));
+        }
+        endpoints->set_value(endpointsList);
+        
+        auto notify = environment.add_variables();
+        notify->set_name("AGENCY_NOTIFY");
+        notify->set_value(std::to_string(doNotify));
+      }
       break;
     }
 

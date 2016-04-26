@@ -338,7 +338,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_MINIMAL_RESOURCES_COORDINATOR", minimal_resources_coordinator);
   updateFromEnv("ARANGODB_NR_AGENTS", nragents);
 
-  if (nragents != 1) {
+  if (nragents < 1) {
     nragents = 1;
   }
 

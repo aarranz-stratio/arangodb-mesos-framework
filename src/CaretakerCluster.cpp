@@ -57,8 +57,7 @@ CaretakerCluster::CaretakerCluster () {
 
   // AGENCY
   Target* agency = targets->mutable_agents();
-  // Will be: agency->set_instances(Global::nrAgents());
-  agency->set_instances(1);
+  agency->set_instances(Global::nrAgents());
   agency->clear_minimal_resources();
   agency->set_number_ports(1);
 
@@ -211,15 +210,7 @@ void CaretakerCluster::updatePlan () {
   Current* current = lease.state().mutable_current();
   int t, p;
 
-  // First the agency, currently, we only support a single agency:
   t = (int) targets->agents().instances();
-  if (t > 1) {
-    LOG(INFO)
-    << "INFO currently we support only a single server agency";
-    t = 1;
-    Target* te = targets->mutable_agents();
-    te->set_instances(1);
-  }
   TasksPlan* tasks = plan->mutable_agents();
   p = countPlannedInstances(plan->agents());
   if (t < p) {
@@ -246,6 +237,7 @@ void CaretakerCluster::updatePlan () {
     for (int i = p; i < t; ++i) {
       TaskPlan* task = tasks->add_entries();
       task->set_state(TASK_STATE_NEW);
+
       std::string name = "Agent" 
                          + std::to_string(tasks->entries_size());
       task->set_name(name);
