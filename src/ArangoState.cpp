@@ -221,7 +221,7 @@ std::string ArangoState::getCoordinatorURL (ArangoState::Lease& lease) {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool ArangoState::clusterHealthy(Lease& lease) {
-  return lease.state().current().cluster_initialized();
+  return lease.state().current().cluster_complete();
 }
 
 

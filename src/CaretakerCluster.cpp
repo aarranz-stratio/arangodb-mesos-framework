@@ -364,7 +364,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
                                   targets->agents(),
                                   plan->mutable_agents(),
                                   current->mutable_agents(),
-                                  offer, ! current->cluster_initialized(),
+                                  offer, ! current->cluster_complete(),
                                   TaskType::AGENT);
 
     if (offerUsed) {
@@ -389,7 +389,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
                                   targets->dbservers(),
                                   plan->mutable_dbservers(),
                                   current->mutable_dbservers(),
-                                  offer, ! current->cluster_initialized(),
+                                  offer, ! current->cluster_complete(),
                                   TaskType::PRIMARY_DBSERVER);
 
     if (offerUsed) {
@@ -413,7 +413,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
                           targets->coordinators(),
                           plan->mutable_coordinators(),
                           current->mutable_coordinators(),
-                          offer, ! current->cluster_initialized(),
+                          offer, ! current->cluster_complete(),
                           TaskType::COORDINATOR)) {
       lease.changed();  // make sure that the new state is saved
       return;   // if we have used or declined the offer, we will not 
@@ -450,7 +450,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
                                     targets->secondaries(),
                                     plan->mutable_secondaries(),
                                     current->mutable_secondaries(),
-                                    offer, ! current->cluster_initialized(),
+                                    offer, ! current->cluster_complete(),
                                     TaskType::SECONDARY_DBSERVER);
 
       if (offerUsed) {
@@ -471,7 +471,6 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
       runningInstances == plannedInstances &&
       ! current->cluster_complete()) {
     LOG(INFO) << "Cluster is complete.";
-    LOG(INFO) << "Initiating cluster initialisation procedure...";
     current->set_cluster_complete(true);
     lease.changed();
   }
@@ -521,7 +520,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   }
 
   // All is good, simply decline offer:
-  if (! current->cluster_initialized()) {
+  if (! current->cluster_complete()) {
     LOG(INFO) << "Declining offer " << offer.id().value();
   }
   Global::scheduler().declineOffer(offer.id());
