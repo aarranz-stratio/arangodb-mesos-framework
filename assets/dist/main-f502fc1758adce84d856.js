@@ -34352,18 +34352,14 @@
 	      var clusterClasses = ['fa'];
 	      var clusterStyle = { 'fontSize': '30vh' };
 	      var clusterText = void 0;
-	      if (!this.props.clusterState) {
+	      if (!this.props.clusterState || !this.props.clusterState.health) {
 	        clusterClasses.push('fa-meh-o');
 	        clusterStyle.color = 'yellow';
-	        clusterText = '?';
+	        clusterText = this.props.clusterState ? '?' : 'repairing';
 	      } else if (this.props.clusterState.health) {
 	        clusterClasses.push('fa-smile-o');
 	        clusterStyle.color = 'lime';
 	        clusterText = 'Cluster is healthy';
-	      } else {
-	        clusterStyle.push('fa-frown-o');
-	        clusterStyle.color = 'red';
-	        clusterText = 'Cluster is unhealthy';
 	      }
 	
 	      var dbservers = [];
@@ -38069,4 +38065,4 @@
 
 /***/ }
 /******/ ])));
-//# sourceMappingURL=main-ec35cb2a7e2bd7cc3b40.js.map
+//# sourceMappingURL=main-f502fc1758adce84d856.js.map

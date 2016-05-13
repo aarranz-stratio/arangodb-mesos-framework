@@ -34,18 +34,14 @@ export default class Home extends Component {
     const clusterClasses = ['fa'];
     const clusterStyle = {'fontSize': '30vh'};
     let clusterText;
-    if (!this.props.clusterState) {
+    if (!this.props.clusterState || !this.props.clusterState.health) {
       clusterClasses.push('fa-meh-o');
       clusterStyle.color = 'yellow';
-      clusterText = '?';
+      clusterText = this.props.clusterState ? '?' : 'repairing';
     } else if (this.props.clusterState.health) {
       clusterClasses.push('fa-smile-o');
       clusterStyle.color = 'lime';
       clusterText = 'Cluster is healthy';
-    } else {
-      clusterStyle.push('fa-frown-o');
-      clusterStyle.color = 'red';
-      clusterText = 'Cluster is unhealthy';
     }
 
     let dbservers = [];
