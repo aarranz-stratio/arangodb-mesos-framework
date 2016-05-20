@@ -207,7 +207,6 @@ void ArangoState::destroy () {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool ArangoState::createReverseProxyConfig() {
-  LOG(INFO) << "hae " << Global::webuiPort();
   std::ofstream outfile(_proxyConfFilename);
   if (!outfile.is_open()) {
     LOG(ERROR) << "Couldn't open file " << _proxyConfFilename;
