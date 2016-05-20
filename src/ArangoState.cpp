@@ -35,8 +35,14 @@
 #include <state/leveldb.hpp>
 #include <state/zookeeper.hpp>
 
+#include "logging/logging.hpp"
+#include "logging/flags.hpp"
+
+#include <cstdlib>
+#include <fstream>
 #include <random>
 #include <regex>
+#include <string>
 
 using namespace arangodb;
 using namespace mesos::internal::state;
@@ -59,7 +65,17 @@ ArangoState::ArangoState (const string& name, const string& zk)
     _zk(zk),
     _storage(nullptr),
     _stateStore(nullptr),
-    _isLeased(false) {
+    _isLeased(false),
+    _coordinatorHAProxyList("")
+{
+  const char* tmpDir = std::getenv("TMPDIR");
+  if (tmpDir == nullptr || strlen(tmpDir) == 0) {
+    _proxyConfFilename = "/tmp";
+  } else {
+    _proxyConfFilename = tmpDir;
+  }
+  
+  _proxyConfFilename += "/arango-haproxy.conf";
 }
 
 // -----------------------------------------------------------------------------
@@ -169,7 +185,6 @@ void ArangoState::load () {
 
       exit(EXIT_FAILURE);
     }
-
   }
 
   LOG(INFO) << "current state: " << arangodb::toJson(_state);
@@ -185,6 +200,53 @@ void ArangoState::destroy () {
   Variable variable = _stateStore->fetch("state_"+_name).get();
   auto r = _stateStore->expunge(variable);
   r.await();  // Wait until state is actually expunged
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief create a reverse proxy config from our current state
+////////////////////////////////////////////////////////////////////////////////
+
+bool ArangoState::createReverseProxyConfig() {
+  LOG(INFO) << "hae " << Global::webuiPort();
+  std::ofstream outfile(_proxyConfFilename);
+  if (!outfile.is_open()) {
+    LOG(ERROR) << "Couldn't open file " << _proxyConfFilename;
+    return false;
+  }
+
+  outfile << R"(global
+    user root
+    group root
+
+    # Stats required for this module to work
+    # https://github.com/observing/haproxy#haproxycfg
+    stats socket /tmp/haproxy.sock level admin
+
+defaults
+    log     global
+    mode    http
+    option httplog
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+    frontend arangodb
+        bind *:)" << Global::webuiPort() << R"(
+        acl url_arangodb path_beg /
+        use_backend     arangodb   if  url_arangodb
+    
+    backend arangodb
+        # i have no idea how to really detect the adminrouter :(
+        acl is_adminrouter hdr_reg(x-forwarded-for) .*        
+        option forwardfor
+        reqadd X-Script-Name:\ /service/)" << Global::frameworkName() << " if is_adminrouter\n" << _coordinatorHAProxyList;
+
+  if (outfile.fail()) {
+    LOG(ERROR) << "Couldn't write to " << _proxyConfFilename;
+    return false;
+  }
+
+  return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -233,7 +295,7 @@ bool ArangoState::clusterHealthy(Lease& lease) {
 /// @brief saves the state
 ////////////////////////////////////////////////////////////////////////////////
 
-void ArangoState::save () {
+bool ArangoState::save () {
   lock_guard<mutex> lock(_lock);
   assert(_isLeased);
 
@@ -249,6 +311,27 @@ void ArangoState::save () {
   Variable variable = _stateStore->fetch("state_"+_name).get();
   variable = variable.mutate(value);
   _stateStore->store(variable);
+
+  std::string backends = "";
+  auto const coordinators = _state.current().coordinators().entries();
+
+  int i=0;
+  for (auto const& coordinator: coordinators) {
+    // mop: not yet ready :S
+    if (coordinator.ports().size() == 0) {
+      continue;
+    }
+    std::string serverName = std::to_string(i);
+    backends += "        server coordinator" + std::to_string(i) + " " + coordinator.hostname() + ":" + std::to_string(coordinator.ports(0)) + '\n';
+    i++;
+  }
+
+  if (backends == _coordinatorHAProxyList) {
+    return false;
+  }
+
+  _coordinatorHAProxyList = backends;
+  return true;
 }
 
 // -----------------------------------------------------------------------------

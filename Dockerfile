@@ -2,7 +2,7 @@ FROM ubuntu:15.10
 MAINTAINER Frank Celler <info@arangodb.com>
 
 RUN apt-get -y -qq --force-yes update
-RUN apt-get install -y -qq libgoogle-glog0v5 libapr1 libsvn1 libmicrohttpd10 libcurl3-nss
+RUN apt-get install -y -qq libgoogle-glog0v5 libapr1 libsvn1 libmicrohttpd10 libcurl3-nss haproxy
 
 # add mesos framework files
 ADD ./mesos-scripts /mesos

@@ -27,8 +27,11 @@
 
 #include <libgen.h>
 
+#include <csignal>
 #include <iostream>
+#include <stdlib.h>
 #include <string>
+#include <unistd.h>
 
 #include "ArangoManager.h"
 #include "ArangoScheduler.h"
@@ -124,8 +127,10 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "  ARANGODB_USER        overrides '--user'\n"
        << "  ARANGODB_FRAMEWORK_NAME\n"
        << "                       overrides '--framework_name'\n"
+       << "  ARANGODB_FRAMEWORK_PORT\n"
+       << "                       overrides '--framework_port'\n"
        << "  ARANGODB_WEBUI       overrides '--webui'\n"
-       << "  ARANGODB_HTTP_PORT   overrides '--http_port'\n"
+       << "  ARANGODB_WEBUI_PORT  overrides '--webui_port'\n"
        << "  ARANGODB_FAILOVER_TIMEOUT\n"
        << "                       overrides '--failover_timeout'\n"
        << "  ARANGODB_SECONDARIES_WITH_DBSERVERS\n"
@@ -153,6 +158,33 @@ bool str2bool(const string in) {
   } else {
     return false;
   }
+}
+
+bool startReverseProxy() {
+  char const*  confFile = Global::state().getProxyConfFilename();
+  pid_t pid = fork();
+  if (pid == -1) {
+    return false;
+  } else if (pid == 0) {
+    int ret = execl("/usr/sbin/haproxy", "haproxy", "-p", "/run/haproxy.pid", "-f", confFile, (char*) 0);
+    exit(0);
+  } else {
+    Global::state().setProxyPid(pid);
+    return true;
+  }
+}
+
+/* first, here is the code for the signal handler */
+void catch_child(int sig_num)
+{
+    /* when we get here, we know there's a zombie child waiting */
+    int child_status;
+
+    wait(&child_status);
+    LOG(INFO) << "haproxy exited with status " << child_status;
+    
+    // mop: always restart
+    startReverseProxy();
 }
 
 // -----------------------------------------------------------------------------
@@ -256,11 +288,17 @@ int main (int argc, char** argv) {
             "URL to advertise for external access to the UI",
             "");
 
+  int frameworkPort;
+  flags.add(&frameworkPort,
+            "framework_port",
+            "framework http port",
+            Global::frameworkPort());
+  
   int webuiPort;
   flags.add(&webuiPort,
-            "http_port",
-            "HTTP port to open for UI",
-            8181);
+            "webui_port",
+            "webui http port",
+            Global::webuiPort());
 
   double failoverTimeout;
   flags.add(&failoverTimeout,
@@ -358,7 +396,8 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_USER", frameworkUser);
   updateFromEnv("ARANGODB_FRAMEWORK_NAME", frameworkName);
   updateFromEnv("ARANGODB_WEBUI", webui);
-  updateFromEnv("ARANGODB_HTTP_PORT", webuiPort);
+  updateFromEnv("ARANGODB_WEBUI_PORT", webuiPort);
+  updateFromEnv("ARANGODB_FRAMEWORK_PORT", frameworkPort);
   updateFromEnv("ARANGODB_FAILOVER_TIMEOUT", failoverTimeout);
   updateFromEnv("ARANGODB_RESET_STATE", resetState);
   updateFromEnv("ARANGODB_SECONDARIES_WITH_DBSERVERS", secondariesWithDBservers);
@@ -432,6 +471,9 @@ int main (int argc, char** argv) {
   LOG(INFO) << "Number of coordinators: " << nrcoordinators;
   Global::setNrCoordinators(nrcoordinators);
 
+  Global::setFrameworkPort(frameworkPort);
+  Global::setWebuiPort(webuiPort);
+
   // ...........................................................................
   // state
   // ...........................................................................
@@ -447,8 +489,16 @@ int main (int argc, char** argv) {
   else {
     state.load();
   }
+  
+  
+  if (!state.createReverseProxyConfig()) {
+    LOG(ERROR) << "Couldn't create reverse proxy config";
+    exit(EXIT_FAILURE);
+  }
 
+  signal(SIGCHLD, catch_child);
   Global::setState(&state);
+  startReverseProxy();
 
   // ...........................................................................
   // framework
@@ -490,10 +540,11 @@ int main (int argc, char** argv) {
     Try<string> hostnameTry = net::hostname();
     string hostname = hostnameTry.get();
 
-    webui = "http://" + hostname + ":" + to_string(webuiPort);
+    webui = "http://" + hostname + ":" + std::to_string(webuiPort);
   }
 
-  LOG(INFO) << "webui url: " << webui;
+  LOG(INFO) << "webui url: " << webui << " (local port is " << webuiPort << ")";
+  LOG(INFO) << "framework listening on port: " << frameworkPort;
 
   framework.set_webui_url(webui);
 
@@ -583,8 +634,8 @@ int main (int argc, char** argv) {
   HttpServer http;
 
   // start and wait
-  LOG(INFO) << "http port: " << webuiPort;
-  http.start(webuiPort);
+  LOG(INFO) << "http port: " << Global::frameworkPort();
+  http.start(Global::frameworkPort());
 
   int status = driver->run() == mesos::DRIVER_STOPPED ? 0 : 1;
 

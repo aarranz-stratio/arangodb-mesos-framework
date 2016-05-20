@@ -31,6 +31,7 @@
 #include "arangodb.pb.h"
 
 #include <mutex>
+#include <csignal>
 #include <thread>
 #include <chrono>
 
@@ -80,6 +81,12 @@ namespace arangodb {
 
       void destroy ();
 
+////////////////////////////////////////////////////////////////////////////////
+/// @brief gets filename of the haproxy config
+////////////////////////////////////////////////////////////////////////////////
+
+      char const* getProxyConfFilename() const { return _proxyConfFilename.c_str(); }
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                     state leasing infrastructure
 // -----------------------------------------------------------------------------
@@ -106,8 +113,13 @@ namespace arangodb {
             if (_moved) {
               return;
             }
+            bool mustReloadHAProxy;
             if (_changed) {
-              _parent->save();
+              // mop: recreate config
+              if (_parent->save()) {
+                _parent->createReverseProxyConfig();
+                kill(_parent->_proxyPid, SIGINT);
+              }
             }
             std::lock_guard<std::mutex> lock(_parent->_lock);
             _parent->_isLeased = false;
@@ -163,6 +175,18 @@ namespace arangodb {
 
       bool clusterHealthy(Lease& lease);
 
+////////////////////////////////////////////////////////////////////////////////
+/// @brief create a reverse proxy config from our current state
+////////////////////////////////////////////////////////////////////////////////
+
+      bool createReverseProxyConfig();
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief set proxy pid
+////////////////////////////////////////////////////////////////////////////////
+
+      bool setProxyPid(pid_t pid) { _proxyPid = pid; }
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                                   private methods
 // -----------------------------------------------------------------------------
@@ -173,7 +197,7 @@ namespace arangodb {
 
     private:
 
-      void save ();
+      bool save ();
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                 private variables
@@ -220,6 +244,24 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       std::mutex _lock;
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief the proxy config filename
+////////////////////////////////////////////////////////////////////////////////
+
+      std::string _proxyConfFilename;
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief list of all coordinators for haproxy
+////////////////////////////////////////////////////////////////////////////////
+
+      std::string _coordinatorHAProxyList;
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief proxy pid
+////////////////////////////////////////////////////////////////////////////////
+
+      pid_t _proxyPid;
   };
 }
 
