@@ -231,9 +231,14 @@ defaults
 
     frontend arangodb
         bind *:)" << Global::webuiPort() << R"(
-        acl url_arangodb path_beg /
-        use_backend     arangodb   if  url_arangodb
+        acl url_framework path_beg /framework/
+        use_backend     framework  if  url_framework
+        default_backend arangodb
     
+    backend framework
+        reqrep ^([^\ :]*)\ /framework/(.*)     \1\ /\2
+        server framework 127.0.0.1:)" << Global::frameworkPort() << R"(
+
     backend arangodb
         # i have no idea how to really detect the adminrouter :(
         acl is_adminrouter hdr_reg(x-forwarded-for) .*        
