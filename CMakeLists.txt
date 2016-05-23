@@ -115,3 +115,9 @@ target_link_libraries(
   libarangodb-mesos
   ${LIBS}
 )
+
+add_custom_command(
+  OUTPUT ${CMAKE_SOURCE_DIR}/src/arangodb.pb.cc ${CMAKE_SOURCE_DIR}/src/arangodb.pb.h
+  COMMAND ${CMAKE_BINARY_DIR}/mesos/build/3rdparty/libprocess/3rdparty/protobuf-2.5.0/src/protoc -I${CMAKE_SOURCE_DIR}/src -I${CMAKE_BINARY_DIR}/mesos/include --cpp_out=${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/arangodb.proto
+  DEPENDS ${CMAKE_SOURCE_DIR}/src/arangodb.proto
+)
