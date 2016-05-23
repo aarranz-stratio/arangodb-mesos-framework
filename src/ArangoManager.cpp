@@ -286,6 +286,8 @@ void ArangoManager::dispatch () {
     // apply received status updates
     applyStatusUpdates();
 
+    updateServerIds();
+
     // check all outstanding offers
     checkOutstandOffers();
 
@@ -446,32 +448,70 @@ static double const TryingToResurrectTimeout = 30;  // Patience before we
                                                     // task.
 #endif
 
-bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, std::string const& primaryName) {
+static bool getServerId(TaskCurrent* task, std::string& server_id) {
+  std::string body;
+  long httpCode = 0;
+  int res = doHTTPGet("http://" + task->hostname() + ":" + to_string(task->ports(0)) 
+                      + "/_admin/server/id", body, httpCode);
+
+  if (res != 0 || httpCode != 200) {
+    LOG(ERROR) << "Couldn't retrieve server id. HTTP Code: " << httpCode;
+    return false;
+  }
+    
+  picojson::value s;
+  std::string err = picojson::parse(s, body);
+
+  if (!err.empty()) {
+    LOG(WARNING) << "Couldn't parse json: " << err << ". Body was: " << body;
+    return false;
+  }
+
+  if (!s.is<picojson::object>()) {
+    LOG(WARNING) << "Root result is not an object. Body was: " << body;
+    return false;
+  }
+  
+  auto& o = s.get<picojson::object>();
+  auto& id = o["id"];
+
+  if (!id.is<string>()) {
+    LOG(WARNING) << "Id is not a string. Body was: " << body;
+  }
+
+  server_id = id.get<string>();
+  return true;
+}
+
+bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, std::string const& primaryId) {
+  Plan* plan = lease.state().mutable_plan();
+
+  for (int i=0;i<plan->mutable_dbservers()->entries_size();i++) {
+    if (plan->mutable_dbservers()->mutable_entries(i)->server_id() == primaryId) {
+      return registerNewSecondary(lease, plan->mutable_dbservers()->mutable_entries(i));
+    }
+  }
+  LOG(ERROR) << "Couldn't find primary " << primaryId;
+  return false;
+}
+
+bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, TaskPlan* primary) {
+  if (primary->server_id().empty()) {
+    LOG(WARNING) << "Server ID from " << primary->name() << " not yet known. Can't register secondary yet";
+    return false;
+  }
+
   Plan* plan = lease.state().mutable_plan();
   TasksPlan* tasksPlanSecondary = plan->mutable_secondaries();
   std::string secondaryName = "Secondary"
     + std::to_string(tasksPlanSecondary->entries_size() + 1);
-
-  TasksPlan* tasksPlanPrimary = plan->mutable_dbservers();
-  TaskPlan* tpprim = nullptr;
-  // Find the corresponding primary and change its sync partner
+  
   // to the new one:
   std::string previousSecondaryName = "none";
-  for (int j = 0; j < tasksPlanPrimary->entries_size(); j++) {
-    tpprim = tasksPlanPrimary->mutable_entries(j);
-    LOG(INFO) << "Have primary " << tpprim->name();
-    if (tpprim->name() == primaryName) {
-      if (!tpprim->sync_partner().empty()) {
-        previousSecondaryName = tpprim->sync_partner();
-      }
-      break;
-    }
+  if (!primary->sync_partner().empty()) {
+    previousSecondaryName = primary->sync_partner();
   }
 
-  if (tpprim == nullptr) {
-    throw std::runtime_error("Primary " + primaryName + " not found");
-  }
-  
   // Still needed: Tell the agency about this change and
   // configure the new server there:
   std::string resultBody;
@@ -481,7 +521,7 @@ bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, std::string 
   int res = 0;
   auto logError = [&] (std::string msg) -> void {
     LOG(ERROR) << "Problems with reconfiguring agency (secondary "
-      << "of primary " << primaryName << " from "
+      << "of primary " << primary->server_id() << " from "
       << previousSecondaryName << " to new " << secondaryName
       << ")\n" << msg
       << ", libcurl error code: " << res
@@ -490,7 +530,7 @@ bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, std::string 
   };
 
   std::string body 
-    =   R"({"primary":")" + primaryName + R"(",)"
+    =   R"({"primary":")" + primary->server_id() + R"(",)"
     + R"("oldSecondary":")" + previousSecondaryName + R"(",)"
     + R"("newSecondary":")" + secondaryName + R"("})";
 
@@ -503,12 +543,12 @@ bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, std::string 
     return false;
   }
   LOG(INFO) << "Successfully reconfigured agency (secondary "
-    << "of primary " << primaryName << " from "
+    << "of primary " << primary->server_id() << " from "
     << previousSecondaryName << " to new " << secondaryName << ")";
   
   // mop: we successfully told the agency about our future secondary server
   // now update our taskplan
-  tpprim->set_sync_partner(secondaryName);
+  primary->set_sync_partner(secondaryName);
   Current* current = lease.state().mutable_current();
 
   TasksCurrent* tasksCurrentSecondary = current->mutable_secondaries();
@@ -521,13 +561,58 @@ bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, std::string 
   TaskPlan* tpnew = tasksPlanSecondary->add_entries();
   tpnew->set_state(TASK_STATE_NEW);
   tpnew->set_name(secondaryName);
-  tpnew->set_sync_partner(primaryName);
+  tpnew->set_sync_partner(primary->server_id());
   tpnew->set_timestamp(now);
 
   // mop: by convention: keep size in sync 
   tasksCurrentSecondary->add_entries();
 
   return true;
+}
+
+void ArangoManager::updateServerIds() {
+  auto l = Global::state().lease();
+
+  std::vector<TaskType> types 
+    = { TaskType::PRIMARY_DBSERVER, TaskType::SECONDARY_DBSERVER, TaskType::COORDINATOR };
+
+  auto* plan = l.state().mutable_plan();
+  auto* current = l.state().mutable_current();
+
+  for (auto taskType : types) {
+    TasksPlan* tasksPlan;
+    TasksCurrent* tasksCurr;
+    switch (taskType) {
+      case TaskType::COORDINATOR:
+        tasksPlan = plan->mutable_coordinators();
+        tasksCurr = current->mutable_coordinators();
+        break;
+      case TaskType::PRIMARY_DBSERVER:
+        tasksPlan = plan->mutable_dbservers();
+        tasksCurr = current->mutable_dbservers();
+        break;
+      case TaskType::SECONDARY_DBSERVER:
+        tasksPlan = plan->mutable_secondaries();
+        tasksCurr = current->mutable_secondaries();
+        break;
+      case TaskType::AGENT:
+        continue;
+    }
+    for (int i = 0; i < tasksPlan->entries_size(); i++) {
+      auto tp = tasksPlan->mutable_entries(i);
+      auto tc = tasksCurr->mutable_entries(i);
+      if (tp->state() == TASK_STATE_RUNNING) {
+        if (tp->server_id().empty()) {
+          std::string id;
+
+          if (getServerId(tc, id)) {
+            tp->set_server_id(id);
+            l.changed();
+          }
+        }
+      }
+    }
+  }
 }
 
 bool ArangoManager::checkTimeouts () {

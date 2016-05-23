@@ -504,6 +504,12 @@ static void startArangoDBTask (ArangoState::Lease& lease,
     }
   }
 
+  if (!task.server_id().empty()) {
+    mesos::Environment::Variable* clusterId = environment.add_variables();
+    clusterId->set_name("CLUSTER_ID");
+    clusterId->set_value(task.server_id());
+  }
+
   switch (taskType) {
     case TaskType::AGENT: {
       auto current = state.current();

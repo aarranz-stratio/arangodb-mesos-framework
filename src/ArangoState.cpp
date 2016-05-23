@@ -145,10 +145,6 @@ void ArangoState::init () {
   _state.mutable_current()->mutable_secondaries();
 
   _state.mutable_current()->set_cluster_complete(false);
-  _state.mutable_current()->set_cluster_bootstrappeddbservers(false);
-  _state.mutable_current()->set_cluster_upgradeddb(false);
-  _state.mutable_current()->set_cluster_bootstrappedcoordinators(false);
-  _state.mutable_current()->set_cluster_initialized(false);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -74,6 +74,7 @@ message TaskPlan {
   optional double        timestamp = 3;
   required string        name = 4;
   optional string        sync_partner = 5;
+  optional string        server_id = 6;
 }
 
 message TasksPlan {
@@ -140,10 +141,6 @@ message Current {
   required TasksCurrent     secondaries = 4;
 
   required bool             cluster_complete = 5;
-  required bool             cluster_bootstrappedDBservers = 6;
-  required bool             cluster_upgradedDB = 7;
-  required bool             cluster_bootstrappedCoordinators = 8;
-  required bool             cluster_initialized = 9;
 }
 
 // -----------------------------------------------------------------------------

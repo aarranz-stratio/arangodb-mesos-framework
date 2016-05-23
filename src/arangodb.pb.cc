@@ -97,12 +97,13 @@ void protobuf_AssignDesc_arangodb_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Targets));
   TaskPlan_descriptor_ = file->message_type(2);
-  static const int TaskPlan_offsets_[5] = {
+  static const int TaskPlan_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, state_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, persistence_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, timestamp_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, sync_partner_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, server_id_),
   };
   TaskPlan_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -185,16 +186,12 @@ void protobuf_AssignDesc_arangodb_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(TasksCurrent));
   Current_descriptor_ = file->message_type(7);
-  static const int Current_offsets_[9] = {
+  static const int Current_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, agents_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, coordinators_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, dbservers_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, secondaries_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, cluster_complete_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, cluster_bootstrappeddbservers_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, cluster_upgradeddb_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, cluster_bootstrappedcoordinators_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, cluster_initialized_),
   };
   Current_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -298,43 +295,40 @@ void protobuf_AddDesc_arangodb_2eproto() {
     "b.Target\022&\n\014coordinators\030\003 \002(\0132\020.arangod"
     "b.Target\022#\n\tdbservers\030\004 \002(\0132\020.arangodb.T"
     "arget\022%\n\013secondaries\030\005 \002(\0132\020.arangodb.Ta"
-    "rget\022 \n\030asynchronous_replication\030\006 \001(\010\"\221"
+    "rget\022 \n\030asynchronous_replication\030\006 \001(\010\"\244"
     "\001\n\010TaskPlan\0226\n\005state\030\001 \002(\0162\027.arangodb.Ta"
     "skPlanState:\016TASK_STATE_NEW\022\026\n\016persisten"
     "ce_id\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\001\022\014\n\004name\030\004"
-    " \002(\t\022\024\n\014sync_partner\030\005 \001(\t\"0\n\tTasksPlan\022"
-    "#\n\007entries\030\001 \003(\0132\022.arangodb.TaskPlan\"\250\001\n"
-    "\004Plan\022#\n\006agents\030\001 \002(\0132\023.arangodb.TasksPl"
-    "an\022)\n\014coordinators\030\002 \002(\0132\023.arangodb.Task"
-    "sPlan\022&\n\tdbservers\030\003 \002(\0132\023.arangodb.Task"
-    "sPlan\022(\n\013secondaries\030\004 \002(\0132\023.arangodb.Ta"
-    "sksPlan\"\322\001\n\013TaskCurrent\022 \n\010slave_id\030\001 \001("
-    "\0132\016.mesos.SlaveID\022 \n\010offer_id\030\002 \001(\0132\016.me"
-    "sos.OfferID\022\"\n\tresources\030\003 \003(\0132\017.mesos.R"
-    "esource\022\r\n\005ports\030\004 \003(\r\022\020\n\010hostname\030\005 \001(\t"
-    "\022\026\n\016container_path\030\006 \001(\t\022\"\n\ttask_info\030\007 "
-    "\001(\0132\017.mesos.TaskInfo\"6\n\014TasksCurrent\022&\n\007"
-    "entries\030\001 \003(\0132\025.arangodb.TaskCurrent\"\333\002\n"
-    "\007Current\022&\n\006agents\030\001 \002(\0132\026.arangodb.Task"
-    "sCurrent\022,\n\014coordinators\030\002 \002(\0132\026.arangod"
-    "b.TasksCurrent\022)\n\tdbservers\030\003 \002(\0132\026.aran"
-    "godb.TasksCurrent\022+\n\013secondaries\030\004 \002(\0132\026"
-    ".arangodb.TasksCurrent\022\030\n\020cluster_comple"
-    "te\030\005 \002(\010\022%\n\035cluster_bootstrappedDBserver"
-    "s\030\006 \002(\010\022\032\n\022cluster_upgradedDB\030\007 \002(\010\022(\n c"
-    "luster_bootstrappedCoordinators\030\010 \002(\010\022\033\n"
-    "\023cluster_initialized\030\t \002(\010\"\227\001\n\005State\022(\n\014"
-    "framework_id\030\001 \001(\0132\022.mesos.FrameworkID\022\""
-    "\n\007targets\030\002 \002(\0132\021.arangodb.Targets\022\034\n\004pl"
-    "an\030\003 \002(\0132\016.arangodb.Plan\022\"\n\007current\030\004 \002("
-    "\0132\021.arangodb.Current*\211\002\n\rTaskPlanState\022\022"
-    "\n\016TASK_STATE_NEW\020\001\022 \n\034TASK_STATE_TRYING_"
-    "TO_RESERVE\020\002\022 \n\034TASK_STATE_TRYING_TO_PER"
-    "SIST\020\003\022\036\n\032TASK_STATE_TRYING_TO_START\020\004\022 "
-    "\n\034TASK_STATE_TRYING_TO_RESTART\020\005\022\026\n\022TASK"
-    "_STATE_RUNNING\020\006\022\025\n\021TASK_STATE_KILLED\020\007\022"
-    "\032\n\026TASK_STATE_FAILED_OVER\020\010\022\023\n\017TASK_STAT"
-    "E_DEAD\020\t", 1808);
+    " \002(\t\022\024\n\014sync_partner\030\005 \001(\t\022\021\n\tserver_id\030"
+    "\006 \001(\t\"0\n\tTasksPlan\022#\n\007entries\030\001 \003(\0132\022.ar"
+    "angodb.TaskPlan\"\250\001\n\004Plan\022#\n\006agents\030\001 \002(\013"
+    "2\023.arangodb.TasksPlan\022)\n\014coordinators\030\002 "
+    "\002(\0132\023.arangodb.TasksPlan\022&\n\tdbservers\030\003 "
+    "\002(\0132\023.arangodb.TasksPlan\022(\n\013secondaries\030"
+    "\004 \002(\0132\023.arangodb.TasksPlan\"\322\001\n\013TaskCurre"
+    "nt\022 \n\010slave_id\030\001 \001(\0132\016.mesos.SlaveID\022 \n\010"
+    "offer_id\030\002 \001(\0132\016.mesos.OfferID\022\"\n\tresour"
+    "ces\030\003 \003(\0132\017.mesos.Resource\022\r\n\005ports\030\004 \003("
+    "\r\022\020\n\010hostname\030\005 \001(\t\022\026\n\016container_path\030\006 "
+    "\001(\t\022\"\n\ttask_info\030\007 \001(\0132\017.mesos.TaskInfo\""
+    "6\n\014TasksCurrent\022&\n\007entries\030\001 \003(\0132\025.arang"
+    "odb.TaskCurrent\"\321\001\n\007Current\022&\n\006agents\030\001 "
+    "\002(\0132\026.arangodb.TasksCurrent\022,\n\014coordinat"
+    "ors\030\002 \002(\0132\026.arangodb.TasksCurrent\022)\n\tdbs"
+    "ervers\030\003 \002(\0132\026.arangodb.TasksCurrent\022+\n\013"
+    "secondaries\030\004 \002(\0132\026.arangodb.TasksCurren"
+    "t\022\030\n\020cluster_complete\030\005 \002(\010\"\227\001\n\005State\022(\n"
+    "\014framework_id\030\001 \001(\0132\022.mesos.FrameworkID\022"
+    "\"\n\007targets\030\002 \002(\0132\021.arangodb.Targets\022\034\n\004p"
+    "lan\030\003 \002(\0132\016.arangodb.Plan\022\"\n\007current\030\004 \002"
+    "(\0132\021.arangodb.Current*\211\002\n\rTaskPlanState\022"
+    "\022\n\016TASK_STATE_NEW\020\001\022 \n\034TASK_STATE_TRYING"
+    "_TO_RESERVE\020\002\022 \n\034TASK_STATE_TRYING_TO_PE"
+    "RSIST\020\003\022\036\n\032TASK_STATE_TRYING_TO_START\020\004\022"
+    " \n\034TASK_STATE_TRYING_TO_RESTART\020\005\022\026\n\022TAS"
+    "K_STATE_RUNNING\020\006\022\025\n\021TASK_STATE_KILLED\020\007"
+    "\022\032\n\026TASK_STATE_FAILED_OVER\020\010\022\023\n\017TASK_STA"
+    "TE_DEAD\020\t", 1689);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "arangodb.proto", &protobuf_RegisterTypes);
   Target::default_instance_ = new Target();
@@ -1185,6 +1179,7 @@ const int TaskPlan::kPersistenceIdFieldNumber;
 const int TaskPlan::kTimestampFieldNumber;
 const int TaskPlan::kNameFieldNumber;
 const int TaskPlan::kSyncPartnerFieldNumber;
+const int TaskPlan::kServerIdFieldNumber;
 #endif  // !_MSC_VER
 
 TaskPlan::TaskPlan()
@@ -1208,6 +1203,7 @@ void TaskPlan::SharedCtor() {
   timestamp_ = 0;
   name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   sync_partner_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  server_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1224,6 +1220,9 @@ void TaskPlan::SharedDtor() {
   }
   if (sync_partner_ != &::google::protobuf::internal::kEmptyString) {
     delete sync_partner_;
+  }
+  if (server_id_ != &::google::protobuf::internal::kEmptyString) {
+    delete server_id_;
   }
   if (this != default_instance_) {
   }
@@ -1267,6 +1266,11 @@ void TaskPlan::Clear() {
     if (has_sync_partner()) {
       if (sync_partner_ != &::google::protobuf::internal::kEmptyString) {
         sync_partner_->clear();
+      }
+    }
+    if (has_server_id()) {
+      if (server_id_ != &::google::protobuf::internal::kEmptyString) {
+        server_id_->clear();
       }
     }
   }
@@ -1363,6 +1367,23 @@ bool TaskPlan::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(50)) goto parse_server_id;
+        break;
+      }
+
+      // optional string server_id = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_server_id:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_server_id()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+            this->server_id().data(), this->server_id().length(),
+            ::google::protobuf::internal::WireFormat::PARSE);
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -1423,6 +1444,15 @@ void TaskPlan::SerializeWithCachedSizes(
       5, this->sync_partner(), output);
   }
 
+  // optional string server_id = 6;
+  if (has_server_id()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->server_id().data(), this->server_id().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      6, this->server_id(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -1472,6 +1502,16 @@ void TaskPlan::SerializeWithCachedSizes(
         5, this->sync_partner(), target);
   }
 
+  // optional string server_id = 6;
+  if (has_server_id()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->server_id().data(), this->server_id().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->server_id(), target);
+  }
+
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -1513,6 +1553,13 @@ int TaskPlan::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
           this->sync_partner());
+    }
+
+    // optional string server_id = 6;
+    if (has_server_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->server_id());
     }
 
   }
@@ -1557,6 +1604,9 @@ void TaskPlan::MergeFrom(const TaskPlan& from) {
     if (from.has_sync_partner()) {
       set_sync_partner(from.sync_partner());
     }
+    if (from.has_server_id()) {
+      set_server_id(from.server_id());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -1586,6 +1636,7 @@ void TaskPlan::Swap(TaskPlan* other) {
     std::swap(timestamp_, other->timestamp_);
     std::swap(name_, other->name_);
     std::swap(sync_partner_, other->sync_partner_);
+    std::swap(server_id_, other->server_id_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -2899,10 +2950,6 @@ const int Current::kCoordinatorsFieldNumber;
 const int Current::kDbserversFieldNumber;
 const int Current::kSecondariesFieldNumber;
 const int Current::kClusterCompleteFieldNumber;
-const int Current::kClusterBootstrappedDBserversFieldNumber;
-const int Current::kClusterUpgradedDBFieldNumber;
-const int Current::kClusterBootstrappedCoordinatorsFieldNumber;
-const int Current::kClusterInitializedFieldNumber;
 #endif  // !_MSC_VER
 
 Current::Current()
@@ -2930,10 +2977,6 @@ void Current::SharedCtor() {
   dbservers_ = NULL;
   secondaries_ = NULL;
   cluster_complete_ = false;
-  cluster_bootstrappeddbservers_ = false;
-  cluster_upgradeddb_ = false;
-  cluster_bootstrappedcoordinators_ = false;
-  cluster_initialized_ = false;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2986,12 +3029,6 @@ void Current::Clear() {
       if (secondaries_ != NULL) secondaries_->::arangodb::TasksCurrent::Clear();
     }
     cluster_complete_ = false;
-    cluster_bootstrappeddbservers_ = false;
-    cluster_upgradeddb_ = false;
-    cluster_bootstrappedcoordinators_ = false;
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    cluster_initialized_ = false;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -3070,70 +3107,6 @@ bool Current::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(48)) goto parse_cluster_bootstrappedDBservers;
-        break;
-      }
-
-      // required bool cluster_bootstrappedDBservers = 6;
-      case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_cluster_bootstrappedDBservers:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &cluster_bootstrappeddbservers_)));
-          set_has_cluster_bootstrappeddbservers();
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(56)) goto parse_cluster_upgradedDB;
-        break;
-      }
-
-      // required bool cluster_upgradedDB = 7;
-      case 7: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_cluster_upgradedDB:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &cluster_upgradeddb_)));
-          set_has_cluster_upgradeddb();
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(64)) goto parse_cluster_bootstrappedCoordinators;
-        break;
-      }
-
-      // required bool cluster_bootstrappedCoordinators = 8;
-      case 8: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_cluster_bootstrappedCoordinators:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &cluster_bootstrappedcoordinators_)));
-          set_has_cluster_bootstrappedcoordinators();
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(72)) goto parse_cluster_initialized;
-        break;
-      }
-
-      // required bool cluster_initialized = 9;
-      case 9: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_cluster_initialized:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
-                 input, &cluster_initialized_)));
-          set_has_cluster_initialized();
-        } else {
-          goto handle_uninterpreted;
-        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -3185,26 +3158,6 @@ void Current::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(5, this->cluster_complete(), output);
   }
 
-  // required bool cluster_bootstrappedDBservers = 6;
-  if (has_cluster_bootstrappeddbservers()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(6, this->cluster_bootstrappeddbservers(), output);
-  }
-
-  // required bool cluster_upgradedDB = 7;
-  if (has_cluster_upgradeddb()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->cluster_upgradeddb(), output);
-  }
-
-  // required bool cluster_bootstrappedCoordinators = 8;
-  if (has_cluster_bootstrappedcoordinators()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(8, this->cluster_bootstrappedcoordinators(), output);
-  }
-
-  // required bool cluster_initialized = 9;
-  if (has_cluster_initialized()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(9, this->cluster_initialized(), output);
-  }
-
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -3244,26 +3197,6 @@ void Current::SerializeWithCachedSizes(
   // required bool cluster_complete = 5;
   if (has_cluster_complete()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(5, this->cluster_complete(), target);
-  }
-
-  // required bool cluster_bootstrappedDBservers = 6;
-  if (has_cluster_bootstrappeddbservers()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(6, this->cluster_bootstrappeddbservers(), target);
-  }
-
-  // required bool cluster_upgradedDB = 7;
-  if (has_cluster_upgradeddb()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(7, this->cluster_upgradeddb(), target);
-  }
-
-  // required bool cluster_bootstrappedCoordinators = 8;
-  if (has_cluster_bootstrappedcoordinators()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(8, this->cluster_bootstrappedcoordinators(), target);
-  }
-
-  // required bool cluster_initialized = 9;
-  if (has_cluster_initialized()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(9, this->cluster_initialized(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -3310,28 +3243,6 @@ int Current::ByteSize() const {
       total_size += 1 + 1;
     }
 
-    // required bool cluster_bootstrappedDBservers = 6;
-    if (has_cluster_bootstrappeddbservers()) {
-      total_size += 1 + 1;
-    }
-
-    // required bool cluster_upgradedDB = 7;
-    if (has_cluster_upgradeddb()) {
-      total_size += 1 + 1;
-    }
-
-    // required bool cluster_bootstrappedCoordinators = 8;
-    if (has_cluster_bootstrappedcoordinators()) {
-      total_size += 1 + 1;
-    }
-
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // required bool cluster_initialized = 9;
-    if (has_cluster_initialized()) {
-      total_size += 1 + 1;
-    }
-
   }
   if (!unknown_fields().empty()) {
     total_size +=
@@ -3374,20 +3285,6 @@ void Current::MergeFrom(const Current& from) {
     if (from.has_cluster_complete()) {
       set_cluster_complete(from.cluster_complete());
     }
-    if (from.has_cluster_bootstrappeddbservers()) {
-      set_cluster_bootstrappeddbservers(from.cluster_bootstrappeddbservers());
-    }
-    if (from.has_cluster_upgradeddb()) {
-      set_cluster_upgradeddb(from.cluster_upgradeddb());
-    }
-    if (from.has_cluster_bootstrappedcoordinators()) {
-      set_cluster_bootstrappedcoordinators(from.cluster_bootstrappedcoordinators());
-    }
-  }
-  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    if (from.has_cluster_initialized()) {
-      set_cluster_initialized(from.cluster_initialized());
-    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -3405,7 +3302,7 @@ void Current::CopyFrom(const Current& from) {
 }
 
 bool Current::IsInitialized() const {
-  if ((_has_bits_[0] & 0x000001ff) != 0x000001ff) return false;
+  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
 
   if (has_agents()) {
     if (!this->agents().IsInitialized()) return false;
@@ -3429,10 +3326,6 @@ void Current::Swap(Current* other) {
     std::swap(dbservers_, other->dbservers_);
     std::swap(secondaries_, other->secondaries_);
     std::swap(cluster_complete_, other->cluster_complete_);
-    std::swap(cluster_bootstrappeddbservers_, other->cluster_bootstrappeddbservers_);
-    std::swap(cluster_upgradeddb_, other->cluster_upgradeddb_);
-    std::swap(cluster_bootstrappedcoordinators_, other->cluster_bootstrappedcoordinators_);
-    std::swap(cluster_initialized_, other->cluster_initialized_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

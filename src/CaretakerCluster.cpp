@@ -437,7 +437,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
       for (int i=0;i<plan->mutable_dbservers()->entries_size();i++) {
         if (!plan->mutable_dbservers()->mutable_entries(i)->has_sync_partner()) {
           
-          if (!Global::manager().registerNewSecondary(lease, plan->mutable_dbservers()->mutable_entries(i)->name())) {
+          if (!Global::manager().registerNewSecondary(lease, plan->mutable_dbservers()->mutable_entries(i))) {
             // mop: reconfiguration failed...decline and retry on next offer
             Global::scheduler().declineOffer(offer.id());
             return;

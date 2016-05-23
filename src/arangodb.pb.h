@@ -440,6 +440,18 @@ class TaskPlan : public ::google::protobuf::Message {
   inline ::std::string* release_sync_partner();
   inline void set_allocated_sync_partner(::std::string* sync_partner);
 
+  // optional string server_id = 6;
+  inline bool has_server_id() const;
+  inline void clear_server_id();
+  static const int kServerIdFieldNumber = 6;
+  inline const ::std::string& server_id() const;
+  inline void set_server_id(const ::std::string& value);
+  inline void set_server_id(const char* value);
+  inline void set_server_id(const char* value, size_t size);
+  inline ::std::string* mutable_server_id();
+  inline ::std::string* release_server_id();
+  inline void set_allocated_server_id(::std::string* server_id);
+
   // @@protoc_insertion_point(class_scope:arangodb.TaskPlan)
  private:
   inline void set_has_state();
@@ -452,6 +464,8 @@ class TaskPlan : public ::google::protobuf::Message {
   inline void clear_has_name();
   inline void set_has_sync_partner();
   inline void clear_has_sync_partner();
+  inline void set_has_server_id();
+  inline void clear_has_server_id();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -459,10 +473,11 @@ class TaskPlan : public ::google::protobuf::Message {
   double timestamp_;
   ::std::string* name_;
   ::std::string* sync_partner_;
+  ::std::string* server_id_;
   int state_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
 
   friend void  protobuf_AddDesc_arangodb_2eproto();
   friend void protobuf_AssignDesc_arangodb_2eproto();
@@ -1024,34 +1039,6 @@ class Current : public ::google::protobuf::Message {
   inline bool cluster_complete() const;
   inline void set_cluster_complete(bool value);
 
-  // required bool cluster_bootstrappedDBservers = 6;
-  inline bool has_cluster_bootstrappeddbservers() const;
-  inline void clear_cluster_bootstrappeddbservers();
-  static const int kClusterBootstrappedDBserversFieldNumber = 6;
-  inline bool cluster_bootstrappeddbservers() const;
-  inline void set_cluster_bootstrappeddbservers(bool value);
-
-  // required bool cluster_upgradedDB = 7;
-  inline bool has_cluster_upgradeddb() const;
-  inline void clear_cluster_upgradeddb();
-  static const int kClusterUpgradedDBFieldNumber = 7;
-  inline bool cluster_upgradeddb() const;
-  inline void set_cluster_upgradeddb(bool value);
-
-  // required bool cluster_bootstrappedCoordinators = 8;
-  inline bool has_cluster_bootstrappedcoordinators() const;
-  inline void clear_cluster_bootstrappedcoordinators();
-  static const int kClusterBootstrappedCoordinatorsFieldNumber = 8;
-  inline bool cluster_bootstrappedcoordinators() const;
-  inline void set_cluster_bootstrappedcoordinators(bool value);
-
-  // required bool cluster_initialized = 9;
-  inline bool has_cluster_initialized() const;
-  inline void clear_cluster_initialized();
-  static const int kClusterInitializedFieldNumber = 9;
-  inline bool cluster_initialized() const;
-  inline void set_cluster_initialized(bool value);
-
   // @@protoc_insertion_point(class_scope:arangodb.Current)
  private:
   inline void set_has_agents();
@@ -1064,14 +1051,6 @@ class Current : public ::google::protobuf::Message {
   inline void clear_has_secondaries();
   inline void set_has_cluster_complete();
   inline void clear_has_cluster_complete();
-  inline void set_has_cluster_bootstrappeddbservers();
-  inline void clear_has_cluster_bootstrappeddbservers();
-  inline void set_has_cluster_upgradeddb();
-  inline void clear_has_cluster_upgradeddb();
-  inline void set_has_cluster_bootstrappedcoordinators();
-  inline void clear_has_cluster_bootstrappedcoordinators();
-  inline void set_has_cluster_initialized();
-  inline void clear_has_cluster_initialized();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -1080,13 +1059,9 @@ class Current : public ::google::protobuf::Message {
   ::arangodb::TasksCurrent* dbservers_;
   ::arangodb::TasksCurrent* secondaries_;
   bool cluster_complete_;
-  bool cluster_bootstrappeddbservers_;
-  bool cluster_upgradeddb_;
-  bool cluster_bootstrappedcoordinators_;
-  bool cluster_initialized_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   friend void  protobuf_AddDesc_arangodb_2eproto();
   friend void protobuf_AssignDesc_arangodb_2eproto();
@@ -1823,6 +1798,76 @@ inline void TaskPlan::set_allocated_sync_partner(::std::string* sync_partner) {
   }
 }
 
+// optional string server_id = 6;
+inline bool TaskPlan::has_server_id() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void TaskPlan::set_has_server_id() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void TaskPlan::clear_has_server_id() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void TaskPlan::clear_server_id() {
+  if (server_id_ != &::google::protobuf::internal::kEmptyString) {
+    server_id_->clear();
+  }
+  clear_has_server_id();
+}
+inline const ::std::string& TaskPlan::server_id() const {
+  return *server_id_;
+}
+inline void TaskPlan::set_server_id(const ::std::string& value) {
+  set_has_server_id();
+  if (server_id_ == &::google::protobuf::internal::kEmptyString) {
+    server_id_ = new ::std::string;
+  }
+  server_id_->assign(value);
+}
+inline void TaskPlan::set_server_id(const char* value) {
+  set_has_server_id();
+  if (server_id_ == &::google::protobuf::internal::kEmptyString) {
+    server_id_ = new ::std::string;
+  }
+  server_id_->assign(value);
+}
+inline void TaskPlan::set_server_id(const char* value, size_t size) {
+  set_has_server_id();
+  if (server_id_ == &::google::protobuf::internal::kEmptyString) {
+    server_id_ = new ::std::string;
+  }
+  server_id_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* TaskPlan::mutable_server_id() {
+  set_has_server_id();
+  if (server_id_ == &::google::protobuf::internal::kEmptyString) {
+    server_id_ = new ::std::string;
+  }
+  return server_id_;
+}
+inline ::std::string* TaskPlan::release_server_id() {
+  clear_has_server_id();
+  if (server_id_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = server_id_;
+    server_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void TaskPlan::set_allocated_server_id(::std::string* server_id) {
+  if (server_id_ != &::google::protobuf::internal::kEmptyString) {
+    delete server_id_;
+  }
+  if (server_id) {
+    set_has_server_id();
+    server_id_ = server_id;
+  } else {
+    clear_has_server_id();
+    server_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
 // -------------------------------------------------------------------
 
 // TasksPlan
@@ -2521,94 +2566,6 @@ inline bool Current::cluster_complete() const {
 inline void Current::set_cluster_complete(bool value) {
   set_has_cluster_complete();
   cluster_complete_ = value;
-}
-
-// required bool cluster_bootstrappedDBservers = 6;
-inline bool Current::has_cluster_bootstrappeddbservers() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void Current::set_has_cluster_bootstrappeddbservers() {
-  _has_bits_[0] |= 0x00000020u;
-}
-inline void Current::clear_has_cluster_bootstrappeddbservers() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-inline void Current::clear_cluster_bootstrappeddbservers() {
-  cluster_bootstrappeddbservers_ = false;
-  clear_has_cluster_bootstrappeddbservers();
-}
-inline bool Current::cluster_bootstrappeddbservers() const {
-  return cluster_bootstrappeddbservers_;
-}
-inline void Current::set_cluster_bootstrappeddbservers(bool value) {
-  set_has_cluster_bootstrappeddbservers();
-  cluster_bootstrappeddbservers_ = value;
-}
-
-// required bool cluster_upgradedDB = 7;
-inline bool Current::has_cluster_upgradeddb() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-inline void Current::set_has_cluster_upgradeddb() {
-  _has_bits_[0] |= 0x00000040u;
-}
-inline void Current::clear_has_cluster_upgradeddb() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-inline void Current::clear_cluster_upgradeddb() {
-  cluster_upgradeddb_ = false;
-  clear_has_cluster_upgradeddb();
-}
-inline bool Current::cluster_upgradeddb() const {
-  return cluster_upgradeddb_;
-}
-inline void Current::set_cluster_upgradeddb(bool value) {
-  set_has_cluster_upgradeddb();
-  cluster_upgradeddb_ = value;
-}
-
-// required bool cluster_bootstrappedCoordinators = 8;
-inline bool Current::has_cluster_bootstrappedcoordinators() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-inline void Current::set_has_cluster_bootstrappedcoordinators() {
-  _has_bits_[0] |= 0x00000080u;
-}
-inline void Current::clear_has_cluster_bootstrappedcoordinators() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-inline void Current::clear_cluster_bootstrappedcoordinators() {
-  cluster_bootstrappedcoordinators_ = false;
-  clear_has_cluster_bootstrappedcoordinators();
-}
-inline bool Current::cluster_bootstrappedcoordinators() const {
-  return cluster_bootstrappedcoordinators_;
-}
-inline void Current::set_cluster_bootstrappedcoordinators(bool value) {
-  set_has_cluster_bootstrappedcoordinators();
-  cluster_bootstrappedcoordinators_ = value;
-}
-
-// required bool cluster_initialized = 9;
-inline bool Current::has_cluster_initialized() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
-}
-inline void Current::set_has_cluster_initialized() {
-  _has_bits_[0] |= 0x00000100u;
-}
-inline void Current::clear_has_cluster_initialized() {
-  _has_bits_[0] &= ~0x00000100u;
-}
-inline void Current::clear_cluster_initialized() {
-  cluster_initialized_ = false;
-  clear_has_cluster_initialized();
-}
-inline bool Current::cluster_initialized() const {
-  return cluster_initialized_;
-}
-inline void Current::set_cluster_initialized(bool value) {
-  set_has_cluster_initialized();
-  cluster_initialized_ = value;
 }
 
 // -------------------------------------------------------------------
