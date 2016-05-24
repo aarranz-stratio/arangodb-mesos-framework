@@ -267,15 +267,27 @@ std::string ArangoState::getAgencyURL (ArangoState::Lease& lease) {
 std::string ArangoState::getCoordinatorURL (ArangoState::Lease& lease) {
   auto const& coordinators = lease.state().current().coordinators();
   auto nr = coordinators.entries_size();
-  assert(nr > 0);
+  
+  if (nr == 0) {
+    return std::string("");
+  }
   long now = chrono::duration_cast<chrono::seconds>(
       chrono::steady_clock::now().time_since_epoch()).count();
   std::default_random_engine generator(now);
   std::uniform_int_distribution<int> distribution(0, nr-1);
   int which = distribution(generator);  // generates number of a coordinator
-  std::string hostname = coordinators.entries(which).hostname();
-  uint32_t port = coordinators.entries(which).ports(0);
-  return "http://" + hostname + ":" + std::to_string(port);
+  
+  auto coordinator = coordinators.entries(which);
+  std::string hostname = coordinator.hostname();
+  
+  if (coordinator.ports_size() == 0) {
+    return std::string("");
+  }
+
+  uint32_t port = coordinator.ports(0);
+  std::string url("http://" + hostname + ":" + std::to_string(port));
+
+  return url;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

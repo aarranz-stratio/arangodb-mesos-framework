@@ -52,101 +52,101 @@ using namespace arangodb;
 ////////////////////////////////////////////////////////////////////////////////
 
 CaretakerCluster::CaretakerCluster () {
-  auto lease = Global::state().lease(true);
-  Targets* targets = lease.state().mutable_targets();
+  {
+    auto lease = Global::state().lease();
+    Targets* targets = lease.state().mutable_targets();
 
-  // AGENCY
-  Target* agency = targets->mutable_agents();
-  agency->set_instances(Global::nrAgents());
-  agency->clear_minimal_resources();
-  agency->set_number_ports(1);
+    // AGENCY
+    Target* agency = targets->mutable_agents();
 
-  if (Global::minResourcesAgent().empty()) {
-    setStandardMinimum(agency, 0);
-  }
-  else {
-    Try<mesos::Resources> x
-        = mesos::Resources::parse(Global::minResourcesAgent());
-    if (x.isError()) {
-      LOG(ERROR) << "cannot parse minimum resources for agent:\n  '"
-                 << Global::minResourcesAgent() << "'";
+    agency->clear_minimal_resources();
+    agency->set_number_ports(1);
+
+    if (Global::minResourcesAgent().empty()) {
       setStandardMinimum(agency, 0);
     }
     else {
-      mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-      auto m = agency->mutable_minimal_resources();
-      m->CopyFrom(res);
+      Try<mesos::Resources> x
+        = mesos::Resources::parse(Global::minResourcesAgent());
+      if (x.isError()) {
+        LOG(ERROR) << "cannot parse minimum resources for agent:\n  '"
+          << Global::minResourcesAgent() << "'";
+        setStandardMinimum(agency, 0);
+      }
+      else {
+        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        auto m = agency->mutable_minimal_resources();
+        m->CopyFrom(res);
+      }
     }
-  }
 
-  // COORDINATOR
-  Target* coordinator = targets->mutable_coordinators();
-  coordinator->set_instances(Global::nrCoordinators());
-  coordinator->clear_minimal_resources();
-  coordinator->set_number_ports(1);
-  if (Global::minResourcesCoordinator().empty()) {
-    setStandardMinimum(coordinator, 1);
-  }
-  else {
-    Try<mesos::Resources> x
-        = mesos::Resources::parse(Global::minResourcesCoordinator());
-    if (x.isError()) {
-      LOG(ERROR) << "cannot parse minimum resources for coordinator:\n  '"
-                 << Global::minResourcesCoordinator() << "'";
+    // COORDINATOR
+    Target* coordinator = targets->mutable_coordinators();
+    coordinator->clear_minimal_resources();
+    coordinator->set_number_ports(1);
+    if (Global::minResourcesCoordinator().empty()) {
       setStandardMinimum(coordinator, 1);
     }
     else {
-      mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-      auto m = coordinator->mutable_minimal_resources();
-      m->CopyFrom(res);
+      Try<mesos::Resources> x
+        = mesos::Resources::parse(Global::minResourcesCoordinator());
+      if (x.isError()) {
+        LOG(ERROR) << "cannot parse minimum resources for coordinator:\n  '"
+          << Global::minResourcesCoordinator() << "'";
+        setStandardMinimum(coordinator, 1);
+      }
+      else {
+        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        auto m = coordinator->mutable_minimal_resources();
+        m->CopyFrom(res);
+      }
     }
-  }
 
-  // DBSERVER
-  Target* dbserver = targets->mutable_dbservers();
-  dbserver->set_instances(Global::nrDBServers());
-  dbserver->clear_minimal_resources();
-  dbserver->set_number_ports(1);
-  if (Global::minResourcesDBServer().empty()) {
-    setStandardMinimum(dbserver, 1);
-  }
-  else {
-    Try<mesos::Resources> x
-        = mesos::Resources::parse(Global::minResourcesDBServer());
-    if (x.isError()) {
-      LOG(ERROR) << "cannot parse minimum resources for DBServer:\n  '"
-                 << Global::minResourcesDBServer() << "'";
+    // DBSERVER
+    Target* dbserver = targets->mutable_dbservers();
+    dbserver->clear_minimal_resources();
+    dbserver->set_number_ports(1);
+    if (Global::minResourcesDBServer().empty()) {
       setStandardMinimum(dbserver, 1);
     }
     else {
-      mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-      auto m = dbserver->mutable_minimal_resources();
-      m->CopyFrom(res);
+      Try<mesos::Resources> x
+        = mesos::Resources::parse(Global::minResourcesDBServer());
+      if (x.isError()) {
+        LOG(ERROR) << "cannot parse minimum resources for DBServer:\n  '"
+          << Global::minResourcesDBServer() << "'";
+        setStandardMinimum(dbserver, 1);
+      }
+      else {
+        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        auto m = dbserver->mutable_minimal_resources();
+        m->CopyFrom(res);
+      }
     }
-  }
 
-  // SECONDARIES
-  Target* secondary = targets->mutable_secondaries();
-  secondary->set_instances(Global::nrDBServers());
-  secondary->clear_minimal_resources();
-  secondary->set_number_ports(1);
-  if (Global::minResourcesSecondary().empty()) {
-    setStandardMinimum(secondary, 1);
-  }
-  else {
-    Try<mesos::Resources> x
-        = mesos::Resources::parse(Global::minResourcesSecondary());
-    if (x.isError()) {
-      LOG(ERROR) << "cannot parse minimum resources for Secondary:\n  '"
-                 << Global::minResourcesSecondary() << "'";
+    // SECONDARIES
+    Target* secondary = targets->mutable_secondaries();
+    secondary->clear_minimal_resources();
+    secondary->set_number_ports(1);
+    if (Global::minResourcesSecondary().empty()) {
       setStandardMinimum(secondary, 1);
     }
     else {
-      mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-      auto m = secondary->mutable_minimal_resources();
-      m->CopyFrom(res);
+      Try<mesos::Resources> x
+        = mesos::Resources::parse(Global::minResourcesSecondary());
+      if (x.isError()) {
+        LOG(ERROR) << "cannot parse minimum resources for Secondary:\n  '"
+          << Global::minResourcesSecondary() << "'";
+        setStandardMinimum(secondary, 1);
+      }
+      else {
+        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        auto m = secondary->mutable_minimal_resources();
+        m->CopyFrom(res);
+      }
     }
   }
+  updateTarget();
 }
 
 // -----------------------------------------------------------------------------
@@ -524,6 +524,46 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
     LOG(INFO) << "Declining offer " << offer.id().value();
   }
   Global::scheduler().declineOffer(offer.id());
+}
+
+void CaretakerCluster::updateTarget() {
+  bool changed = false;
+
+  auto lease = Global::state().lease();
+  Targets* targets = lease.state().mutable_targets();
+
+  // AGENCY
+  Target* agency = targets->mutable_agents();
+
+  if (agency->instances() != Global::nrAgents()) {
+    agency->set_instances(Global::nrAgents());
+    changed = true;
+  }
+
+  // COORDINATOR
+  Target* coordinator = targets->mutable_coordinators();
+  if (coordinator->instances() != Global::nrCoordinators()) {
+    coordinator->set_instances(Global::nrCoordinators());
+    changed = true;
+  }
+    
+  // DBSERVER
+  Target* dbserver = targets->mutable_dbservers();
+  if (dbserver->instances() != Global::nrDBServers()) {
+    dbserver->set_instances(Global::nrDBServers());
+    changed = true;
+  }
+  
+  // SECONDARIES
+  Target* secondary = targets->mutable_secondaries();
+  if (secondary->instances() != Global::nrDBServers()) { 
+    secondary->set_instances(Global::nrDBServers());
+    changed = true;
+  }
+
+  if (changed) {
+    lease.changed();
+  }
 }
 
 // -----------------------------------------------------------------------------

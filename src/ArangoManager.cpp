@@ -254,6 +254,59 @@ vector<string> ArangoManager::dbserverEndpoints () {
   return endpoints;
 }
 
+void ArangoManager::updateTarget() {
+  std::string coordinatorURL;
+  {
+    auto lease = Global::state().lease();
+
+    coordinatorURL = Global::state().getCoordinatorURL(lease);
+  }
+  if (coordinatorURL.empty()) {
+    return;
+  }
+
+  std::string body;
+  long httpCode = 0;
+  int res = doHTTPGet(coordinatorURL + "/_admin/cluster/numberOfServers", body, httpCode);
+
+  if (res != 0 || httpCode != 200) {
+    LOG(ERROR) << "Couldn't retrieve cluster targets. HTTP Code: " << httpCode;
+    return;
+  }
+    
+  picojson::value value;
+  std::string err = picojson::parse(value, body);
+  
+  if (!err.empty()) {
+    LOG(WARNING) << "Couldn't parse json(cluster targets): " << err << ". Body was: " << body;
+    return;
+  }
+  
+  if (!value.is<picojson::object>()) {
+    LOG(WARNING) << "Root result is not an object for cluster targets. Body was: " << body;
+    return;
+  }
+
+  auto propertyPairs = {
+    std::make_pair("numberOfDBServers", &Global::setNrDBServers),
+    std::make_pair("numberOfCoordinators", &Global::setNrCoordinators),
+  };
+
+  {
+    auto lease = Global::state().lease();
+    for (auto const& it: propertyPairs) {
+      auto nrValue = value.get(it.first);
+
+      if (!nrValue.is<double>()) {
+        LOG(ERROR) << it.first << " in cluster target is not a number but " << nrValue.to_str();
+        continue;
+      }
+      (*it.second)(std::round(nrValue.get<double>()));
+    }
+  }
+  Global::caretaker().updateTarget();
+}
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                                   private methods
 // -----------------------------------------------------------------------------
@@ -279,6 +332,8 @@ void ArangoManager::dispatch () {
       this_thread::sleep_for(chrono::seconds(SLEEP_SEC));
       continue;
     }
+
+    updateTarget();
 
     // start reconciliation
     reconcileTasks();
@@ -472,8 +527,7 @@ static bool getServerId(TaskCurrent* task, std::string& server_id) {
     return false;
   }
   
-  auto& o = s.get<picojson::object>();
-  auto& id = o["id"];
+  auto& id = s.get("id");
 
   if (!id.is<string>()) {
     LOG(WARNING) << "Id is not a string. Body was: " << body;
@@ -517,6 +571,11 @@ bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, TaskPlan* pr
   std::string resultBody;
   std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
 
+  if (coordinatorURL.empty()) {
+    LOG(WARNING) << "Couldn't register secondary. There is no coordinator to talk to right now";
+    return false;
+  }
+
   long httpCode = 0;
   int res = 0;
   auto logError = [&] (std::string msg) -> void {
@@ -534,7 +593,7 @@ bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, TaskPlan* pr
     + R"("oldSecondary":")" + previousSecondaryName + R"(",)"
     + R"("newSecondary":")" + secondaryName + R"("})";
 
-  res = arangodb::doHTTPPut(coordinatorURL +
+  res = arangodb::doHTTPPut(std::string(coordinatorURL) +
       "/_admin/cluster/replaceSecondary",
       body, resultBody, httpCode);
 
@@ -836,6 +895,12 @@ bool ArangoManager::checkTimeouts () {
                     std::string coordinatorURL 
                         = Global::state().getCoordinatorURL(l);
 
+                    if (coordinatorURL.empty()) {
+                      LOG(WARNING) << "No active coordinator found";
+                      this_thread::sleep_for(chrono::seconds(1));
+                      continue;
+                    }
+
                     long httpCode = 0;
                     int res = 0;
                     auto logError = [&] (std::string msg) -> void {
@@ -854,7 +919,7 @@ bool ArangoManager::checkTimeouts () {
                       =   R"({"primary":")" + tpsecond->name() + R"(",)"
                         + R"("secondary":")" + tp->name() + R"("})";
                   
-                    res = arangodb::doHTTPPut(coordinatorURL +
+                    res = arangodb::doHTTPPut(std::string(coordinatorURL) +
                           "/_admin/cluster/swapPrimaryAndSecondary",
                           body, resultBody, httpCode);
 
