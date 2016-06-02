@@ -366,7 +366,7 @@ static mesos::Resources suitablePersistent (string const& name,
       continue;
     }
 
-    containerPath = "volumes/roles/" + Global::role() + "/" + persistenceId;
+    containerPath = "dataxyz";
 
     toUse += res;
     found = true;
@@ -584,17 +584,8 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   // volume
   mesos::Volume* volume = container.add_volumes();
   volume->set_container_path("/data");
-  mesos::Resources res = info.resources();
-  res = arangodb::filterIsDisk(res);
-  const mesos::Resource& disk = *(res.begin());
-  if (disk.has_disk() && disk.disk().has_volume()) {
-    volume->set_host_path(info.container_path());
-  }
-  else {
-    string path = "arangodb_" + Global::frameworkName() + "_" 
-                  + state.framework_id().value() + "_" + myName;
-    volume->set_host_path(Global::volumePath() + "/" + path);
-  }
+  volume->set_host_path("dataxyz");  // in the sandbox, persistent if we have
+                                     // a persistent volume
   volume->set_mode(mesos::Volume::RW);
 
   mesos::TaskID tid;
