@@ -321,14 +321,14 @@ void protobuf_AddDesc_arangodb_2eproto() {
     "\014framework_id\030\001 \001(\0132\022.mesos.FrameworkID\022"
     "\"\n\007targets\030\002 \002(\0132\021.arangodb.Targets\022\034\n\004p"
     "lan\030\003 \002(\0132\016.arangodb.Plan\022\"\n\007current\030\004 \002"
-    "(\0132\021.arangodb.Current*\211\002\n\rTaskPlanState\022"
+    "(\0132\021.arangodb.Current*\247\002\n\rTaskPlanState\022"
     "\022\n\016TASK_STATE_NEW\020\001\022 \n\034TASK_STATE_TRYING"
     "_TO_RESERVE\020\002\022 \n\034TASK_STATE_TRYING_TO_PE"
     "RSIST\020\003\022\036\n\032TASK_STATE_TRYING_TO_START\020\004\022"
     " \n\034TASK_STATE_TRYING_TO_RESTART\020\005\022\026\n\022TAS"
     "K_STATE_RUNNING\020\006\022\025\n\021TASK_STATE_KILLED\020\007"
     "\022\032\n\026TASK_STATE_FAILED_OVER\020\010\022\023\n\017TASK_STA"
-    "TE_DEAD\020\t", 1689);
+    "TE_DEAD\020\t\022\034\n\030TASK_STATE_SHUTTING_DOWN\020\n", 1719);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "arangodb.proto", &protobuf_RegisterTypes);
   Target::default_instance_ = new Target();
@@ -373,6 +373,7 @@ bool TaskPlanState_IsValid(int value) {
     case 7:
     case 8:
     case 9:
+    case 10:
       return true;
     default:
       return false;

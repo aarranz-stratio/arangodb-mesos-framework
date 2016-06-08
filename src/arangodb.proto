@@ -55,6 +55,7 @@ enum TaskPlanState {
   TASK_STATE_FAILED_OVER       = 8;    // task killed, timeout, replaced 
                                        // by other, still a chance to come back
   TASK_STATE_DEAD              = 9;    // task dead, slot no longer used
+  TASK_STATE_SHUTTING_DOWN     = 10;   // task shutting down. once done it should be deleted
 }
 
 // The persistence_id and the started timestamp are set whenever the

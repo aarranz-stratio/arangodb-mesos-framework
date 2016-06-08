@@ -54,11 +54,12 @@ enum TaskPlanState {
   TASK_STATE_RUNNING = 6,
   TASK_STATE_KILLED = 7,
   TASK_STATE_FAILED_OVER = 8,
-  TASK_STATE_DEAD = 9
+  TASK_STATE_DEAD = 9,
+  TASK_STATE_SHUTTING_DOWN = 10
 };
 bool TaskPlanState_IsValid(int value);
 const TaskPlanState TaskPlanState_MIN = TASK_STATE_NEW;
-const TaskPlanState TaskPlanState_MAX = TASK_STATE_DEAD;
+const TaskPlanState TaskPlanState_MAX = TASK_STATE_SHUTTING_DOWN;
 const int TaskPlanState_ARRAYSIZE = TaskPlanState_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* TaskPlanState_descriptor();

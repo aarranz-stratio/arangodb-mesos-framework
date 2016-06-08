@@ -101,7 +101,7 @@ CaretakerStandalone::CaretakerStandalone () {
 /// {@inheritDoc}
 ////////////////////////////////////////////////////////////////////////////////
 
-void CaretakerStandalone::updatePlan () {
+void CaretakerStandalone::updatePlan (std::vector<std::string> const& cleanedServers) {
   auto lease = Global::state().lease(true);
 
   Targets* targets = lease.state().mutable_targets();

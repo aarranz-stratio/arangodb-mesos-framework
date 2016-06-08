@@ -64,7 +64,7 @@ namespace arangodb {
 /// {@inheritDoc}
 ////////////////////////////////////////////////////////////////////////////////
 
-      void updatePlan () override;
+      void updatePlan (std::vector<std::string> const& cleanedServers) override;
   };
 }
 

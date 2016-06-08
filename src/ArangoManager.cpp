@@ -38,6 +38,7 @@
 
 #include <iostream>
 #include <set>
+#include <unordered_set>
 #include <random>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -242,7 +243,7 @@ vector<string> ArangoManager::dbserverEndpoints () {
 
   vector<string> endpoints;
 
-  for (int i = 0; i < dbservers.entries_size();  ++i) {
+  for (int i = 0; i < dbservers.entries_size(); ++i) {
     auto const& dbserver = dbservers.entries(i);
     if (dbserver.has_hostname() && dbserver.ports_size() > 0) {
       string endpoint = "http://" + dbserver.hostname() + ":" 
@@ -254,7 +255,9 @@ vector<string> ArangoManager::dbserverEndpoints () {
   return endpoints;
 }
 
-void ArangoManager::updateTarget() {
+std::vector<std::string> ArangoManager::updateTarget() {
+  std::vector<std::string> cleanedServers = {};
+
   std::string coordinatorURL;
   {
     auto lease = Global::state().lease();
@@ -262,7 +265,7 @@ void ArangoManager::updateTarget() {
     coordinatorURL = Global::state().getCoordinatorURL(lease);
   }
   if (coordinatorURL.empty()) {
-    return;
+    return cleanedServers;
   }
 
   std::string body;
@@ -271,7 +274,7 @@ void ArangoManager::updateTarget() {
 
   if (res != 0 || httpCode != 200) {
     LOG(ERROR) << "Couldn't retrieve cluster targets. HTTP Code: " << httpCode;
-    return;
+    return cleanedServers;
   }
     
   picojson::value value;
@@ -279,18 +282,32 @@ void ArangoManager::updateTarget() {
   
   if (!err.empty()) {
     LOG(WARNING) << "Couldn't parse json(cluster targets): " << err << ". Body was: " << body;
-    return;
+    return cleanedServers;
   }
   
   if (!value.is<picojson::object>()) {
     LOG(WARNING) << "Root result is not an object for cluster targets. Body was: " << body;
-    return;
+    return cleanedServers;
   }
 
   auto propertyPairs = {
     std::make_pair("numberOfDBServers", &Global::setNrDBServers),
     std::make_pair("numberOfCoordinators", &Global::setNrCoordinators),
   };
+
+  auto cleanedServersValue = value.get("cleanedServers");
+  
+  if (cleanedServersValue.is<picojson::array>()) {
+    auto arr = cleanedServersValue.get<picojson::array>();
+    
+    for (picojson::array::iterator it = arr.begin(); it != arr.end(); ++it) {
+      if (it->is<std::string>()) {
+        if (it->is<std::string>()) {
+          cleanedServers.push_back(it->get<std::string>());
+        }
+      }
+    }
+  }
 
   {
     auto lease = Global::state().lease();
@@ -305,6 +322,8 @@ void ArangoManager::updateTarget() {
     }
   }
   Global::caretaker().updateTarget();
+
+  return cleanedServers;
 }
 
 // -----------------------------------------------------------------------------
@@ -333,7 +352,9 @@ void ArangoManager::dispatch () {
       continue;
     }
 
-    updateTarget();
+
+
+    std::vector<std::string> cleanedServers = updateTarget();
 
     // start reconciliation
     reconcileTasks();
@@ -342,7 +363,9 @@ void ArangoManager::dispatch () {
     applyStatusUpdates();
 
     updateServerIds();
-
+    
+    updatePlan(cleanedServers);
+    
     // check all outstanding offers
     checkOutstandOffers();
 
@@ -972,9 +995,17 @@ bool ArangoManager::checkTimeouts () {
 
 void ArangoManager::applyStatusUpdates () {
   Caretaker& caretaker = Global::caretaker();
-
+  
   lock_guard<mutex> lock(_lock);
+  typedef std::unordered_set<int> DeleteMap;
 
+  DeleteMap agentPosToDelete;
+  DeleteMap coordinatorPosToDelete;
+  DeleteMap dbServerPosToDelete;
+  DeleteMap secondaryPosToDelete;
+
+  auto lease = Global::state().lease(true);
+  bool deleted = false;
   for (auto&& status : _taskStatusUpdates) {
     mesos::TaskID taskId = status.task_id();
     string taskIdStr = taskId.value();
@@ -988,9 +1019,8 @@ void ArangoManager::applyStatusUpdates () {
         break;
 
       case mesos::TASK_RUNNING: {
-        auto lease = Global::state().lease(true);
         caretaker.setTaskPlanState(lease, pos.first, pos.second,
-                                   TASK_STATE_RUNNING);
+                                   TASK_STATE_RUNNING, deleted);
         break;
       }
       case mesos::TASK_STARTING:
@@ -1002,15 +1032,81 @@ void ArangoManager::applyStatusUpdates () {
       case mesos::TASK_KILLED:   // TERMINAL. The task was killed by the executor.
       case mesos::TASK_LOST:     // TERMINAL. The task failed but can be rescheduled.
       case mesos::TASK_ERROR: {  // TERMINAL. The task failed but can be rescheduled.
-        auto lease = Global::state().lease(true);
         caretaker.setTaskPlanState(lease, pos.first, pos.second,
-                                   TASK_STATE_KILLED);
+                                   TASK_STATE_KILLED, deleted);
+        if (deleted) {
+          switch(pos.first) {
+            case TaskType::AGENT: {
+                agentPosToDelete.insert(pos.second);
+                break;
+              }
+            case TaskType::PRIMARY_DBSERVER: {
+                dbServerPosToDelete.insert(pos.second);
+                break;
+              }
+            case TaskType::SECONDARY_DBSERVER: {
+                secondaryPosToDelete.insert(pos.second);
+                break;
+              }
+            case TaskType::COORDINATOR: {
+                coordinatorPosToDelete.insert(pos.second);
+                break;
+              }
+          }
+          _task2position.erase(taskIdStr);
+        }
         break;
+      }
+    }
+  }
+  
+  Plan* plan = lease.state().mutable_plan();
+  Current* current = lease.state().mutable_current();
+  auto toDo = {
+    std::make_tuple(agentPosToDelete, plan->mutable_agents(), current->mutable_agents()),
+    std::make_tuple(dbServerPosToDelete, plan->mutable_dbservers(), current->mutable_dbservers()),
+    std::make_tuple(secondaryPosToDelete, plan->mutable_secondaries(), current->mutable_secondaries()),
+    std::make_tuple(coordinatorPosToDelete, plan->mutable_coordinators(), current->mutable_coordinators()),
+  };
+
+  for (auto const& tup: toDo) {
+    auto const& toDelete = std::get<0>(tup);
+    if (toDelete.size() > 0) {
+      TasksPlan* plan = std::get<1>(tup);
+      TasksCurrent* current = std::get<2>(tup);
+
+      TasksPlan originalPlan;
+      originalPlan.CopyFrom(*plan);
+      TasksCurrent originalCurrent;
+      originalCurrent.CopyFrom(*current);
+      
+      plan->clear_entries();
+      current->clear_entries();
+      for (int i=0;i<originalPlan.entries_size();i++) {
+        auto got = toDelete.find(i);
+        // mop: re-add if not marked for deletion
+        if (got == toDelete.end()) {
+          TaskPlan planEntry = originalPlan.entries(i);
+          plan->add_entries()->CopyFrom(planEntry);
+          
+          TaskCurrent currentEntry = originalCurrent.entries(i);
+          current->add_entries()->CopyFrom(currentEntry);
+        }
       }
     }
   }
 
   _taskStatusUpdates.clear();
+}
+
+void ArangoManager::updatePlan(std::vector<std::string> const& cleanedServers) {
+  Caretaker& caretaker = Global::caretaker();
+  
+  // ...........................................................................
+  // first of all, update our plan
+  // ...........................................................................
+
+  caretaker.updatePlan(cleanedServers);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1019,12 +1115,6 @@ void ArangoManager::applyStatusUpdates () {
 
 void ArangoManager::checkOutstandOffers () {
   Caretaker& caretaker = Global::caretaker();
-
-  // ...........................................................................
-  // first of all, update our plan
-  // ...........................................................................
-
-  caretaker.updatePlan();
 
   // ...........................................................................
   // check all stored offers

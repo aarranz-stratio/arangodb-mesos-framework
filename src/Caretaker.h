@@ -97,7 +97,7 @@ namespace arangodb {
 /// @brief tries to update the plan
 ////////////////////////////////////////////////////////////////////////////////
 
-      virtual void updatePlan () = 0;
+      virtual void updatePlan (std::vector<std::string> const& cleanedServers) = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief tries to update the target
@@ -142,7 +142,7 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       void setTaskPlanState (ArangoState::Lease&, TaskType, int,
-                             TaskPlanState const);
+                             TaskPlanState const, bool&);
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                          static protected methods

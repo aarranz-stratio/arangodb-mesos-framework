@@ -1464,7 +1464,7 @@ void Caretaker::setTaskInfo (ArangoState::Lease& lease,
 
 void Caretaker::setTaskPlanState (ArangoState::Lease& lease,
                                   TaskType taskType, int p,
-                                  TaskPlanState const taskPlanState) {
+                                  TaskPlanState const taskPlanState, bool& deleted) {
   Plan* plan = lease.state().mutable_plan();
   TaskPlan* tp = nullptr;
 
@@ -1491,8 +1491,11 @@ void Caretaker::setTaskPlanState (ArangoState::Lease& lease,
       return;
   }
 
-  // Do not overwrite a TASK_STATE_DEAD, because we do not want zombies:
-  if (tp->state() != TASK_STATE_DEAD) {
+  if (tp->state() == TASK_STATE_SHUTTING_DOWN && taskPlanState == TASK_STATE_KILLED) {
+    // mop: the task was just killed gracefully
+    deleted = true;
+  } else if (tp->state() != TASK_STATE_DEAD) {
+    // Do not overwrite a TASK_STATE_DEAD, because we do not want zombies:
     tp->set_state(taskPlanState);
     double now = chrono::duration_cast<chrono::seconds>(
       chrono::steady_clock::now().time_since_epoch()).count();

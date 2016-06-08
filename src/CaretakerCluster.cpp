@@ -199,7 +199,7 @@ static int countRunningInstances (TasksPlan const& plans) {
 /// {@inheritDoc}
 ////////////////////////////////////////////////////////////////////////////////
 
-void CaretakerCluster::updatePlan () {
+void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServers) {
   // This updates the Plan according to what is in the Target, this is
   // used to scale up coordinators or DBServers
 
@@ -215,20 +215,8 @@ void CaretakerCluster::updatePlan () {
   p = countPlannedInstances(plan->agents());
   if (t < p) {
     LOG(INFO)
-    << "INFO reducing number of agents from " << p << " to " << t;
-
-    TasksPlan original;
-    original.CopyFrom(*tasks);
-    
-    // FIXME: This does not work at all, we need to mark them as DEAD and
-    // kill them explicitly.
-    tasks->clear_entries();
-
-    for (int i = 0;  i < t;  ++i) {
-      TaskPlan entry = original.entries(i);
-
-      tasks->add_entries()->CopyFrom(entry);
-    }
+    << "INFO reducing number of agents is not supported";
+    targets->mutable_agents()->set_instances(p);
   }
   if (p < t) {
     LOG(INFO)
@@ -251,12 +239,32 @@ void CaretakerCluster::updatePlan () {
   t = (int) targets->dbservers().instances();
   tasks = plan->mutable_dbservers();
   p = countPlannedInstances(plan->dbservers());
+  
+  for (auto const& serverId: cleanedServers) {
+    for (int i=0;i<tasks->entries_size();i++) {
+      auto planDbServer = tasks->mutable_entries(i);
+      auto const& currentDbServer = current->dbservers().entries(i);
+      if (planDbServer->server_id() == serverId) {
+        if (currentDbServer.has_hostname() && currentDbServer.ports_size() > 0) {
+          string endpoint = "http://" + currentDbServer.hostname() + ":" 
+            + to_string(currentDbServer.ports(0));
+          
+          std::string body;
+          long httpCode = 0;
+          LOG(INFO) << "Shutting down " << serverId;
+          doHTTPDelete(endpoint + "/_admin/shutdown", body, httpCode);
+
+          if (httpCode >= 200 && httpCode < 300) {
+            planDbServer->set_state(TASK_STATE_SHUTTING_DOWN);
+          }
+        }
+      }
+    }
+  }
 
   if (t < p) {
     LOG(INFO)
-    << "INFO refusing to reduce number of db-servers from " << p << " to " << t
-    << " NOT YET IMPLEMENTED.";
-    targets->mutable_dbservers()->set_instances(p);
+    << "Waiting for ArangoDB to free DBServers. Number is " << p << " and should be " << t;
   }
 
   if (p < t) {
