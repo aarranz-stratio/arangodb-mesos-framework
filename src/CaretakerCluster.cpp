@@ -163,7 +163,7 @@ static int countPlannedInstances (TasksPlan const& plans) {
   for (int i = 0; i < plans.entries_size(); i++) {
     TaskPlan const& entry = plans.entries(i);
 
-    if (entry.state() != TASK_STATE_DEAD) {
+    if (entry.state() != TASK_STATE_DEAD && entry.state() != TASK_STATE_SHUTTING_DOWN) {
       plannedInstances += 1;
     }
   }
@@ -262,11 +262,6 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
     }
   }
 
-  if (t < p) {
-    LOG(INFO)
-    << "Waiting for ArangoDB to free DBServers. Number is " << p << " and should be " << t;
-  }
-
   if (p < t) {
     LOG(INFO)
     << "DEBUG creating " << (t - p) << " more db-servers in plan";
@@ -292,16 +287,28 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
   if (t < p) {
     LOG(INFO)
     << "INFO reducing the number of coordinators from " << p << " to " << t;
-    TasksPlan original;
-    original.CopyFrom(*tasks);
     
-    // FIXME: This does not work at all, we need to mark them as dead!
-    // and then explicitly kill them!
+    int toShutdown = p - t; 
+    int shuttingDown = 0;
+    for (int i=0;i<tasks->entries_size() && shuttingDown < toShutdown;i++) {
+      auto planCoordinator = tasks->mutable_entries(i);
+      auto const& currentCoordinator = current->coordinators().entries(i);
+      if (planCoordinator->has_server_id()) {
+        if (currentCoordinator.has_hostname() && currentCoordinator.ports_size() > 0) {
+          string endpoint = "http://" + currentCoordinator.hostname() + ":" 
+            + to_string(currentCoordinator.ports(0));
+          
+          std::string body;
+          long httpCode = 0;
+          LOG(INFO) << "Shutting down " << planCoordinator->server_id();
+          doHTTPDelete(endpoint + "/_admin/shutdown", body, httpCode);
 
-    tasks->clear_entries();
-    for (int i = 0;  i < t;  ++i) {
-      TaskPlan entry = original.entries(i);
-      tasks->add_entries()->CopyFrom(entry);
+          if (httpCode >= 200 && httpCode < 300) {
+            shuttingDown++;
+            planCoordinator->set_state(TASK_STATE_SHUTTING_DOWN);
+          }
+        }
+      }
     }
   }
 
