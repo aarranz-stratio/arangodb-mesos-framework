@@ -501,9 +501,10 @@ void ArangoManager::reconcileTasks () {
 /// @brief checks for timeout
 ////////////////////////////////////////////////////////////////////////////////
 
-static double const TryingToReserveTimeout = 30;  // seconds
-static double const TryingToPersistTimeout = 30;
-static double const TryingToStartTimeout   = 600; // docker pull might take
+static double const TryingToReserveTimeout  = 30;  // seconds
+static double const TryingToPersistTimeout  = 30;
+static double const TryingToStartTimeout    = 600; // docker pull might take
+static double const TryingToShutdownTimeout = 120; // forcefully kill task after wait
 
 /* mop: time mesos will allow ourselves to restart properly. this must be set
  * to a high value. When this timeout is exceeded mesos will declare the whole
@@ -983,6 +984,13 @@ bool ArangoManager::checkTimeouts () {
         case TASK_STATE_DEAD:
           // This task is no longer used. Do nothing.
           break;
+        case TASK_STATE_SHUTTING_DOWN:
+          timeStamp = tp->timestamp();
+          if (now - timeStamp > TryingToShutdownTimeout) {
+            LOG(INFO) << "Timeout " << TryingToShutdownTimeout << " shutting down task " << ic->task_info().name() << " reached";
+            Global::scheduler().killInstance(ic->task_info().task_id().value());
+          }
+          break;
       }
     }
   }
@@ -1091,6 +1099,8 @@ void ArangoManager::applyStatusUpdates () {
           
           TaskCurrent currentEntry = originalCurrent.entries(i);
           current->add_entries()->CopyFrom(currentEntry);
+        } else {
+          LOG(INFO) << "Deleting " << originalCurrent.entries(i).task_info().name();
         }
       }
     }

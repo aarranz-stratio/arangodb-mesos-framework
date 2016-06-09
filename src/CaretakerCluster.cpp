@@ -290,6 +290,9 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
     
     int toShutdown = p - t; 
     int shuttingDown = 0;
+
+    double now = chrono::duration_cast<chrono::seconds>(
+      chrono::steady_clock::now().time_since_epoch()).count();
     for (int i=0;i<tasks->entries_size() && shuttingDown < toShutdown;i++) {
       auto planCoordinator = tasks->mutable_entries(i);
       auto const& currentCoordinator = current->coordinators().entries(i);
@@ -306,6 +309,7 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
           if (httpCode >= 200 && httpCode < 300) {
             shuttingDown++;
             planCoordinator->set_state(TASK_STATE_SHUTTING_DOWN);
+            planCoordinator->set_timestamp(now);
           }
         }
       }
@@ -488,6 +492,23 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
     LOG(INFO) << "Cluster is complete.";
     current->set_cluster_complete(true);
     lease.changed();
+    
+    std::stringstream sin;
+    sin << "{\"numberOfCoordinators\":" << targets->coordinators().instances() << ",\"numberOfDBServers\":" << targets->dbservers().instances() << "}";
+
+    std::string body = sin.str();
+    std::string resultBody; 
+    long httpCode = 0;
+    std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
+    int res = arangodb::doHTTPPut(coordinatorURL +
+      "/_admin/cluster/numberOfServers",
+      body, resultBody, httpCode);
+
+    if (httpCode>=200 && httpCode<300) {
+      LOG(INFO) << "Successfully set the current target in the agency";
+    } else {
+      LOG(WARNING) << "Failed setting current target in the agency. Statuscode " << httpCode << ", Body: " << resultBody;
+    }
   }
 
   // Nobody wanted this offer, see whether there is a persistent disk
