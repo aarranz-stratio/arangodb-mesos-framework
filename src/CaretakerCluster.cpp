@@ -245,10 +245,8 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
       auto planDbServer = tasks->mutable_entries(i);
       auto const& currentDbServer = current->dbservers().entries(i);
       if (planDbServer->state() != TASK_STATE_SHUTTING_DOWN && planDbServer->server_id() == serverId) {
-        if (currentDbServer.has_hostname() && currentDbServer.ports_size() > 0) {
-          shutdownSecondary(lease, planDbServer);
-          shutdownServer(planDbServer, currentDbServer);
-        }
+        shutdownSecondary(lease, planDbServer);
+        shutdownServer(planDbServer, currentDbServer);
       }
     }
   }
@@ -288,8 +286,7 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
       auto planCoordinator = tasks->mutable_entries(i);
       auto const& currentCoordinator = current->coordinators().entries(i);
       if (planCoordinator->has_server_id()) {
-        if (currentCoordinator.has_hostname() && currentCoordinator.ports_size() > 0) {
-          shutdownServer(planCoordinator, currentCoordinator);
+        if (shutdownServer(planCoordinator, currentCoordinator)) {
           shuttingDown++;
         }
       }
@@ -358,21 +355,23 @@ void CaretakerCluster::shutdownSecondary(ArangoState::Lease& lease, TaskPlan* db
 }
 
 bool CaretakerCluster::shutdownServer(TaskPlan* taskPlan, TaskCurrent const& taskCurrent) {
-  string endpoint = "http://" + taskCurrent.hostname() + ":" 
-    + to_string(taskCurrent.ports(0));
+  if (taskCurrent.has_hostname() && taskCurrent.ports_size() > 0) {
+    string endpoint = "http://" + taskCurrent.hostname() + ":" 
+      + to_string(taskCurrent.ports(0));
 
-  std::string body;
-  long httpCode = 0;
-  LOG(INFO) << "Shutting down " << taskPlan->server_id();
+    std::string body;
+    long httpCode = 0;
+    LOG(INFO) << "Shutting down " << taskPlan->server_id();
 
-  double now = chrono::duration_cast<chrono::seconds>(
-      chrono::steady_clock::now().time_since_epoch()).count();
-  doHTTPDelete(endpoint + "/_admin/shutdown?remove_from_cluster=1", body, httpCode);
+    double now = chrono::duration_cast<chrono::seconds>(
+        chrono::steady_clock::now().time_since_epoch()).count();
+    doHTTPDelete(endpoint + "/_admin/shutdown?remove_from_cluster=1", body, httpCode);
 
-  if (httpCode >= 200 && httpCode < 300) {
-    taskPlan->set_state(TASK_STATE_SHUTTING_DOWN);
-    taskPlan->set_timestamp(now);
-    return true;
+    if (httpCode >= 200 && httpCode < 300) {
+      taskPlan->set_state(TASK_STATE_SHUTTING_DOWN);
+      taskPlan->set_timestamp(now);
+      return true;
+    }
   }
 
   return false;
