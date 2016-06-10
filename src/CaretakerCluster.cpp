@@ -252,10 +252,13 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
           std::string body;
           long httpCode = 0;
           LOG(INFO) << "Shutting down " << serverId;
+          double now = chrono::duration_cast<chrono::seconds>(
+            chrono::steady_clock::now().time_since_epoch()).count();
           doHTTPDelete(endpoint + "/_admin/shutdown", body, httpCode);
 
           if (httpCode >= 200 && httpCode < 300) {
             planDbServer->set_state(TASK_STATE_SHUTTING_DOWN);
+            planDbServer->set_timestamp(now);
           }
         }
       }

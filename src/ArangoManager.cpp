@@ -1076,10 +1076,13 @@ void ArangoManager::applyStatusUpdates () {
     std::make_tuple(secondaryPosToDelete, plan->mutable_secondaries(), current->mutable_secondaries()),
     std::make_tuple(coordinatorPosToDelete, plan->mutable_coordinators(), current->mutable_coordinators()),
   };
-
+  
+  bool changed = false;
   for (auto const& tup: toDo) {
     auto const& toDelete = std::get<0>(tup);
     if (toDelete.size() > 0) {
+      changed = true;
+
       TasksPlan* plan = std::get<1>(tup);
       TasksCurrent* current = std::get<2>(tup);
 
@@ -1104,6 +1107,10 @@ void ArangoManager::applyStatusUpdates () {
         }
       }
     }
+  }
+
+  if (changed) {
+    lease.changed();
   }
 
   _taskStatusUpdates.clear();
