@@ -77,7 +77,11 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       virtual void checkOffer (const mesos::Offer& offer) override;
+    
+    private:
+      void shutdownSecondary(ArangoState::Lease&, TaskPlan*);
 
+      bool shutdownServer(TaskPlan*, TaskCurrent const&);
   };
 }
 

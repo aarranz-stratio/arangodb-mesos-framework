@@ -244,22 +244,10 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
     for (int i=0;i<tasks->entries_size();i++) {
       auto planDbServer = tasks->mutable_entries(i);
       auto const& currentDbServer = current->dbservers().entries(i);
-      if (planDbServer->server_id() == serverId) {
+      if (planDbServer->state() != TASK_STATE_SHUTTING_DOWN && planDbServer->server_id() == serverId) {
         if (currentDbServer.has_hostname() && currentDbServer.ports_size() > 0) {
-          string endpoint = "http://" + currentDbServer.hostname() + ":" 
-            + to_string(currentDbServer.ports(0));
-          
-          std::string body;
-          long httpCode = 0;
-          LOG(INFO) << "Shutting down " << serverId;
-          double now = chrono::duration_cast<chrono::seconds>(
-            chrono::steady_clock::now().time_since_epoch()).count();
-          doHTTPDelete(endpoint + "/_admin/shutdown", body, httpCode);
-
-          if (httpCode >= 200 && httpCode < 300) {
-            planDbServer->set_state(TASK_STATE_SHUTTING_DOWN);
-            planDbServer->set_timestamp(now);
-          }
+          shutdownSecondary(lease, planDbServer);
+          shutdownServer(planDbServer, currentDbServer);
         }
       }
     }
@@ -296,24 +284,13 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
 
     double now = chrono::duration_cast<chrono::seconds>(
       chrono::steady_clock::now().time_since_epoch()).count();
-    for (int i=0;i<tasks->entries_size() && shuttingDown < toShutdown;i++) {
+    for (int i=tasks->entries_size() - 1;i>=0 && shuttingDown < toShutdown;i--) {
       auto planCoordinator = tasks->mutable_entries(i);
       auto const& currentCoordinator = current->coordinators().entries(i);
       if (planCoordinator->has_server_id()) {
         if (currentCoordinator.has_hostname() && currentCoordinator.ports_size() > 0) {
-          string endpoint = "http://" + currentCoordinator.hostname() + ":" 
-            + to_string(currentCoordinator.ports(0));
-          
-          std::string body;
-          long httpCode = 0;
-          LOG(INFO) << "Shutting down " << planCoordinator->server_id();
-          doHTTPDelete(endpoint + "/_admin/shutdown", body, httpCode);
-
-          if (httpCode >= 200 && httpCode < 300) {
-            shuttingDown++;
-            planCoordinator->set_state(TASK_STATE_SHUTTING_DOWN);
-            planCoordinator->set_timestamp(now);
-          }
+          shutdownServer(planCoordinator, currentCoordinator);
+          shuttingDown++;
         }
       }
     }
@@ -334,6 +311,71 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
       coordinators->add_entries();
     }
   }
+}
+
+void CaretakerCluster::shutdownSecondary(ArangoState::Lease& lease, TaskPlan* dbserver) {
+  if (!dbserver->has_sync_partner()) {
+    return;
+  }
+
+  Plan* plan = lease.state().mutable_plan();
+  
+  TasksPlan* secondaries = plan->mutable_secondaries();
+  TaskPlan* foundPlan = nullptr;
+  TaskCurrent foundCurrent;
+  for (int i=0;i<secondaries->entries_size();i++) {
+    TaskPlan* secondary = secondaries->mutable_entries(i);
+    if (secondary->state() != TASK_STATE_SHUTTING_DOWN && secondary->server_id() == dbserver->sync_partner()) {
+      foundPlan = secondary;
+      foundCurrent = lease.state().current().secondaries().entries(i);
+      break;
+    }
+  }
+
+  if (foundPlan != nullptr) {
+    std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
+    std::string body 
+      =   R"({"primary":")" + dbserver->server_id() + R"(",)"
+      + R"("oldSecondary":")" + foundPlan->server_id() + R"(",)"
+      + R"("newSecondary":"none"})";
+
+    std::string resultBody;
+    long httpCode = 0;
+    int res = 0;
+    res = arangodb::doHTTPPut(coordinatorURL +
+        "/_admin/cluster/replaceSecondary",
+        body, resultBody, httpCode);
+
+    if (res != 0 || httpCode != 200) {
+      LOG(INFO) << "Couldn't unregister secondary " << httpCode << ", " << resultBody;
+    } else {
+      LOG(INFO) << "Successfully reconfigured agency (secondary "
+        << "of primary " << dbserver->server_id() << " from "
+        << foundPlan->server_id() << " to new \"none\"";
+    }
+    shutdownServer(foundPlan, foundCurrent);
+  }
+}
+
+bool CaretakerCluster::shutdownServer(TaskPlan* taskPlan, TaskCurrent const& taskCurrent) {
+  string endpoint = "http://" + taskCurrent.hostname() + ":" 
+    + to_string(taskCurrent.ports(0));
+
+  std::string body;
+  long httpCode = 0;
+  LOG(INFO) << "Shutting down " << taskPlan->server_id();
+
+  double now = chrono::duration_cast<chrono::seconds>(
+      chrono::steady_clock::now().time_since_epoch()).count();
+  doHTTPDelete(endpoint + "/_admin/shutdown?remove_from_cluster=1", body, httpCode);
+
+  if (httpCode >= 200 && httpCode < 300) {
+    taskPlan->set_state(TASK_STATE_SHUTTING_DOWN);
+    taskPlan->set_timestamp(now);
+    return true;
+  }
+
+  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -617,7 +617,7 @@ bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, TaskPlan* pr
     + R"("oldSecondary":")" + previousSecondaryName + R"(",)"
     + R"("newSecondary":")" + secondaryName + R"("})";
 
-  res = arangodb::doHTTPPut(std::string(coordinatorURL) +
+  res = arangodb::doHTTPPut(coordinatorURL +
       "/_admin/cluster/replaceSecondary",
       body, resultBody, httpCode);
 
