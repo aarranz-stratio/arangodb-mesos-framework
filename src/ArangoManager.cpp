@@ -360,7 +360,7 @@ void ArangoManager::dispatch () {
     reconcileTasks();
 
     // apply received status updates
-    applyStatusUpdates();
+    applyStatusUpdates(cleanedServers);
 
     updateServerIds();
     
@@ -1001,7 +1001,7 @@ bool ArangoManager::checkTimeouts () {
 /// @brief applies status updates
 ////////////////////////////////////////////////////////////////////////////////
 
-void ArangoManager::applyStatusUpdates () {
+void ArangoManager::applyStatusUpdates (std::vector<std::string>& cleanedServers) {
   Caretaker& caretaker = Global::caretaker();
   
   lock_guard<mutex> lock(_lock);
@@ -1061,7 +1061,6 @@ void ArangoManager::applyStatusUpdates () {
                 break;
               }
           }
-          _task2position.erase(taskIdStr);
         }
         break;
       }
@@ -1080,11 +1079,11 @@ void ArangoManager::applyStatusUpdates () {
   bool changed = false;
   for (auto const& tup: toDo) {
     auto const& toDelete = std::get<0>(tup);
+    TasksCurrent* current = std::get<2>(tup);
     if (toDelete.size() > 0) {
       changed = true;
 
       TasksPlan* plan = std::get<1>(tup);
-      TasksCurrent* current = std::get<2>(tup);
 
       TasksPlan originalPlan;
       originalPlan.CopyFrom(*plan);
@@ -1095,14 +1094,22 @@ void ArangoManager::applyStatusUpdates () {
       current->clear_entries();
       for (int i=0;i<originalPlan.entries_size();i++) {
         auto got = toDelete.find(i);
+        TaskPlan planEntry = originalPlan.entries(i);
         // mop: re-add if not marked for deletion
         if (got == toDelete.end()) {
-          TaskPlan planEntry = originalPlan.entries(i);
           plan->add_entries()->CopyFrom(planEntry);
           
           TaskCurrent currentEntry = originalCurrent.entries(i);
           current->add_entries()->CopyFrom(currentEntry);
         } else {
+          if (planEntry.has_server_id()) {
+            for (auto it=cleanedServers.begin();it!=cleanedServers.end();++it) {
+              if (*it == planEntry.server_id()) {
+                cleanedServers.erase(it);
+                break;
+              }
+            }
+          }
           LOG(INFO) << "Deleting " << originalCurrent.entries(i).task_info().name();
         }
       }
@@ -1110,6 +1117,33 @@ void ArangoManager::applyStatusUpdates () {
   }
 
   if (changed) {
+    // mop: this is suboptimal but the framework will be rewritten soon :S
+    _task2position.clear();
+    fillKnownInstances(TaskType::AGENT, current->agents());
+    fillKnownInstances(TaskType::COORDINATOR, current->coordinators());
+    fillKnownInstances(TaskType::PRIMARY_DBSERVER, current->dbservers());
+    fillKnownInstances(TaskType::SECONDARY_DBSERVER, current->secondaries());
+    
+    std::vector<picojson::value> cleanedServersJsonValues;
+    std::transform(cleanedServers.begin(), cleanedServers.end(), std::back_inserter(cleanedServersJsonValues), [](std::string const& cleanedServer) {
+      return picojson::value(cleanedServer);
+    });
+    picojson::value cleanedServersJson = picojson::value(cleanedServersJsonValues);
+
+    std::string body = "{\"cleanedServers\": " + cleanedServersJson.serialize() + "}";
+    std::string resultBody; 
+    long httpCode = 0;
+    std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
+    int res = arangodb::doHTTPPut(coordinatorURL +
+      "/_admin/cluster/numberOfServers",
+      body, resultBody, httpCode);
+
+    if (httpCode>=200 && httpCode<300) {
+      LOG(INFO) << "Successfully reset cleaned servers";
+    } else {
+      LOG(WARNING) << "Failed resetting cleaned servers. Statuscode " << httpCode << ", Body: " << resultBody;
+    }
+    
     lease.changed();
   }
 
