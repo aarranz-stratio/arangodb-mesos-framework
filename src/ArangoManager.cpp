@@ -315,7 +315,7 @@ void ArangoManager::removeOffer (const mesos::OfferID& offerId) {
 
 void ArangoManager::taskStatusUpdate (const mesos::TaskStatus& status) {
   lock_guard<mutex> lock(_lock);
-
+  
   _taskStatusUpdates.push_back(status);
 }
 
@@ -590,7 +590,7 @@ void ArangoManager::reconcileTasks () {
   auto now = chrono::steady_clock::now();
 
   // first, we ask for implicit reconciliation periodically
-  if (_nextImplicitReconciliation >= now) {
+  if (_nextImplicitReconciliation <= now) {
     LOG(INFO) << "DEBUG implicit reconciliation";
 
     Global::scheduler().reconcileTasks();
@@ -599,7 +599,7 @@ void ArangoManager::reconcileTasks () {
 
   // check for unknown tasks
   for (auto& task : _reconciliationTasks) {
-    if (task.second._nextReconcile > now) {
+    if (task.second._nextReconcile < now) {
       LOG(INFO) << "DEBUG explicit reconciliation for " << task.first;
 
       Global::scheduler().reconcileTask(task.second._taskId,

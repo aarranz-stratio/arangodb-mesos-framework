@@ -359,6 +359,9 @@ void ArangoScheduler::registered (mesos::SchedulerDriver* driver,
   checkVersion(master.hostname(), master.port());
 
   Global::setMasterUrl("http://" + master.hostname() + ":" + to_string(master.port()) + "/");
+  
+  vector<mesos::TaskStatus> status;
+  driver->reconcileTasks(status);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
