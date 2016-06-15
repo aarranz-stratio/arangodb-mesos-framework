@@ -533,10 +533,6 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   if (plannedInstances > 0 && 
       runningInstances == plannedInstances &&
       ! current->cluster_complete()) {
-    LOG(INFO) << "Cluster is complete.";
-    current->set_cluster_complete(true);
-    lease.changed();
-    
     std::stringstream sin;
     sin << "{\"numberOfCoordinators\":" << targets->coordinators().instances() << ",\"numberOfDBServers\":" << targets->dbservers().instances() << "}";
 
@@ -550,6 +546,9 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
 
     if (httpCode>=200 && httpCode<300) {
       LOG(INFO) << "Successfully set the current target in the agency";
+      LOG(INFO) << "Cluster is complete.";
+      current->set_cluster_complete(true);
+      lease.changed();
     } else {
       LOG(WARNING) << "Failed setting current target in the agency. Statuscode " << httpCode << ", Body: " << resultBody;
     }
