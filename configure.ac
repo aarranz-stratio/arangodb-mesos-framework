@@ -147,6 +147,7 @@ SAVE_CPPFLAGS="${CPPFLAGS}"
 CPPFLAGS="${CPPFLAGS} ${MESOS_CPPFLAGS}"
 
 AC_CHECK_HEADERS(mesos/resources.hpp, [MESOS=yes], [MESOS=no])
+dnl AC_CHECK_HEADERS(mesos/mesos.hpp, [MESOS=yes], [MESOS=no])
 
 AC_MSG_CHECKING([MESOS])
 
