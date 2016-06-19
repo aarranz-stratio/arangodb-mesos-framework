@@ -366,7 +366,7 @@ static mesos::Resources suitablePersistent (string const& name,
       continue;
     }
 
-    containerPath = "volumes/roles/" + Global::role() + "/" + persistenceId;
+    containerPath = "myPersistentVolume";
 
     toUse += res;
     found = true;
@@ -639,7 +639,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   if (disk.has_disk() && disk.disk().has_volume()) {
     mesos::Volume* volume = container.add_volumes();
     volume->set_container_path("/var/lib/arangodb3");
-    volume->set_host_path(info.container_path());
+    volume->set_host_path("myPersistentVolume");
     volume->set_mode(mesos::Volume::RW);
   }
 
