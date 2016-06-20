@@ -696,7 +696,7 @@ static bool requestPersistent (string const& upper,
   diskInfo.mutable_persistence()->set_id(persistentId);
 
   mesos::Volume volume;
-  volume.set_container_path("dataxyz");
+  volume.set_container_path("myPersistentVolume");
   volume.set_mode(mesos::Volume::RW);
 
   diskInfo.mutable_volume()->CopyFrom(volume);
