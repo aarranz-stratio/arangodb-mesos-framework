@@ -237,6 +237,8 @@ defaults
 
     backend arangodb
         # i have no idea how to really detect the adminrouter :(
+        stick-table type ip size 200k expire 30m
+        stick on src
         acl is_adminrouter hdr_reg(x-forwarded-for) .*        
         option forwardfor
         reqadd X-Script-Name:\ /service/)" << Global::frameworkName() << " if is_adminrouter\n" << _coordinatorHAProxyList;
