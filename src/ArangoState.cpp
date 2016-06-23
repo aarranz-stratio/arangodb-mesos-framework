@@ -240,7 +240,7 @@ defaults
         cookie SERVERID insert indirect nocache
         acl is_adminrouter hdr_reg(x-forwarded-for) .*        
         option forwardfor
-        reqadd X-Script-Name:\ /service/)" << Global::frameworkName() << " if is_adminrouter\n" << _coordinatorHAProxyList;
+        reqadd X-Script-Name:\ /service/)" << Global::frameworkName() << " if is_adminrouter\n" << "        cookie SERVERID insert indirect nocache\n" << _coordinatorHAProxyList;
 
   if (outfile.fail()) {
     LOG(ERROR) << "Couldn't write to " << _proxyConfFilename;
@@ -335,7 +335,7 @@ bool ArangoState::save () {
       continue;
     }
     std::string serverName = std::to_string(i);
-    backends += "        server coordinator" + std::to_string(i) + " " + coordinator.hostname() + ":" + std::to_string(coordinator.ports(0)) + '\n';
+    backends += "        server coordinator" + std::to_string(i) + " " + coordinator.hostname() + ":" + std::to_string(coordinator.ports(0)) + " check cookie coordinator" + std::to_string(i) + '\n';
     i++;
   }
 
