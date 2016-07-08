@@ -335,9 +335,13 @@ void ArangoScheduler::stop () {
 /// @brief reconciles all tasks
 ////////////////////////////////////////////////////////////////////////////////
 
-void ArangoScheduler::reconcileTasks () {
+bool ArangoScheduler::reconcileTasks () {
+  if (_driver == nullptr) {
+    return false;
+  }
   vector<mesos::TaskStatus> status;
   _driver->reconcileTasks(status);
+  return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

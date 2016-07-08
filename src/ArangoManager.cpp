@@ -474,7 +474,9 @@ void ArangoManager::reconcileTasks () {
   if (_nextImplicitReconciliation <= now) {
     LOG(INFO) << "DEBUG implicit reconciliation";
 
-    Global::scheduler().reconcileTasks();
+    if (!Global::scheduler().reconcileTasks()) {
+      return;
+    }
     _nextImplicitReconciliation = now + _implicitReconciliationIntervall;
   }
 
