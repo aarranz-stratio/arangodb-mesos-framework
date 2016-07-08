@@ -29,6 +29,7 @@
 #define ARANGO_STATE_H 1
 
 #include "arangodb.pb.h"
+#include "Global.h"
 
 #include <mutex>
 #include <csignal>
@@ -113,12 +114,11 @@ namespace arangodb {
             if (_moved) {
               return;
             }
-            bool mustReloadHAProxy;
             if (_changed) {
               // mop: recreate config
               if (_parent->save()) {
                 _parent->createReverseProxyConfig();
-                kill(_parent->_proxyPid, SIGINT);
+                Global::startReverseProxy();
               }
             }
             std::lock_guard<std::mutex> lock(_parent->_lock);
@@ -185,7 +185,13 @@ namespace arangodb {
 /// @brief set proxy pid
 ////////////////////////////////////////////////////////////////////////////////
 
-      bool setProxyPid(pid_t pid) { _proxyPid = pid; }
+      void setProxyPid(pid_t pid);
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief set proxy pid
+////////////////////////////////////////////////////////////////////////////////
+
+      pid_t getProxyPid();
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                   private methods

@@ -160,31 +160,22 @@ bool str2bool(const string in) {
   }
 }
 
-bool startReverseProxy() {
-  char const*  confFile = Global::state().getProxyConfFilename();
-  pid_t pid = fork();
-  if (pid == -1) {
-    return false;
-  } else if (pid == 0) {
-    int ret = execl("/usr/sbin/haproxy", "haproxy", "-p", "/run/haproxy.pid", "-f", confFile, (char*) 0);
-    exit(0);
-  } else {
-    Global::state().setProxyPid(pid);
-    return true;
-  }
-}
-
 /* first, here is the code for the signal handler */
 void catch_child(int sig_num)
 {
-    /* when we get here, we know there's a zombie child waiting */
-    int child_status;
+  pid_t pid;
+  /* when we get here, we know there's a zombie child waiting */
+  int child_status;
 
-    wait(&child_status);
-    LOG(INFO) << "haproxy exited with status " << child_status;
-    
+  pid = waitpid(-1, &child_status, 0);
+  if (pid == Global::state().getProxyPid()) {
+    Global::state().setProxyPid(0);
+    LOG(INFO) << "main(" << pid << ") haproxy exited with status " << child_status;
     // mop: always restart
-    startReverseProxy();
+    Global::startReverseProxy();
+  } else {
+    LOG(INFO) << "old haproxy(" << pid << ") exited with status " << child_status;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -498,7 +489,7 @@ int main (int argc, char** argv) {
 
   signal(SIGCHLD, catch_child);
   Global::setState(&state);
-  startReverseProxy();
+  Global::startReverseProxy();
 
   // ...........................................................................
   // framework

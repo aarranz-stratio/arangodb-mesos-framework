@@ -66,7 +66,8 @@ ArangoState::ArangoState (const string& name, const string& zk)
     _storage(nullptr),
     _stateStore(nullptr),
     _isLeased(false),
-    _coordinatorHAProxyList("")
+    _coordinatorHAProxyList(""),
+    _proxyPid(0)
 {
   const char* tmpDir = std::getenv("TMPDIR");
   if (tmpDir == nullptr || strlen(tmpDir) == 0) {
@@ -345,6 +346,16 @@ bool ArangoState::save () {
 
   _coordinatorHAProxyList = backends;
   return true;
+}
+
+void ArangoState::setProxyPid(pid_t pid) {
+  lock_guard<mutex> lock(_lock);
+  _proxyPid = pid;
+}
+
+pid_t ArangoState::getProxyPid() {
+  lock_guard<mutex> lock(_lock);
+  return _proxyPid;
 }
 
 // -----------------------------------------------------------------------------

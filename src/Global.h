@@ -376,6 +376,8 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       static void setWebuiPort(int);
+
+      static bool startReverseProxy();
   };
 }
 

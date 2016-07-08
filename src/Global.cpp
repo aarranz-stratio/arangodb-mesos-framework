@@ -636,6 +636,27 @@ void Global::setWebuiPort(int port) {
   ARANGODB_WEBUI_PORT = port;
 }
 
+bool Global::startReverseProxy() {
+  char const*  confFile = Global::state().getProxyConfFilename();
+  int currentPid = Global::state().getProxyPid();
+  pid_t pid = fork();
+  if (pid == -1) {
+    return false;
+  } else if (pid == 0) {
+    int ret;
+    if (currentPid > 0) {
+      std::string pidString = std::to_string(currentPid);
+      ret = execl("/usr/sbin/haproxy", "haproxy", "-f", confFile, "-sf", pidString.c_str(), (char*) 0);
+    } else {
+      ret = execl("/usr/sbin/haproxy", "haproxy", "-f", confFile, (char*) 0);
+    }
+    exit(0);
+  } else {
+    Global::state().setProxyPid(pid);
+    return true;
+  }
+}
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                                       END-OF-FILE
 // -----------------------------------------------------------------------------
