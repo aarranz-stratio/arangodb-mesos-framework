@@ -63,7 +63,6 @@ using namespace arangodb;
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief update from env
 ////////////////////////////////////////////////////////////////////////////////
-
 static void updateFromEnv (const string& name, string& var) {
   Option<string> env = os::getenv(name);
 
@@ -324,9 +323,16 @@ int main (int argc, char** argv) {
   string arangoDBImage;
   flags.add(&arangoDBImage,
             "arangodb_image",
-            "docker image to use on the agent",
+            "ArangoDB docker image to use",
             "");
   
+  string arangoDBForcePullImage;
+  flags.add(&arangoDBForcePullImage,
+            "arangodb_force_pull_image",
+            "force pulling the ArangoDB image",
+            "true");
+
+
   string arangoDBPrivilegedImage;
   flags.add(&arangoDBPrivilegedImage,
             "arangodb_privileged_image",
@@ -394,6 +400,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_SECONDARIES_WITH_DBSERVERS", secondariesWithDBservers);
   updateFromEnv("ARANGODB_COORDINATORS_WITH_DBSERVERS", coordinatorsWithDBservers);
   updateFromEnv("ARANGODB_IMAGE", arangoDBImage);
+  updateFromEnv("ARANGODB_FORCE_PULL_IMAGE", arangoDBForcePullImage);
   updateFromEnv("ARANGODB_PRIVILEGED_IMAGE", arangoDBPrivilegedImage);
 
   updateFromEnv("MESOS_MASTER", master);
@@ -441,6 +448,9 @@ int main (int argc, char** argv) {
   
   Global::setSecondarySameServer(str2bool(secondarySameServer));
   LOG(INFO) << "SecondarySameServer: " << Global::secondarySameServer();
+  
+  Global::setArangoDBForcePullImage(str2bool(arangoDBForcePullImage));
+  LOG(INFO) << "ArangoDBForcePullImage: " << Global::arangoDBForcePullImage();
 
   Global::setArangoDBPrivilegedImage(str2bool(arangoDBPrivilegedImage));
   LOG(INFO) << "ArangoDBPrivilegedImage: " << Global::arangoDBPrivilegedImage();
