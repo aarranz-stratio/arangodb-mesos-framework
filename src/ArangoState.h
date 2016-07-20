@@ -31,6 +31,7 @@
 #include "arangodb.pb.h"
 #include "Global.h"
 
+#include <atomic>
 #include <mutex>
 #include <csignal>
 #include <thread>
@@ -39,6 +40,9 @@
 #include <state/protobuf.hpp>
 
 namespace arangodb {
+  const int RESTART_KEEP_RUNNING = 0;
+  const int RESTART_FRESH_START = 1;
+  const int RESTART_RESTART = 2;
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                       ArangoState
@@ -118,7 +122,7 @@ namespace arangodb {
               // mop: recreate config
               if (_parent->save()) {
                 _parent->createReverseProxyConfig();
-                Global::startReverseProxy();
+                _parent->setRestartProxy(RESTART_RESTART);
               }
             }
             std::lock_guard<std::mutex> lock(_parent->_lock);
@@ -192,6 +196,10 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       pid_t getProxyPid();
+
+      void setRestartProxy(int restartProxy);
+      
+      int getRestartProxy();
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                   private methods
@@ -268,6 +276,8 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       pid_t _proxyPid;
+
+      std::atomic<int> _restartProxy;
   };
 }
 

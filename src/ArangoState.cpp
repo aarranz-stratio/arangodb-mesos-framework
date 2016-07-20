@@ -67,7 +67,8 @@ ArangoState::ArangoState (const string& name, const string& zk)
     _stateStore(nullptr),
     _isLeased(false),
     _coordinatorHAProxyList(""),
-    _proxyPid(0)
+    _proxyPid(0),
+    _restartProxy(RESTART_KEEP_RUNNING)
 {
   const char* tmpDir = std::getenv("TMPDIR");
   if (tmpDir == nullptr || strlen(tmpDir) == 0) {
@@ -348,6 +349,14 @@ bool ArangoState::save () {
   return true;
 }
 
+void ArangoState::setRestartProxy(int restartOption) {
+  _restartProxy.store(restartOption);
+}
+
+int ArangoState::getRestartProxy() {
+  return _restartProxy.load();
+}
+
 void ArangoState::setProxyPid(pid_t pid) {
   lock_guard<mutex> lock(_lock);
   _proxyPid = pid;
@@ -357,6 +366,8 @@ pid_t ArangoState::getProxyPid() {
   lock_guard<mutex> lock(_lock);
   return _proxyPid;
 }
+
+
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                       END-OF-FILE

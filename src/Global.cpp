@@ -657,6 +657,7 @@ void Global::setWebuiPort(int port) {
 bool Global::startReverseProxy() {
   char const*  confFile = Global::state().getProxyConfFilename();
   int currentPid = Global::state().getProxyPid();
+  Global::state().setRestartProxy(RESTART_KEEP_RUNNING);
   pid_t pid = fork();
   if (pid == -1) {
     return false;

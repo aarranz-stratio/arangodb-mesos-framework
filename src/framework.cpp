@@ -167,13 +167,10 @@ void catch_child(int sig_num)
   int child_status;
 
   pid = waitpid(-1, &child_status, 0);
-  if (pid == Global::state().getProxyPid()) {
-    Global::state().setProxyPid(0);
-    LOG(INFO) << "main(" << pid << ") haproxy exited with status " << child_status;
-    // mop: always restart
-    Global::startReverseProxy();
-  } else {
-    LOG(INFO) << "old haproxy(" << pid << ") exited with status " << child_status;
+  LOG(INFO) << "old haproxy(" << pid << ") exited with status " << child_status;
+  if (child_status != 0) {
+    LOG(INFO) << "Scheduling restart";
+    Global::state().setRestartProxy(RESTART_FRESH_START);
   }
 }
 
@@ -497,9 +494,13 @@ int main (int argc, char** argv) {
     exit(EXIT_FAILURE);
   }
 
-  signal(SIGCHLD, catch_child);
+  struct sigaction new_action;
+  new_action.sa_handler = catch_child;
+  sigemptyset (&new_action.sa_mask);
+  new_action.sa_flags = 0;
+  sigaction(SIGCHLD, &new_action, nullptr);
   Global::setState(&state);
-  Global::startReverseProxy();
+  state.setRestartProxy(RESTART_FRESH_START);
 
   // ...........................................................................
   // framework

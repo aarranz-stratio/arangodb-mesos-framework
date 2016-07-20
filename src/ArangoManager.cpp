@@ -368,6 +368,20 @@ void ArangoManager::dispatch () {
     
     // check all outstanding offers
     checkOutstandOffers();
+    
+    int restart = Global::state().getRestartProxy();
+
+    switch(restart) {
+      case RESTART_KEEP_RUNNING:
+        break;
+      case RESTART_FRESH_START:
+        Global::state().setProxyPid(0);
+        Global::startReverseProxy();
+        break;
+      case RESTART_RESTART:
+        Global::startReverseProxy();
+        break;
+    }
 
     // apply any timeouts
     bool sleep = checkTimeouts();
