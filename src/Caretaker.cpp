@@ -449,6 +449,33 @@ static string getIPAddress (string hostname) {
   return result;
 }
 
+static bool allEndpointsAvailable(google::protobuf::RepeatedPtrField<arangodb::TaskCurrent> const& tasks) {
+  for (const auto &task : tasks) {
+    if (task.ports().size() == 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+static std::string getEndpointsList(google::protobuf::RepeatedPtrField<arangodb::TaskCurrent> const& tasks) {
+  std::string endpointsList;
+  bool isFirst = true;
+  for (const auto &task: tasks) {
+    if (task.ports().size() == 0) {
+      continue;
+    }
+
+    if (isFirst) {
+      isFirst = false;
+    } else {
+      endpointsList += " ";
+    }
+    endpointsList += "tcp://" + getIPAddress(task.hostname()) + ":" + to_string(task.ports(0));
+  }
+  return endpointsList;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief starts a new arangodb task
 ////////////////////////////////////////////////////////////////////////////////
@@ -529,27 +556,9 @@ static void startArangoDBTask (ArangoState::Lease& lease,
       if (state.current().agents().entries().size() == state.plan().agents().entries().size()) {
         auto endpoints = environment.add_variables();
         endpoints->set_name("AGENCY_ENDPOINTS");
+        endpoints->set_value(getEndpointsList(state.current().agents().entries()));
 
-        std::string endpointsList;
-
-        auto& agentList = state.current().agents().entries();
-        bool isFirst = true;
-        bool doNotify = true;
-        for (const auto &it : agentList) {
-          if (it.ports().size() == 0) {
-            doNotify = false;
-            continue;
-          }
-          if (!isFirst) {
-            endpointsList += " ";
-          } else {
-            isFirst = false;
-          }
-
-          endpointsList += "tcp://" + getIPAddress(it.hostname()) + ":" + to_string(it.ports(0));
-        }
-        endpoints->set_value(endpointsList);
-        
+        bool doNotify = allEndpointsAvailable(state.current().agents().entries());
         auto notify = environment.add_variables();
         notify->set_name("AGENCY_NOTIFY");
         notify->set_value(std::to_string(doNotify));
@@ -570,10 +579,10 @@ static void startArangoDBTask (ArangoState::Lease& lease,
         auto agents = state.current().agents();
         string hostname = agents.entries(0).hostname();
         uint32_t port = agents.entries(0).ports(0);
-      
-        auto agencyEndpoint = environment.add_variables();
-        agencyEndpoint->set_name("AGENCY_ENDPOINT");
-        agencyEndpoint->set_value("tcp://" + getIPAddress(hostname) + ":" + to_string(port));
+        
+        auto agencyEndpoints = environment.add_variables();
+        agencyEndpoints->set_name("AGENCY_ENDPOINTS");
+        agencyEndpoints->set_value(getEndpointsList(state.current().agents().entries()));
       }
       break;
     }
