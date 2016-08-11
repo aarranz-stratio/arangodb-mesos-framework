@@ -564,7 +564,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
         res.has_disk() &&
         res.disk().has_persistence() &&
         res.has_reservation() &&
-        res.reservation().principal() == Global::principal().principal()) {
+        res.reservation().principal() == Global::principal()) {
       toDestroy += res;
     }
   }
@@ -584,7 +584,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   for (auto& res : offered) {
     if (res.role() == Global::role() &&
         res.has_reservation() &&
-        res.reservation().principal() == Global::principal().principal()) {
+        res.reservation().principal() == Global::principal()) {
       toUnreserve += res;
     }
   }

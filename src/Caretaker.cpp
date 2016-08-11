@@ -169,7 +169,7 @@ static void findFreePortsFromRange (mesos::Resources& result,
       else {
         onePort.set_role(Global::role());
         if (isDynRes[rangeChoice]) {
-          onePort.mutable_reservation()->CopyFrom(Global::principal());
+          onePort.mutable_reservation()->CopyFrom(Global::createReservation());
         }
       }
       result += onePort;
@@ -187,8 +187,6 @@ static mesos::Resources findFreePorts (const mesos::Offer& offer, size_t len) {
   vector<mesos::Value::Range> reserved;
   vector<bool>                isDynamicallyReserved;
 
-  auto const& principal = Global::principal();
-
   for (int i = 0; i < offer.resources_size(); ++i) {
     const auto& resource = offer.resources(i);
 
@@ -202,7 +200,7 @@ static mesos::Resources findFreePorts (const mesos::Offer& offer, size_t len) {
         // dynamically with matching principal
         if (mesos::Resources::isReserved(resource, Option<std::string>())) {
           if (mesos::Resources::isDynamicallyReserved(resource)) {
-            if (resource.reservation().principal() == principal.principal()) {
+            if (resource.reservation().principal() == Global::principal()) {
               reserved.push_back(range);
               isDynamicallyReserved.push_back(true);
             }
@@ -287,11 +285,11 @@ static mesos::Resources resourcesForRequestReservation (
   mesos::Resources roleSpecificPart 
       = arangodb::intersectResources(offered, minimum);
   mesos::Resources defaultPart = minimum - roleSpecificPart;
-  defaultPart = defaultPart.flatten(Global::role(), Global::principal());
+  defaultPart = defaultPart.flatten(Global::role(), Global::createReservation());
 
   // Now add a port reservation:
   mesos::Resources ports = findFreePorts(offer, 1);
-  ports = ports.flatten(Global::role(), Global::principal());
+  ports = ports.flatten(Global::role(), Global::createReservation());
   defaultPart += ports;
 
   // TODO(fc) check if we could use additional resources
@@ -703,6 +701,7 @@ static bool requestPersistent (string const& upper,
   mesos::Resource disk = *resources.begin();
   mesos::Resource::DiskInfo diskInfo;
   diskInfo.mutable_persistence()->set_id(persistentId);
+  diskInfo.mutable_persistence()->set_principal(Global::principal());
 
   mesos::Volume volume;
   volume.set_container_path("myPersistentVolume");
