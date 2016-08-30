@@ -236,9 +236,7 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
   }
   
   // need at least one DB server
-  t = (int) targets->dbservers().instances();
   tasks = plan->mutable_dbservers();
-  p = countPlannedInstances(plan->dbservers());
   
   for (auto const& serverId: cleanedServers) {
     for (int i=0;i<tasks->entries_size();i++) {
@@ -250,6 +248,8 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
       }
     }
   }
+  t = (int) targets->dbservers().instances();
+  p = countPlannedInstances(plan->dbservers());
 
   if (p < t) {
     LOG(INFO)

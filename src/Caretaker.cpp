@@ -1105,7 +1105,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
   for (int i = 0; i < p; ++i) {
     TaskPlan* task = tasks->mutable_entries(i);
     TaskCurrent* taskCur = current->mutable_entries(i);
-
+    
     if (task->state() == TASK_STATE_NEW) {
       required.push_back(i);
       continue;
@@ -1155,30 +1155,9 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
           }
 
         case TASK_STATE_RUNNING:
-          // This is a corner case: There is a resource offer for "our" slave
-          // we are running, so presumably we are not interested. However,
-          // there is a chance (is there?) that we are actually dead but have
-          // not yet received this information. In that case, the offer might
-          // contain "our" resources and thus the resources must not fall
-          // through and be destroyed. Therefore, we check whether our
-          // reserved disk is in there and if so, we decline the offer
-          // and pretend that we have used it.
-          if (! doDecline && taskType != TaskType::COORDINATOR) {
-            std::string containerPath;
-            mesos::Resources resources = suitablePersistent(
-                upper, offer, target, task->persistence_id(), containerPath);
-            if (! resources.empty()) {
-              // OK, it seems that our resources have been offered to us,
-              // this only leaves the conclusion that we are in fact dead.
-              // Decline the offer for now, it will come back later.
-              // We have to pretend having used the offer, though, otherwise
-              // any persistent volumes would get destroyed!
-              LOG(INFO) << "Have been offered our own resources, conclusion: "
-                        << "WE ARE IN FACT DEAD. Declining offer for now.";
-              return notInterested(offer, true);
-            }
-          }
-
+          // mop: there was some special logic here that tried to cover an unknown edge case
+          // removed as it completely spammed the logfile and makes one look into a completely
+          // wrong direction
           return notInterested(offer, doDecline);
         default:
           return notInterested(offer, doDecline);

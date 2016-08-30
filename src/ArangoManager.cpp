@@ -872,9 +872,29 @@ bool ArangoManager::checkTimeouts () {
               // make old primary the secondary of the old secondary,
               // set state of old primary to TASK_STATE_FAILED_OVER
               if (! tp->has_sync_partner()) {
-                // We cannot do much here, so let's keep waiting...
-                LOG(INFO) << "Task is a dbserver without a replica, simply "
-                          << "reset the timestamp and wait forever.";
+                if (tp->state() == TASK_STATE_KILLED) {
+                  // We cannot do much here, so let's keep waiting...
+                  LOG(INFO) << "Task is a dbserver without a replica."
+                    << " Will start a new primary and wait for the supervision"
+                    << " to take action and either declare the old server dead"
+                    << " or wait for user action";
+                  
+                  TaskPlan* tpnew = tasksPlan->add_entries();
+                  std::string name = "DBServer" 
+                     + std::to_string(tasksPlan->entries_size());
+                  tpnew->set_name(name);
+                  tpnew->set_state(TASK_STATE_NEW);
+                  tpnew->set_timestamp(now);
+
+                  // mop: by convention: keep size in sync 
+                  tasksCurr->add_entries();
+                  tp->set_state(TASK_STATE_FAILED_OVER);
+
+                  LOG(INFO) << "Task " << tp->name() << " is now TASK_STATE_FAILED_OVER(" << tp->state() << ")";
+                } else {
+                  LOG(INFO) << "Still waiting for dbserver " << tp->name();
+                }
+                
                 tp->set_timestamp(now);
                 l.changed();
               }
