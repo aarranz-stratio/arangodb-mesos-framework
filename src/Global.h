@@ -390,6 +390,10 @@ namespace arangodb {
       static void setWebuiPort(int);
 
       static bool startReverseProxy();
+
+      static void setArangoDBEnterpriseKey(std::string const& arangoDBEnterpriseKey);
+
+      static std::string arangoDBEnterpriseKey();
   };
 }
 

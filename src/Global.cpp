@@ -197,6 +197,8 @@ static int ARANGODB_WEBUI_PORT = 8180;
 
 static int ARANGODB_FRAMEWORK_PORT = 8181;
 
+static std::string ARANGODB_ENTERPRISE_KEY = "";
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                             static public methods
 // -----------------------------------------------------------------------------
@@ -678,6 +680,14 @@ bool Global::startReverseProxy() {
     Global::state().setProxyPid(pid);
     return true;
   }
+}
+
+void Global::setArangoDBEnterpriseKey(std::string const& arangoDBEnterpriseKey) {
+  ARANGODB_ENTERPRISE_KEY = arangoDBEnterpriseKey;
+}
+
+std::string Global::arangoDBEnterpriseKey() {
+  return ARANGODB_ENTERPRISE_KEY;
 }
 
 // -----------------------------------------------------------------------------

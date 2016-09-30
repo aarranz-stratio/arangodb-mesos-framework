@@ -33,6 +33,7 @@
 #include "ArangoScheduler.h"
 #include "ArangoManager.h"
 
+#include <algorithm>
 #include <unordered_set>
 #include <random>
 
@@ -474,6 +475,26 @@ static std::string getEndpointsList(google::protobuf::RepeatedPtrField<arangodb:
   return endpointsList;
 }
 
+static std::string arangoDBImageName() {
+  std::string imageName = Global::arangoDBImage();
+  std::string enterpriseKey = Global::arangoDBEnterpriseKey();
+  if (enterpriseKey.empty()) {
+    return imageName;
+  }
+  imageName += "-" + enterpriseKey;
+  // mop: docker image names may reference image names or may also
+  // contain a registry...
+  size_t n = std::count(imageName.begin(), imageName.end(), '/');
+  // mop: it has a registry...don't do anything...customer has to implement
+  // his own enterprise registry logic
+  if (n > 1) {
+    return imageName;
+  } else {
+    imageName = "registry.arangodb.com/" + imageName;
+  }
+  return imageName;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief starts a new arangodb task
 ////////////////////////////////////////////////////////////////////////////////
@@ -606,7 +627,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   // docker info
   mesos::ContainerInfo::DockerInfo* docker = container.mutable_docker();
-  docker->set_image(Global::arangoDBImage());
+  docker->set_image(arangoDBImageName());
   docker->set_privileged(Global::arangoDBPrivilegedImage());
   docker->set_network(mesos::ContainerInfo::DockerInfo::BRIDGE);
   docker->set_force_pull_image(Global::arangoDBForcePullImage());

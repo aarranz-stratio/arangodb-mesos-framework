@@ -144,6 +144,8 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "  MESOS_AUTHENTICATE   enable authentication\n"
        << "  ARANGODB_SECRET      secret for authentication\n"
        << "\n"
+       << "  ARANGODB_ENTERPRISE_KEY\n"
+       << "                       overrides '--arangodb_enterprise_key'\n"
        << "  ARANGODB_ZK          overrides '--zk'\n"
        << "\n";
 }
@@ -341,6 +343,12 @@ int main (int argc, char** argv) {
             "master",
             "ip:port of master to connect",
             "");
+  
+  string arangoDBEnterpriseKey;
+  flags.add(&arangoDBEnterpriseKey,
+            "arangodb_enterprise_key",
+            "enterprise key for arangodb",
+            "");
 
   string zk;
   flags.add(&zk,
@@ -399,6 +407,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_IMAGE", arangoDBImage);
   updateFromEnv("ARANGODB_FORCE_PULL_IMAGE", arangoDBForcePullImage);
   updateFromEnv("ARANGODB_PRIVILEGED_IMAGE", arangoDBPrivilegedImage);
+  updateFromEnv("ARANGODB_ENTERPRISE_KEY", arangoDBEnterpriseKey);
 
   updateFromEnv("MESOS_MASTER", master);
   updateFromEnv("ARANGODB_ZK", zk);
@@ -471,6 +480,7 @@ int main (int argc, char** argv) {
 
   Global::setFrameworkPort(frameworkPort);
   Global::setWebuiPort(webuiPort);
+  Global::setArangoDBEnterpriseKey(arangoDBEnterpriseKey);
 
   // ...........................................................................
   // state

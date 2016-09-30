@@ -105,13 +105,6 @@ namespace arangodb {
 
       virtual void updateTarget ();
 
-////////////////////////////////////////////////////////////////////////////////
-/// @brief starts a new arangodb task
-////////////////////////////////////////////////////////////////////////////////
-
-      void startArangoDBTask (TaskType taskType, int pos,
-                              TaskCurrent const& info);
-
 // -----------------------------------------------------------------------------
 // --SECTION--                                                    public methods
 // -----------------------------------------------------------------------------
@@ -169,6 +162,7 @@ namespace arangodb {
                               bool doDecline,
                               TaskType taskType);
 
+    protected:
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief set a default minimum resource set for a Targetentry
 ////////////////////////////////////////////////////////////////////////////////
