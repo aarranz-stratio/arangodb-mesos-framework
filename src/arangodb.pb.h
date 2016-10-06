@@ -35,6 +35,9 @@ void  protobuf_AddDesc_arangodb_2eproto();
 void protobuf_AssignDesc_arangodb_2eproto();
 void protobuf_ShutdownFile_arangodb_2eproto();
 
+class Restart;
+class RestartBucket;
+class RestartTaskInfo;
 class Target;
 class Targets;
 class TaskPlan;
@@ -73,6 +76,283 @@ inline bool TaskPlanState_Parse(
     TaskPlanState_descriptor(), name, value);
 }
 // ===================================================================
+
+class Restart : public ::google::protobuf::Message {
+ public:
+  Restart();
+  virtual ~Restart();
+
+  Restart(const Restart& from);
+
+  inline Restart& operator=(const Restart& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Restart& default_instance();
+
+  void Swap(Restart* other);
+
+  // implements Message ----------------------------------------------
+
+  Restart* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Restart& from);
+  void MergeFrom(const Restart& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .arangodb.RestartBucket buckets = 1;
+  inline int buckets_size() const;
+  inline void clear_buckets();
+  static const int kBucketsFieldNumber = 1;
+  inline const ::arangodb::RestartBucket& buckets(int index) const;
+  inline ::arangodb::RestartBucket* mutable_buckets(int index);
+  inline ::arangodb::RestartBucket* add_buckets();
+  inline const ::google::protobuf::RepeatedPtrField< ::arangodb::RestartBucket >&
+      buckets() const;
+  inline ::google::protobuf::RepeatedPtrField< ::arangodb::RestartBucket >*
+      mutable_buckets();
+
+  // required double timestamp = 2;
+  inline bool has_timestamp() const;
+  inline void clear_timestamp();
+  static const int kTimestampFieldNumber = 2;
+  inline double timestamp() const;
+  inline void set_timestamp(double value);
+
+  // @@protoc_insertion_point(class_scope:arangodb.Restart)
+ private:
+  inline void set_has_timestamp();
+  inline void clear_has_timestamp();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::RepeatedPtrField< ::arangodb::RestartBucket > buckets_;
+  double timestamp_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  friend void  protobuf_AddDesc_arangodb_2eproto();
+  friend void protobuf_AssignDesc_arangodb_2eproto();
+  friend void protobuf_ShutdownFile_arangodb_2eproto();
+
+  void InitAsDefaultInstance();
+  static Restart* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class RestartBucket : public ::google::protobuf::Message {
+ public:
+  RestartBucket();
+  virtual ~RestartBucket();
+
+  RestartBucket(const RestartBucket& from);
+
+  inline RestartBucket& operator=(const RestartBucket& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RestartBucket& default_instance();
+
+  void Swap(RestartBucket* other);
+
+  // implements Message ----------------------------------------------
+
+  RestartBucket* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const RestartBucket& from);
+  void MergeFrom(const RestartBucket& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .arangodb.RestartTaskInfo restart_tasks = 1;
+  inline int restart_tasks_size() const;
+  inline void clear_restart_tasks();
+  static const int kRestartTasksFieldNumber = 1;
+  inline const ::arangodb::RestartTaskInfo& restart_tasks(int index) const;
+  inline ::arangodb::RestartTaskInfo* mutable_restart_tasks(int index);
+  inline ::arangodb::RestartTaskInfo* add_restart_tasks();
+  inline const ::google::protobuf::RepeatedPtrField< ::arangodb::RestartTaskInfo >&
+      restart_tasks() const;
+  inline ::google::protobuf::RepeatedPtrField< ::arangodb::RestartTaskInfo >*
+      mutable_restart_tasks();
+
+  // @@protoc_insertion_point(class_scope:arangodb.RestartBucket)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::RepeatedPtrField< ::arangodb::RestartTaskInfo > restart_tasks_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  friend void  protobuf_AddDesc_arangodb_2eproto();
+  friend void protobuf_AssignDesc_arangodb_2eproto();
+  friend void protobuf_ShutdownFile_arangodb_2eproto();
+
+  void InitAsDefaultInstance();
+  static RestartBucket* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class RestartTaskInfo : public ::google::protobuf::Message {
+ public:
+  RestartTaskInfo();
+  virtual ~RestartTaskInfo();
+
+  RestartTaskInfo(const RestartTaskInfo& from);
+
+  inline RestartTaskInfo& operator=(const RestartTaskInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RestartTaskInfo& default_instance();
+
+  void Swap(RestartTaskInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  RestartTaskInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const RestartTaskInfo& from);
+  void MergeFrom(const RestartTaskInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 task_type = 1;
+  inline bool has_task_type() const;
+  inline void clear_task_type();
+  static const int kTaskTypeFieldNumber = 1;
+  inline ::google::protobuf::uint32 task_type() const;
+  inline void set_task_type(::google::protobuf::uint32 value);
+
+  // required string task_name = 2;
+  inline bool has_task_name() const;
+  inline void clear_task_name();
+  static const int kTaskNameFieldNumber = 2;
+  inline const ::std::string& task_name() const;
+  inline void set_task_name(const ::std::string& value);
+  inline void set_task_name(const char* value);
+  inline void set_task_name(const char* value, size_t size);
+  inline ::std::string* mutable_task_name();
+  inline ::std::string* release_task_name();
+  inline void set_allocated_task_name(::std::string* task_name);
+
+  // @@protoc_insertion_point(class_scope:arangodb.RestartTaskInfo)
+ private:
+  inline void set_has_task_type();
+  inline void clear_has_task_type();
+  inline void set_has_task_name();
+  inline void clear_has_task_name();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::std::string* task_name_;
+  ::google::protobuf::uint32 task_type_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  friend void  protobuf_AddDesc_arangodb_2eproto();
+  friend void protobuf_AssignDesc_arangodb_2eproto();
+  friend void protobuf_ShutdownFile_arangodb_2eproto();
+
+  void InitAsDefaultInstance();
+  static RestartTaskInfo* default_instance_;
+};
+// -------------------------------------------------------------------
 
 class Target : public ::google::protobuf::Message {
  public:
@@ -823,6 +1103,20 @@ class TaskCurrent : public ::google::protobuf::Message {
   inline ::mesos::TaskInfo* release_task_info();
   inline void set_allocated_task_info(::mesos::TaskInfo* task_info);
 
+  // optional double start_time = 8;
+  inline bool has_start_time() const;
+  inline void clear_start_time();
+  static const int kStartTimeFieldNumber = 8;
+  inline double start_time() const;
+  inline void set_start_time(double value);
+
+  // optional double kill_time = 9;
+  inline bool has_kill_time() const;
+  inline void clear_kill_time();
+  static const int kKillTimeFieldNumber = 9;
+  inline double kill_time() const;
+  inline void set_kill_time(double value);
+
   // @@protoc_insertion_point(class_scope:arangodb.TaskCurrent)
  private:
   inline void set_has_slave_id();
@@ -835,6 +1129,10 @@ class TaskCurrent : public ::google::protobuf::Message {
   inline void clear_has_container_path();
   inline void set_has_task_info();
   inline void clear_has_task_info();
+  inline void set_has_start_time();
+  inline void clear_has_start_time();
+  inline void set_has_kill_time();
+  inline void clear_has_kill_time();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -845,9 +1143,11 @@ class TaskCurrent : public ::google::protobuf::Message {
   ::std::string* hostname_;
   ::std::string* container_path_;
   ::mesos::TaskInfo* task_info_;
+  double start_time_;
+  double kill_time_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
 
   friend void  protobuf_AddDesc_arangodb_2eproto();
   friend void protobuf_AssignDesc_arangodb_2eproto();
@@ -1163,6 +1463,15 @@ class State : public ::google::protobuf::Message {
   inline ::arangodb::Current* release_current();
   inline void set_allocated_current(::arangodb::Current* current);
 
+  // optional .arangodb.Restart restart = 5;
+  inline bool has_restart() const;
+  inline void clear_restart();
+  static const int kRestartFieldNumber = 5;
+  inline const ::arangodb::Restart& restart() const;
+  inline ::arangodb::Restart* mutable_restart();
+  inline ::arangodb::Restart* release_restart();
+  inline void set_allocated_restart(::arangodb::Restart* restart);
+
   // @@protoc_insertion_point(class_scope:arangodb.State)
  private:
   inline void set_has_framework_id();
@@ -1173,6 +1482,8 @@ class State : public ::google::protobuf::Message {
   inline void clear_has_plan();
   inline void set_has_current();
   inline void clear_has_current();
+  inline void set_has_restart();
+  inline void clear_has_restart();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -1180,9 +1491,10 @@ class State : public ::google::protobuf::Message {
   ::arangodb::Targets* targets_;
   ::arangodb::Plan* plan_;
   ::arangodb::Current* current_;
+  ::arangodb::Restart* restart_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   friend void  protobuf_AddDesc_arangodb_2eproto();
   friend void protobuf_AssignDesc_arangodb_2eproto();
@@ -1195,6 +1507,182 @@ class State : public ::google::protobuf::Message {
 
 
 // ===================================================================
+
+// Restart
+
+// repeated .arangodb.RestartBucket buckets = 1;
+inline int Restart::buckets_size() const {
+  return buckets_.size();
+}
+inline void Restart::clear_buckets() {
+  buckets_.Clear();
+}
+inline const ::arangodb::RestartBucket& Restart::buckets(int index) const {
+  return buckets_.Get(index);
+}
+inline ::arangodb::RestartBucket* Restart::mutable_buckets(int index) {
+  return buckets_.Mutable(index);
+}
+inline ::arangodb::RestartBucket* Restart::add_buckets() {
+  return buckets_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::arangodb::RestartBucket >&
+Restart::buckets() const {
+  return buckets_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::arangodb::RestartBucket >*
+Restart::mutable_buckets() {
+  return &buckets_;
+}
+
+// required double timestamp = 2;
+inline bool Restart::has_timestamp() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Restart::set_has_timestamp() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Restart::clear_has_timestamp() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Restart::clear_timestamp() {
+  timestamp_ = 0;
+  clear_has_timestamp();
+}
+inline double Restart::timestamp() const {
+  return timestamp_;
+}
+inline void Restart::set_timestamp(double value) {
+  set_has_timestamp();
+  timestamp_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// RestartBucket
+
+// repeated .arangodb.RestartTaskInfo restart_tasks = 1;
+inline int RestartBucket::restart_tasks_size() const {
+  return restart_tasks_.size();
+}
+inline void RestartBucket::clear_restart_tasks() {
+  restart_tasks_.Clear();
+}
+inline const ::arangodb::RestartTaskInfo& RestartBucket::restart_tasks(int index) const {
+  return restart_tasks_.Get(index);
+}
+inline ::arangodb::RestartTaskInfo* RestartBucket::mutable_restart_tasks(int index) {
+  return restart_tasks_.Mutable(index);
+}
+inline ::arangodb::RestartTaskInfo* RestartBucket::add_restart_tasks() {
+  return restart_tasks_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::arangodb::RestartTaskInfo >&
+RestartBucket::restart_tasks() const {
+  return restart_tasks_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::arangodb::RestartTaskInfo >*
+RestartBucket::mutable_restart_tasks() {
+  return &restart_tasks_;
+}
+
+// -------------------------------------------------------------------
+
+// RestartTaskInfo
+
+// required uint32 task_type = 1;
+inline bool RestartTaskInfo::has_task_type() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void RestartTaskInfo::set_has_task_type() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void RestartTaskInfo::clear_has_task_type() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void RestartTaskInfo::clear_task_type() {
+  task_type_ = 0u;
+  clear_has_task_type();
+}
+inline ::google::protobuf::uint32 RestartTaskInfo::task_type() const {
+  return task_type_;
+}
+inline void RestartTaskInfo::set_task_type(::google::protobuf::uint32 value) {
+  set_has_task_type();
+  task_type_ = value;
+}
+
+// required string task_name = 2;
+inline bool RestartTaskInfo::has_task_name() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void RestartTaskInfo::set_has_task_name() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void RestartTaskInfo::clear_has_task_name() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void RestartTaskInfo::clear_task_name() {
+  if (task_name_ != &::google::protobuf::internal::kEmptyString) {
+    task_name_->clear();
+  }
+  clear_has_task_name();
+}
+inline const ::std::string& RestartTaskInfo::task_name() const {
+  return *task_name_;
+}
+inline void RestartTaskInfo::set_task_name(const ::std::string& value) {
+  set_has_task_name();
+  if (task_name_ == &::google::protobuf::internal::kEmptyString) {
+    task_name_ = new ::std::string;
+  }
+  task_name_->assign(value);
+}
+inline void RestartTaskInfo::set_task_name(const char* value) {
+  set_has_task_name();
+  if (task_name_ == &::google::protobuf::internal::kEmptyString) {
+    task_name_ = new ::std::string;
+  }
+  task_name_->assign(value);
+}
+inline void RestartTaskInfo::set_task_name(const char* value, size_t size) {
+  set_has_task_name();
+  if (task_name_ == &::google::protobuf::internal::kEmptyString) {
+    task_name_ = new ::std::string;
+  }
+  task_name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* RestartTaskInfo::mutable_task_name() {
+  set_has_task_name();
+  if (task_name_ == &::google::protobuf::internal::kEmptyString) {
+    task_name_ = new ::std::string;
+  }
+  return task_name_;
+}
+inline ::std::string* RestartTaskInfo::release_task_name() {
+  clear_has_task_name();
+  if (task_name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = task_name_;
+    task_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void RestartTaskInfo::set_allocated_task_name(::std::string* task_name) {
+  if (task_name_ != &::google::protobuf::internal::kEmptyString) {
+    delete task_name_;
+  }
+  if (task_name) {
+    set_has_task_name();
+    task_name_ = task_name;
+  } else {
+    clear_has_task_name();
+    task_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
 
 // Target
 
@@ -2362,6 +2850,50 @@ inline void TaskCurrent::set_allocated_task_info(::mesos::TaskInfo* task_info) {
   }
 }
 
+// optional double start_time = 8;
+inline bool TaskCurrent::has_start_time() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void TaskCurrent::set_has_start_time() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void TaskCurrent::clear_has_start_time() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void TaskCurrent::clear_start_time() {
+  start_time_ = 0;
+  clear_has_start_time();
+}
+inline double TaskCurrent::start_time() const {
+  return start_time_;
+}
+inline void TaskCurrent::set_start_time(double value) {
+  set_has_start_time();
+  start_time_ = value;
+}
+
+// optional double kill_time = 9;
+inline bool TaskCurrent::has_kill_time() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void TaskCurrent::set_has_kill_time() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void TaskCurrent::clear_has_kill_time() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void TaskCurrent::clear_kill_time() {
+  kill_time_ = 0;
+  clear_has_kill_time();
+}
+inline double TaskCurrent::kill_time() const {
+  return kill_time_;
+}
+inline void TaskCurrent::set_kill_time(double value) {
+  set_has_kill_time();
+  kill_time_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // TasksCurrent
@@ -2722,6 +3254,44 @@ inline void State::set_allocated_current(::arangodb::Current* current) {
     set_has_current();
   } else {
     clear_has_current();
+  }
+}
+
+// optional .arangodb.Restart restart = 5;
+inline bool State::has_restart() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void State::set_has_restart() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void State::clear_has_restart() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void State::clear_restart() {
+  if (restart_ != NULL) restart_->::arangodb::Restart::Clear();
+  clear_has_restart();
+}
+inline const ::arangodb::Restart& State::restart() const {
+  return restart_ != NULL ? *restart_ : *default_instance_->restart_;
+}
+inline ::arangodb::Restart* State::mutable_restart() {
+  set_has_restart();
+  if (restart_ == NULL) restart_ = new ::arangodb::Restart;
+  return restart_;
+}
+inline ::arangodb::Restart* State::release_restart() {
+  clear_has_restart();
+  ::arangodb::Restart* temp = restart_;
+  restart_ = NULL;
+  return temp;
+}
+inline void State::set_allocated_restart(::arangodb::Restart* restart) {
+  delete restart_;
+  restart_ = restart;
+  if (restart) {
+    set_has_restart();
+  } else {
+    clear_has_restart();
   }
 }
 

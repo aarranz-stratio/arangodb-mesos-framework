@@ -209,6 +209,13 @@ void ArangoManager::destroy () {
   Global::scheduler().postRequest("master/shutdown", body);
 }
 
+void ArangoManager::restart() {
+  LOG(INFO) << "restarting cluster...";
+  
+  Caretaker& caretaker = Global::caretaker();
+  caretaker.restart();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief endpoints of the coordinators
 ////////////////////////////////////////////////////////////////////////////////
@@ -362,6 +369,8 @@ void ArangoManager::dispatch () {
     // apply received status updates
     applyStatusUpdates(cleanedServers);
 
+    manageClusterRestart();
+
     updateServerIds();
     
     updatePlan(cleanedServers);
@@ -399,6 +408,61 @@ void ArangoManager::dispatch () {
         this_thread::sleep_for(chrono::seconds(SLEEP_SEC));
       }
     }
+  }
+}
+
+void ArangoManager::manageClusterRestart() {
+  auto lease = Global::state().lease();
+  if (!lease.state().has_restart()) {
+    return;
+  }
+  Caretaker& caretaker = Global::caretaker();
+
+  Restart* restart = lease.state().mutable_restart();
+  
+  assert(restart->buckets_size() > 0);
+  RestartBucket* bucket = restart->mutable_buckets(0);
+  LOG(INFO) << "Number of tasks to restart in bucket is " << bucket->restart_tasks_size();
+  bool changed = false;
+  std::vector<RestartTaskInfo> newBucketContents;
+  for (size_t i=0;i<bucket->restart_tasks_size();i++) {
+    RestartTaskInfo task = bucket->restart_tasks(i);
+    LOG(INFO) << "Checking if task " <<  task.task_name() << " was restarted";
+    if (taskIsGoneOrRestarted(lease, static_cast<TaskType>(task.task_type()), task.task_name())) {
+      LOG(INFO) << "=> task was restarted";
+      changed = true;
+    } else {
+      LOG(INFO) << "=> task not yet restarted";
+      newBucketContents.emplace_back(task);
+    }
+  }
+
+  if (changed) {
+    if (newBucketContents.empty()) {
+      Restart originalRestart;
+      originalRestart.CopyFrom(*restart);
+      
+      restart->clear_buckets();
+      // mop: pop off first bucket
+      for (size_t i=1;i<originalRestart.buckets_size();i++) {
+        RestartBucket originalBucket = originalRestart.buckets(i);
+        restart->add_buckets()->CopyFrom(originalBucket);
+      }
+    } else {
+      bucket->clear_restart_tasks();
+      for (auto task: newBucketContents) {
+        bucket->add_restart_tasks()->CopyFrom(task);
+      }
+    }
+    lease.changed();
+  }
+   
+  LOG(INFO) << "Remaining restart buckets: " << restart->buckets_size();
+  // mop: we just cleared our last bucket so restart is complete
+  if (restart->buckets_size() == 0) {
+    LOG(INFO) << "Cluster restart completed";
+    lease.state().clear_restart();
+    lease.changed();
   }
 }
 
@@ -1248,6 +1312,71 @@ void ArangoManager::fillKnownInstances (TaskType type,
 void ArangoManager::killAllInstances (std::vector<std::string>& ids) {
   for (auto const& id : ids) {
     Global::scheduler().killInstance(id);
+  }
+}
+
+bool ArangoManager::taskIsGoneOrRestarted(ArangoState::Lease& lease, TaskType const& taskType, std::string const& taskName) {
+  Current* current = lease.state().mutable_current();
+  Plan* plan = lease.state().mutable_plan();
+
+  TasksCurrent* tasksCurrent = nullptr;
+  TasksPlan* tasksPlan = nullptr;
+  switch(taskType) {
+    case TaskType::AGENT:
+      tasksCurrent = current->mutable_agents();
+      tasksPlan = plan->mutable_agents();
+      break;
+    case TaskType::COORDINATOR:
+      tasksCurrent = current->mutable_coordinators();
+      tasksPlan = plan->mutable_coordinators();
+      break;
+    case TaskType::PRIMARY_DBSERVER:
+      tasksCurrent = current->mutable_dbservers();
+      tasksPlan = plan->mutable_dbservers();
+      break;
+    case TaskType::SECONDARY_DBSERVER:
+      tasksCurrent = current->mutable_secondaries();
+      tasksPlan = plan->mutable_secondaries();
+      break;
+    default:
+      LOG(WARNING) << "Task type " << static_cast<int>(taskType) << " not known";
+      return true;
+  }
+
+  TaskPlan* taskPlan = nullptr;
+  TaskCurrent* taskCurrent = nullptr;
+
+  for (size_t i=0;i<tasksPlan->entries_size();i++) {
+    if (tasksPlan->mutable_entries(i)->name() == taskName) {
+      taskCurrent = tasksCurrent->mutable_entries(i);
+      taskPlan = tasksPlan->mutable_entries(i);
+    }
+  }
+  if (taskPlan == nullptr || taskCurrent == nullptr) {
+    LOG(INFO) << "Task of type " << static_cast<int>(taskType) << " with name " << taskName << " is gone during restart.";
+    return true;
+  }
+
+  LOG(INFO) << "Task " << taskPlan->name() << " has state " << taskPlan->state();
+  if (taskPlan->state() == TASK_STATE_RUNNING || taskPlan->state() == TASK_STATE_FAILED_OVER) {
+    double now = chrono::duration_cast<chrono::seconds>(
+        chrono::steady_clock::now().time_since_epoch()).count();
+    
+    if (!taskCurrent->has_kill_time() || (taskCurrent->start_time() < taskCurrent->kill_time())) {
+      if (!taskCurrent->has_kill_time() || taskCurrent->kill_time() - taskCurrent->start_time() > 60) {
+        LOG(INFO) << "Killing " << taskPlan->name();
+        Global::scheduler().killInstance(taskCurrent->task_info().task_id().value());
+        taskCurrent->set_kill_time(now);
+        lease.changed();
+      }
+      return false;
+    } else {
+      taskCurrent->clear_kill_time();
+      lease.changed();
+      return true;
+    }
+  } else {
+    return false;
   }
 }
 

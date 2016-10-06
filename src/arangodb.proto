@@ -2,6 +2,20 @@ import "mesos/mesos.proto";
 
 package arangodb;
 
+message Restart {
+  repeated RestartBucket        buckets = 1;
+  required double               timestamp = 2;
+}
+
+message RestartBucket {
+  repeated RestartTaskInfo      restart_tasks = 1;
+}
+
+message RestartTaskInfo {
+  required uint32       task_type = 1;
+  required string       task_name = 2;
+}
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                                            TARGET
 // -----------------------------------------------------------------------------
@@ -129,6 +143,8 @@ message TaskCurrent {
   optional string               hostname = 5;
   optional string               container_path = 6;
   optional mesos.TaskInfo       task_info = 7;
+  optional double               start_time = 8;
+  optional double               kill_time = 9;
 }
 
 message TasksCurrent {
@@ -153,6 +169,7 @@ message State {
   required Targets           targets = 2;
   required Plan              plan = 3;
   required Current           current = 4;
+  optional Restart           restart = 5;
 }
 
 // -----------------------------------------------------------------------------

@@ -137,6 +137,9 @@ namespace arangodb {
       void setTaskPlanState (ArangoState::Lease&, TaskType, int,
                              TaskPlanState const, bool&);
 
+      void restart();
+
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                          static protected methods
 // -----------------------------------------------------------------------------
@@ -168,7 +171,8 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       static void setStandardMinimum (Target* te, int size = 1);
-
+      
+      bool taskWasRestarted(ArangoState::Lease&, TaskPlan*, TaskCurrent*);
   };
 }
 

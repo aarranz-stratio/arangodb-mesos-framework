@@ -109,6 +109,7 @@ namespace {
 class arangodb::HttpServerImpl {
   public:
     string POST_V1_DESTROY (const string&, const string&);
+    string POST_V1_RESTART (const string&, const string&);
     string PUT_V1_IGNOREOFFERS (const string&, const string&);
 
     string GET_V1_STATE (const string&);
@@ -139,6 +140,20 @@ string HttpServerImpl::POST_V1_DESTROY (const string& name, const string& body) 
   result["destroy"] = picojson::value(true);
 
   return picojson::value(result).serialize();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief POST /v1/restart.json
+////////////////////////////////////////////////////////////////////////////////
+
+string HttpServerImpl::POST_V1_RESTART(const string& name, const string& body) {
+  LOG(INFO) << "Got POST to restart cluster and framework...";
+  Global::manager().restart();
+  // std::thread killer(doDestroy);
+  // killer.detach();
+
+  picojson::value result = picojson::value(true);
+  return result.serialize();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -411,6 +426,8 @@ static int answerRequest (
 
       if (0 == strcmp(url, "/v1/destroy.json")) {
         conInfo->postMethod = &HttpServerImpl::POST_V1_DESTROY;
+      } else if (0 == strcmp(url, "/v1/restart.json")) {
+        conInfo->postMethod = &HttpServerImpl::POST_V1_RESTART;
       }
     }
     else if (0 == strcmp(method, MHD_HTTP_METHOD_PUT)) {

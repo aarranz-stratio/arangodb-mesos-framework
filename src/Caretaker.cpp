@@ -1474,23 +1474,29 @@ void Caretaker::setTaskPlanState (ArangoState::Lease& lease,
                                   TaskType taskType, int p,
                                   TaskPlanState const taskPlanState, bool& deleted) {
   Plan* plan = lease.state().mutable_plan();
+  Current* current = lease.state().mutable_current();
   TaskPlan* tp = nullptr;
+  TaskCurrent* tc = nullptr;
 
   switch (taskType) {
     case TaskType::AGENT:
       tp = plan->mutable_agents()->mutable_entries(p);
+      tc = current->mutable_agents()->mutable_entries(p);
       break;
 
     case TaskType::PRIMARY_DBSERVER:
       tp = plan->mutable_dbservers()->mutable_entries(p);
+      tc = current->mutable_dbservers()->mutable_entries(p);
       break;
 
     case TaskType::SECONDARY_DBSERVER:
       tp = plan->mutable_secondaries()->mutable_entries(p);
+      tc = current->mutable_secondaries()->mutable_entries(p);
       break;
 
     case TaskType::COORDINATOR:
       tp = plan->mutable_coordinators()->mutable_entries(p);
+      tc = current->mutable_coordinators()->mutable_entries(p);
       break;
 
     case TaskType::UNKNOWN:
@@ -1508,6 +1514,7 @@ void Caretaker::setTaskPlanState (ArangoState::Lease& lease,
     double now = chrono::duration_cast<chrono::seconds>(
       chrono::steady_clock::now().time_since_epoch()).count();
     tp->set_timestamp(now);
+    tc->set_start_time(now);
     lease.changed();   // make sure state will be persisted later
   }
 }
@@ -1542,6 +1549,58 @@ void Caretaker::setStandardMinimum (Target* te, int size) {
 
 void Caretaker::updateTarget() {
   // mop: do nothing by default :S
+}
+
+void Caretaker::restart() {
+  size_t restartBucketCount = 0;
+  {
+    auto lease = Global::state().lease();
+    Plan plan = lease.state().plan();
+    
+    Restart* restart = lease.state().mutable_restart();
+    if (plan.agents().entries_size() > 0) {
+      RestartBucket* bucket = restart->add_buckets();
+      
+      for (size_t i=0;i<plan.agents().entries_size();i++) {
+        RestartTaskInfo* restartTaskInfo = bucket->add_restart_tasks();
+        restartTaskInfo->set_task_type(static_cast<int>(TaskType::AGENT));
+        restartTaskInfo->set_task_name(plan.agents().entries(i).name());
+      }
+    }
+
+    auto taskGroups = {
+      std::make_pair(plan.coordinators(), TaskType::COORDINATOR),
+      std::make_pair(plan.dbservers(), TaskType::PRIMARY_DBSERVER),
+      std::make_pair(plan.secondaries(), TaskType::SECONDARY_DBSERVER),
+    };
+    
+    RestartBucket* bucket;
+    do {
+      bucket = nullptr;
+      for (auto const& it: taskGroups) {
+        TasksPlan const& plan = it.first;
+        if (restartBucketCount >= plan.entries_size()) {
+          continue;
+        }
+
+        if (bucket == nullptr) {
+          bucket = restart->add_buckets();
+        }
+        RestartTaskInfo* restartTaskInfo = bucket->add_restart_tasks();
+        restartTaskInfo->set_task_type(static_cast<int>(it.second));
+        restartTaskInfo->set_task_name(plan.entries(restartBucketCount).name());
+      }
+      restartBucketCount++;
+    } while (bucket != nullptr);
+    restart->set_timestamp(chrono::duration_cast<chrono::seconds>(
+      chrono::steady_clock::now().time_since_epoch()).count());
+    lease.changed();
+  }
+  LOG(INFO) << "Restarting initiated with " << restartBucketCount << " restart buckets";
+  
+  while (Global::state().lease().state().has_restart()) {
+    usleep(20000);
+  }
 }
 
 // -----------------------------------------------------------------------------

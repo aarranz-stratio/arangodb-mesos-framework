@@ -116,6 +116,9 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       void destroy ();
+      void restart();
+      void restartCluster();
+      void restartStandalone();
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief endpoints for reading
@@ -223,6 +226,9 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
       void killAllInstances (std::vector<std::string>&);
+      
+      void manageClusterRestart();
+      bool taskIsGoneOrRestarted(ArangoState::Lease&, TaskType const&, std::string const&);
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                 private variables
