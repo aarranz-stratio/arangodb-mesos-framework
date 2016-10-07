@@ -596,12 +596,10 @@ static void startArangoDBTask (ArangoState::Lease& lease,
       // mop: standalone will simply execute the image in default mode
       if (Global::mode() != OperationMode::STANDALONE) {
         auto agents = state.current().agents();
-        string hostname = agents.entries(0).hostname();
-        uint32_t port = agents.entries(0).ports(0);
         
         auto agencyEndpoints = environment.add_variables();
         agencyEndpoints->set_name("AGENCY_ENDPOINTS");
-        agencyEndpoints->set_value(getEndpointsList(state.current().agents().entries()));
+        agencyEndpoints->set_value(getEndpointsList(agents.entries()));
       }
       break;
     }
@@ -794,6 +792,66 @@ static bool requestReservation (std::string const& upper,
   return true;  // offer was used
 }
 
+static bool startWithResources(ArangoState::Lease& lease,
+                               mesos::Resources const& resources,
+                               mesos::Offer const& offer,
+                               TaskPlanState state,
+                               TaskType taskType,
+                               int pos,
+                               TaskPlan* task,
+                               TaskCurrent* taskCur) {
+  if (! resources.empty()) {
+    double now = chrono::duration_cast<chrono::seconds>(
+      chrono::steady_clock::now().time_since_epoch()).count();
+
+    task->set_state(state);
+    task->set_timestamp(now);
+
+    taskCur->set_hostname(offer.hostname());
+    taskCur->mutable_slave_id()->CopyFrom(offer.slave_id());
+    taskCur->mutable_offer_id()->CopyFrom(offer.id());
+    taskCur->mutable_resources()->CopyFrom(resources);
+    
+    TaskCurrent oldTask;
+    oldTask.CopyFrom(*taskCur);
+    size_t oldPortsSize = oldTask.ports_size();
+
+    std::vector<uint64_t> ports;
+    for (auto& res : resources) {
+      if (res.name() == "ports" && res.type() == mesos::Value::RANGES) {
+        auto const& ranges = res.ranges();
+        for (int r = 0; r < ranges.range_size(); r++) {
+          for (uint64_t i = ranges.range(r).begin();
+               i <= ranges.range(r).end(); i++) {
+            // mop: megaspecial case...we are restarting the cluster...as we hardcode the ports in some places
+            // we must absolutely make sure that the port we got is the same as before
+            if (state == TASK_STATE_TRYING_TO_RESTART
+                && taskType == TaskType::AGENT) {
+              if (oldPortsSize > i && oldTask.ports(i) != i) {
+                return false;
+              }
+            }
+            ports.emplace_back(i);
+          }
+        }
+      }
+    }
+
+    taskCur->clear_ports();
+    for (auto& port: ports) {
+      taskCur->add_ports(port);
+    }
+
+    LOG(INFO) << "Trying to start(" << state << ") with resources:\n"
+              << resources;
+
+    startArangoDBTask(lease, taskType, pos, *task, *taskCur);
+
+    return true;  // offer was used
+  }
+  return false;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief request to start with persistent volume
 ////////////////////////////////////////////////////////////////////////////////
@@ -812,41 +870,13 @@ static bool requestStartPersistent (ArangoState::Lease& lease,
 
   mesos::Resources resources = suitablePersistent(
     upper, offer, target, persistenceId, containerPath);
+  taskCur->set_container_path(containerPath);
 
-  if (! resources.empty()) {
-    double now = chrono::duration_cast<chrono::seconds>(
-      chrono::steady_clock::now().time_since_epoch()).count();
-
-    task->set_state(TASK_STATE_TRYING_TO_START);
-    task->set_timestamp(now);
-
-    taskCur->mutable_offer_id()->CopyFrom(offer.id());
-    taskCur->mutable_resources()->CopyFrom(resources);
-    taskCur->set_container_path(containerPath);
-
-    taskCur->clear_ports();
-
-    for (auto& res : resources) {
-      if (res.name() == "ports" && res.type() == mesos::Value::RANGES) {
-        auto const& ranges = res.ranges();
-        for (int r = 0; r < ranges.range_size(); r++) {
-          for (uint64_t i = ranges.range(r).begin();
-               i <= ranges.range(r).end(); i++) {
-            taskCur->add_ports(i);
-          }
-        }
-      }
-    }
-
-    LOG(INFO) << "Trying to start with resources:\n"
-              << resources;
-
-    startArangoDBTask(lease, taskType, pos, *task, *taskCur);
-
-    return true;  // offer was used
+  if (startWithResources(lease, resources, offer, TASK_STATE_TRYING_TO_START, taskType, pos, task, taskCur)) {
+    return true;
+  } else {
+    return notInterested(offer, doDecline);
   }
-
-  return notInterested(offer, doDecline);
 }                                  
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -863,36 +893,12 @@ static bool requestStartEphemeral (ArangoState::Lease& lease,
 
   mesos::Resources resources 
       = resourcesForStartEphemeral(offer, target);
+  
 
-  double now = chrono::duration_cast<chrono::seconds>(
-    chrono::steady_clock::now().time_since_epoch()).count();
-
-  task->set_state(TASK_STATE_TRYING_TO_START);
-  task->set_timestamp(now);
-
-  taskCur->mutable_slave_id()->CopyFrom(offer.slave_id());
-  taskCur->mutable_offer_id()->CopyFrom(offer.id());
-  taskCur->mutable_resources()->CopyFrom(resources);
-  taskCur->set_hostname(offer.hostname());
-
-  taskCur->clear_ports();
-
-  for (auto& res : resources) {
-    if (res.name() == "ports" && res.type() == mesos::Value::RANGES) {
-      auto const& ranges = res.ranges();
-      for (int r = 0; r < ranges.range_size(); r++) {
-        for (uint64_t i = ranges.range(r).begin();
-             i <= ranges.range(r).end(); i++) {
-          taskCur->add_ports(i);
-        }
-      }
-    }
-  }
-
-  startArangoDBTask(lease, taskType, pos, *task, *taskCur);
+  startWithResources(lease, resources, offer, TASK_STATE_TRYING_TO_START, taskType, pos, task, taskCur);
 
   return true;   // offer was used
-}                                  
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief request to restart
@@ -913,41 +919,13 @@ static bool requestRestartPersistent (ArangoState::Lease& lease,
 
   mesos::Resources resources = suitablePersistent(
     upper, offer, target, persistenceId, containerPath);
-
-  if (! resources.empty()) {
-    double now = chrono::duration_cast<chrono::seconds>(
-      chrono::steady_clock::now().time_since_epoch()).count();
-
-    task->set_state(TASK_STATE_TRYING_TO_RESTART);
-    task->set_timestamp(now);
-
-    taskCur->mutable_offer_id()->CopyFrom(offer.id());
-    taskCur->mutable_resources()->CopyFrom(resources);
-    taskCur->set_container_path(containerPath);
-
-    taskCur->clear_ports();
-
-    for (auto& res : resources) {
-      if (res.name() == "ports" && res.type() == mesos::Value::RANGES) {
-        auto const& ranges = res.ranges();
-        for (int r = 0; r < ranges.range_size(); r++) {
-          for (uint64_t i = ranges.range(r).begin();
-               i <= ranges.range(r).end(); i++) {
-            taskCur->add_ports(i);
-          }
-        }
-      }
-    }
-
-    LOG(INFO) << "Trying to restart with resources:\n"
-              << resources;
-
-    startArangoDBTask(lease, taskType, pos, *task, *taskCur);
-
-    return true;  // offer was used
+  taskCur->set_container_path(containerPath);
+  
+  if (startWithResources(lease, resources, offer, TASK_STATE_TRYING_TO_RESTART, taskType, pos, task, taskCur)) {
+    return true;
+  } else {
+    return notInterested(offer, doDecline);
   }
-
-  return notInterested(offer, doDecline);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -966,33 +944,7 @@ static bool requestRestartEphemeral (ArangoState::Lease& lease,
   mesos::Resources resources 
       = resourcesForStartEphemeral(offer, target);
 
-  double now = chrono::duration_cast<chrono::seconds>(
-    chrono::steady_clock::now().time_since_epoch()).count();
-
-  task->set_state(TASK_STATE_TRYING_TO_RESTART);
-  task->set_timestamp(now);
-
-  taskCur->mutable_slave_id()->CopyFrom(offer.slave_id());
-  taskCur->mutable_offer_id()->CopyFrom(offer.id());
-  taskCur->mutable_resources()->CopyFrom(resources);
-  taskCur->set_hostname(offer.hostname());
-
-  taskCur->clear_ports();
-
-  for (auto& res : resources) {
-    if (res.name() == "ports" && res.type() == mesos::Value::RANGES) {
-      auto const& ranges = res.ranges();
-      for (int r = 0; r < ranges.range_size(); r++) {
-        for (uint64_t i = ranges.range(r).begin();
-             i <= ranges.range(r).end(); i++) {
-          taskCur->add_ports(i);
-        }
-      }
-    }
-  }
-
-  startArangoDBTask(lease, taskType, pos, *task, *taskCur);
-
+  startWithResources(lease, resources, offer, TASK_STATE_TRYING_TO_RESTART, taskType, pos, task, taskCur);
   return true;   // offer was used
 }
 
