@@ -139,14 +139,15 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "  ARANGODB_IMAGE       overrides '--arangodb_image'\n"
        << "  ARANGODB_PRIVILEGED_IMAGE\n"
        << "                       overrides '--arangodb_privileged_image'\n"
-       << "  MESOS_MASTER         overrides '--master'\n"
-       << "\n"
-       << "  MESOS_AUTHENTICATE   enable authentication\n"
-       << "  ARANGODB_SECRET      secret for authentication\n"
-       << "\n"
+       << "  ARANGODB_JWT_SECRET\n"
+       << "                       overrides '--arangodb_jwt_secret\n"
        << "  ARANGODB_ENTERPRISE_KEY\n"
        << "                       overrides '--arangodb_enterprise_key'\n"
        << "  ARANGODB_ZK          overrides '--zk'\n"
+       << "\n"
+       << "  MESOS_MASTER         overrides '--master'\n"
+       << "  MESOS_SECRET         secret for mesos authentication\n"
+       << "  MESOS_AUTHENTICATE   enable authentication\n"
        << "\n";
 }
 
@@ -349,6 +350,12 @@ int main (int argc, char** argv) {
             "arangodb_enterprise_key",
             "enterprise key for arangodb",
             "");
+  
+  string arangoDBJwtSecret;
+  flags.add(&arangoDBJwtSecret,
+            "arangodb_jwt_secret",
+            "secret for internal cluster communication",
+            "");
 
   string zk;
   flags.add(&zk,
@@ -408,6 +415,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_FORCE_PULL_IMAGE", arangoDBForcePullImage);
   updateFromEnv("ARANGODB_PRIVILEGED_IMAGE", arangoDBPrivilegedImage);
   updateFromEnv("ARANGODB_ENTERPRISE_KEY", arangoDBEnterpriseKey);
+  updateFromEnv("ARANGODB_JWT_SECRET", arangoDBJwtSecret);
 
   updateFromEnv("MESOS_MASTER", master);
   updateFromEnv("ARANGODB_ZK", zk);
@@ -481,6 +489,7 @@ int main (int argc, char** argv) {
   Global::setFrameworkPort(frameworkPort);
   Global::setWebuiPort(webuiPort);
   Global::setArangoDBEnterpriseKey(arangoDBEnterpriseKey);
+  Global::setArangoDBJwtSecret(arangoDBJwtSecret);
 
   // ...........................................................................
   // state
@@ -616,15 +625,15 @@ int main (int argc, char** argv) {
       EXIT(EXIT_FAILURE) << "Expecting authentication principal in the environment";
     }
 
-    Option<string> arangodbSecret = os::getenv("ARANGODB_SECRET");
+    Option<string> mesosSecret = os::getenv("MESOS_SECRET");
 
-    if (arangodbSecret.isNone()) {
+    if (mesosSecret.isNone()) {
       EXIT(EXIT_FAILURE) << "Expecting authentication secret in the environment";
     }
 
     mesos::Credential credential;
     credential.set_principal(principal);
-    credential.set_secret(arangodbSecret.get());
+    credential.set_secret(mesosSecret.get());
 
     framework.set_principal(principal);
     driver = new mesos::MesosSchedulerDriver(&scheduler, framework, master, credential);

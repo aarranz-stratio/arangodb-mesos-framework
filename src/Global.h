@@ -392,8 +392,10 @@ namespace arangodb {
       static bool startReverseProxy();
 
       static void setArangoDBEnterpriseKey(std::string const& arangoDBEnterpriseKey);
-
       static std::string arangoDBEnterpriseKey();
+
+      static void setArangoDBJwtSecret(std::string const& arangoDBJwtSecret);
+      static std::string arangoDBJwtSecret();
   };
 }
 

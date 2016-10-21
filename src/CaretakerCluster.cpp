@@ -339,7 +339,7 @@ void CaretakerCluster::shutdownSecondary(ArangoState::Lease& lease, TaskPlan* db
     std::string resultBody;
     long httpCode = 0;
     int res = 0;
-    res = arangodb::doHTTPPut(coordinatorURL +
+    res = arangodb::doClusterHTTPPut(coordinatorURL +
         "/_admin/cluster/replaceSecondary",
         body, resultBody, httpCode);
 
@@ -365,7 +365,7 @@ bool CaretakerCluster::shutdownServer(TaskPlan* taskPlan, TaskCurrent const& tas
 
     double now = chrono::duration_cast<chrono::seconds>(
         chrono::steady_clock::now().time_since_epoch()).count();
-    doHTTPDelete(endpoint + "/_admin/shutdown?remove_from_cluster=1", body, httpCode);
+    doClusterHTTPDelete(endpoint + "/_admin/shutdown?remove_from_cluster=1", body, httpCode);
 
     if (httpCode >= 200 && httpCode < 300) {
       taskPlan->set_state(TASK_STATE_SHUTTING_DOWN);
@@ -540,7 +540,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
     std::string resultBody; 
     long httpCode = 0;
     std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
-    int res = arangodb::doHTTPPut(coordinatorURL +
+    int res = arangodb::doClusterHTTPPut(coordinatorURL +
       "/_admin/cluster/numberOfServers",
       body, resultBody, httpCode);
 

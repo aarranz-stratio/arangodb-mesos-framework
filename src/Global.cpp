@@ -199,6 +199,8 @@ static int ARANGODB_FRAMEWORK_PORT = 8181;
 
 static std::string ARANGODB_ENTERPRISE_KEY = "";
 
+static std::string ARANGODB_JWT_SECRET = "";
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                             static public methods
 // -----------------------------------------------------------------------------
@@ -688,6 +690,14 @@ void Global::setArangoDBEnterpriseKey(std::string const& arangoDBEnterpriseKey) 
 
 std::string Global::arangoDBEnterpriseKey() {
   return ARANGODB_ENTERPRISE_KEY;
+}
+
+void Global::setArangoDBJwtSecret(std::string const& arangoDBJwtSecret) {
+  ARANGODB_JWT_SECRET = arangoDBJwtSecret;
+}
+
+std::string Global::arangoDBJwtSecret() {
+  return ARANGODB_JWT_SECRET;
 }
 
 // -----------------------------------------------------------------------------

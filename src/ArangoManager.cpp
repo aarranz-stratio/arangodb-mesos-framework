@@ -277,7 +277,7 @@ std::vector<std::string> ArangoManager::updateTarget() {
 
   std::string body;
   long httpCode = 0;
-  int res = doHTTPGet(coordinatorURL + "/_admin/cluster/numberOfServers", body, httpCode);
+  int res = doClusterHTTPGet(coordinatorURL + "/_admin/cluster/numberOfServers", body, httpCode);
 
   if (res != 0 || httpCode != 200) {
     LOG(ERROR) << "Couldn't retrieve cluster targets. HTTP Code: " << httpCode;
@@ -610,7 +610,7 @@ static double const TryingToResurrectTimeout = 30;  // Patience before we
 static bool getServerId(TaskCurrent* task, std::string& server_id) {
   std::string body;
   long httpCode = 0;
-  int res = doHTTPGet("http://" + task->hostname() + ":" + to_string(task->ports(0)) 
+  int res = doClusterHTTPGet("http://" + task->hostname() + ":" + to_string(task->ports(0)) 
                       + "/_admin/server/id", body, httpCode);
 
   if (res != 0 || httpCode != 200) {
@@ -697,7 +697,7 @@ bool ArangoManager::registerNewSecondary(ArangoState::Lease& lease, TaskPlan* pr
     + R"("oldSecondary":")" + previousSecondaryName + R"(",)"
     + R"("newSecondary":")" + secondaryName + R"("})";
 
-  res = arangodb::doHTTPPut(coordinatorURL +
+  res = arangodb::doClusterHTTPPut(coordinatorURL +
       "/_admin/cluster/replaceSecondary",
       body, resultBody, httpCode);
 
@@ -1043,7 +1043,7 @@ bool ArangoManager::checkTimeouts () {
                       =   R"({"primary":")" + tpsecond->name() + R"(",)"
                         + R"("secondary":")" + tp->name() + R"("})";
                   
-                    res = arangodb::doHTTPPut(std::string(coordinatorURL) +
+                    res = arangodb::doClusterHTTPPut(std::string(coordinatorURL) +
                           "/_admin/cluster/swapPrimaryAndSecondary",
                           body, resultBody, httpCode);
 
@@ -1234,7 +1234,7 @@ void ArangoManager::applyStatusUpdates (std::vector<std::string>& cleanedServers
     std::string resultBody; 
     long httpCode = 0;
     std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
-    int res = arangodb::doHTTPPut(coordinatorURL +
+    int res = arangodb::doClusterHTTPPut(coordinatorURL +
       "/_admin/cluster/numberOfServers",
       body, resultBody, httpCode);
 

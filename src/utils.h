@@ -190,6 +190,8 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
   int doHTTPGet (std::string url, std::string& resultBody, long& httpCode);
+  // mop: cluster version (auth enabled)
+  int doClusterHTTPGet (std::string url, std::string& resultBody, long& httpCode);
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief do a POST request using libcurl, a return value of 0 means
@@ -201,6 +203,9 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
   int doHTTPPost (std::string url, std::string const& body,
+                                   std::string& resultBody,
+                                   long& httpCode);
+  int doClusterHTTPPost (std::string url, std::string const& body,
                                    std::string& resultBody,
                                    long& httpCode);
 
@@ -216,6 +221,9 @@ namespace arangodb {
   int doHTTPPut (std::string url, std::string const& body,
                                   std::string& resultBody,
                                   long& httpCode);
+  int doClusterHTTPPut (std::string url, std::string const& body,
+                                  std::string& resultBody,
+                                  long& httpCode);
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief do a DELETE request using libcurl, a return value of 0 means OK, the
@@ -226,6 +234,7 @@ namespace arangodb {
 ////////////////////////////////////////////////////////////////////////////////
 
   int doHTTPDelete (std::string url, std::string& resultBody, long& httpCode);
+  int doClusterHTTPDelete (std::string url, std::string& resultBody, long& httpCode);
 
 }
 

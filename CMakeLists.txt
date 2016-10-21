@@ -50,6 +50,7 @@ endif ()
 find_package(apr REQUIRED)
 find_package(Threads REQUIRED)
 find_package(CURL REQUIRED)
+find_package(OpenSSL REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(apr REQUIRED)
 find_package(svn REQUIRED)
@@ -76,6 +77,7 @@ include_directories(
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/picojson-1.3.0/
   ${Libmicrohttpd_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
+  ${OPENSSL_INCLUDE_DIR}
 )
 
 target_link_libraries(
@@ -97,6 +99,7 @@ set(LIBS
   ${MESOS_LIB_LEVELDB}
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/libev-4.15/.libs/libev.a
   ${CURL_LIBRARIES}
+  ${OPENSSL_LIBRARIES}
   ${apr_LIBRARIES}
   ${svn_LIBRARIES}
   ${ZLIB_LIBRARIES}

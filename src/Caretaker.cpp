@@ -550,6 +550,13 @@ static void startArangoDBTask (ArangoState::Lease& lease,
     }
   }
 
+  std::string const jwtSecret = Global::arangoDBJwtSecret();
+  if (!jwtSecret.empty()) {
+    mesos::Environment::Variable* jwtSecretVar = environment.add_variables();
+    jwtSecretVar->set_name("JWT_SECRET");
+    jwtSecretVar->set_value(jwtSecret);
+  }
+
   if (!task.server_id().empty()) {
     mesos::Environment::Variable* clusterId = environment.add_variables();
     clusterId->set_name("CLUSTER_ID");

@@ -28,15 +28,24 @@
 #include "utils.h"
 
 #include <time.h>
-
+#include <string>
 #include <chrono>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <picojson.h>
 #include <sstream>
+#include <openssl/bio.h>
+#include <openssl/buffer.h>
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
+
+#include "Global.h"
 
 using namespace arangodb;
 using namespace std;
+
+typedef std::unordered_map<std::string, std::string> Headers;
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                 private functions
@@ -385,8 +394,78 @@ static size_t ReadMemoryCallback(void* contents, size_t size, size_t nmemb,
   }
 }
 
-int arangodb::doHTTPGet (std::string url, std::string& resultBody,
-                         long& httpCode) {
+static std::string base64UrlEncode(std::string const& str) {
+  // mop: EEK! openssl :S
+  BIO *bio, *b64;
+  BUF_MEM *bufferPtr;
+
+  b64 = BIO_new(BIO_f_base64());
+  bio = BIO_new(BIO_s_mem());
+  bio = BIO_push(b64, bio);
+
+  BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL); //Ignore newlines - write everything in one line
+  BIO_write(bio, str.c_str(), str.length());
+  BIO_flush(bio);
+  BIO_get_mem_ptr(bio, &bufferPtr);
+  BIO_set_close(bio, BIO_NOCLOSE);
+  BIO_free_all(bio);
+  
+  std::string base64((*bufferPtr).data, (*bufferPtr).length);
+
+  bool isFiller = false;
+  std::transform(base64.begin(), base64.end(), base64.begin(), [](unsigned char c) {
+    switch(c) {
+      case '+':
+        return (unsigned char) '-';
+        break;
+      case '/':
+        return (unsigned char) '_';
+        break;
+      default:
+        return (unsigned char) c;
+    }
+  });
+  if (base64.at(base64.length() - 1) == '=') {
+    base64.resize(base64.length() - 1);
+  }
+  return base64;
+}
+
+static std::string createJwt(picojson::value const& body, std::string const& key) {
+  EVP_MD* evp_md = const_cast<EVP_MD*>(EVP_sha256());
+  
+  picojson::object headerObject;
+  headerObject["alg"] = picojson::value("HS256");
+  headerObject["typ"] = picojson::value("JWT");
+
+  picojson::value header(headerObject);
+
+  std::string const& message = base64UrlEncode(header.serialize())
+    + "." + base64UrlEncode(body.serialize());
+  
+  std::string signature(EVP_MAX_MD_SIZE + 1, '\0');
+  unsigned int md_len;
+
+  HMAC(evp_md, key.c_str(), (int)key.size(), (const unsigned char*) message.c_str(), message.size(),
+       (unsigned char*) signature.c_str(), &md_len);
+  
+  signature.resize(md_len);
+  return message + "." + base64UrlEncode(signature);
+}
+
+static Headers createClusterHeaders() {
+  Headers headers = {};
+  std::string const& jwtSecret = Global::arangoDBJwtSecret();
+  if (!jwtSecret.empty()) {
+    picojson::object payload;
+    payload["iss"] = picojson::value("arangodb");
+    payload["server_id"] = picojson::value("mesos_framework");
+    headers["Authorization"] = "bearer " + createJwt(picojson::value(payload), jwtSecret);
+  }
+  return headers;
+}
+
+static int executeHTTPGet (std::string url, Headers const& headers, std::string& resultBody, long& httpCode) {
   CURL *curl;
   CURLcode res;
 
@@ -395,6 +474,14 @@ int arangodb::doHTTPGet (std::string url, std::string& resultBody,
   resultBody.clear();
 
   if (curl) {
+    struct curl_slist* requestHeaders = nullptr;
+    if (headers.size() > 0) {
+      for (auto const& it: headers) {
+        std::string const header(it.first + ": " + it.second);
+        requestHeaders = curl_slist_append(requestHeaders, header.c_str());
+      }
+      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, requestHeaders);
+    }
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
@@ -405,18 +492,26 @@ int arangodb::doHTTPGet (std::string url, std::string& resultBody,
 
     if (res != CURLE_OK) {
       LOG(WARNING)
-      << "cannot connect to " << url << ", curl error: " << res;
+        << "cannot connect to " << url << ", curl error: " << res;
     }
     else {
       httpCode = 0;
       curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
     }
     curl_easy_cleanup(curl);
+    if (requestHeaders != nullptr) {
+      curl_slist_free_all(requestHeaders);
+    }
     return res;
   }
   else {
     return -1;  // indicate that curl did not properly initialize
   }
+}
+
+int arangodb::doHTTPGet (std::string url, std::string& resultBody,
+                         long& httpCode) {
+  return executeHTTPGet(url, {}, resultBody, httpCode);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -428,7 +523,7 @@ int arangodb::doHTTPGet (std::string url, std::string& resultBody,
 /// If the result is 0, then httpCode is set to the resulting HTTP code.
 ////////////////////////////////////////////////////////////////////////////////
 
-int arangodb::doHTTPPost (std::string url, std::string const& body,
+static int executeHTTPPost (std::string url, Headers const& headers, std::string const& body,
                                            std::string& resultBody,
                                            long& httpCode) {
   CURL *curl;
@@ -437,6 +532,14 @@ int arangodb::doHTTPPost (std::string url, std::string const& body,
   curl = curl_easy_init();
 
   if (curl) {
+    struct curl_slist* requestHeaders = nullptr;
+    if (headers.size() > 0) {
+      for (auto const& it: headers) {
+        std::string const header(it.first + ": " + it.second);
+        requestHeaders = curl_slist_append(requestHeaders, header.c_str());
+      }
+      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, requestHeaders);
+    }
     resultBody.clear();
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -458,11 +561,20 @@ int arangodb::doHTTPPost (std::string url, std::string const& body,
       curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
     }
     curl_easy_cleanup(curl);
+    if (requestHeaders != nullptr) {
+      curl_slist_free_all(requestHeaders);
+    }
     return res;
   }
   else {
     return -1;  // indicate that curl did not properly initialize
   }
+}
+
+int arangodb::doHTTPPost (std::string url, std::string const& body,
+                                           std::string& resultBody,
+                                           long& httpCode) {
+  return executeHTTPPost(url, {}, body, resultBody, httpCode);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -474,20 +586,26 @@ int arangodb::doHTTPPost (std::string url, std::string const& body,
 /// If the result is 0, then httpCode is set to the resulting HTTP code.
 ////////////////////////////////////////////////////////////////////////////////
 
-int arangodb::doHTTPPut (std::string url, std::string const& body,
+static int executeHTTPPut (std::string url, Headers const& headers, std::string const& body,
                                           std::string& resultBody,
                                           long& httpCode) {
   CURL *curl;
   CURLcode res;
-
+  
   curl = curl_easy_init();
 
   if (curl) {
     resultBody.clear();
+    struct curl_slist* requestHeaders = NULL;
+    requestHeaders = curl_slist_append(requestHeaders, "Content-Type: application/x-www-form-urlencoded");
+    if (headers.size() > 0) {
+      for (auto const& it: headers) {
+        std::string const header(it.first + ": " + it.second);
+        requestHeaders = curl_slist_append(requestHeaders, header.c_str());
+      }
+    }
 
-    struct curl_slist *headers = NULL;
-    headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
-
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, requestHeaders);
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_READFUNCTION, ReadMemoryCallback);
@@ -497,9 +615,8 @@ int arangodb::doHTTPPut (std::string url, std::string const& body,
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*) &resultBody);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_UPLOAD, 1);
-
+    
     res = curl_easy_perform(curl);
 
     if (res != CURLE_OK) {
@@ -511,13 +628,21 @@ int arangodb::doHTTPPut (std::string url, std::string const& body,
       curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
     }
     curl_easy_cleanup(curl);
-    curl_slist_free_all(headers);
+    if (requestHeaders != nullptr) {
+      curl_slist_free_all(requestHeaders);
+    }
 
     return res;
   }
   else {
     return -1;  // indicate that curl did not properly initialize
   }
+}
+
+int arangodb::doHTTPPut (std::string url, std::string const& body,
+                                          std::string& resultBody,
+                                          long& httpCode) {
+  return executeHTTPPut(url, {}, body, resultBody, httpCode);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -528,7 +653,7 @@ int arangodb::doHTTPPut (std::string url, std::string const& body,
 /// If the result is 0, then httpCode is set to the resulting HTTP code.
 ////////////////////////////////////////////////////////////////////////////////
 
-int arangodb::doHTTPDelete (std::string url, std::string& resultBody,
+static int executeHTTPDelete (std::string url, Headers const& headers, std::string& resultBody,
                             long& httpCode) {
   CURL *curl;
   CURLcode res;
@@ -538,6 +663,14 @@ int arangodb::doHTTPDelete (std::string url, std::string& resultBody,
   resultBody.clear();
 
   if (curl) {
+    struct curl_slist* requestHeaders = nullptr;
+    if (headers.size() > 0) {
+      for (auto const& it: headers) {
+        std::string const header(it.first + ": " + it.second);
+        requestHeaders = curl_slist_append(requestHeaders, header.c_str());
+      }
+      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, requestHeaders);
+    }
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
@@ -556,12 +689,47 @@ int arangodb::doHTTPDelete (std::string url, std::string& resultBody,
       curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
     }
     curl_easy_cleanup(curl);
+    if (requestHeaders != nullptr) {
+      curl_slist_free_all(requestHeaders);
+    }
     return res;
   }
   else {
     return -1;  // indicate that curl did not properly initialize
   }
 }
+
+int arangodb::doHTTPDelete (std::string url, std::string& resultBody,
+                            long& httpCode) {
+  return executeHTTPDelete(url, {}, resultBody, httpCode);
+}
+
+int arangodb::doClusterHTTPGet (std::string url, std::string& resultBody,
+                         long& httpCode) {
+  Headers headers = createClusterHeaders();
+  return executeHTTPGet(url, headers, resultBody, httpCode);
+}
+
+int arangodb::doClusterHTTPPost (std::string url, std::string const& body,
+                                           std::string& resultBody,
+                                           long& httpCode) {
+  Headers headers = createClusterHeaders();
+  return executeHTTPPost(url, headers, body, resultBody, httpCode);
+}
+
+int arangodb::doClusterHTTPPut (std::string url, std::string const& body,
+                                          std::string& resultBody,
+                                          long& httpCode) {
+  Headers headers = createClusterHeaders();
+  return executeHTTPPut(url, headers, body, resultBody, httpCode);
+}
+
+int arangodb::doClusterHTTPDelete (std::string url, std::string& resultBody,
+                            long& httpCode) {
+  Headers headers = createClusterHeaders();
+  return executeHTTPDelete(url, headers, resultBody, httpCode);
+}
+
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                       END-OF-FILE
