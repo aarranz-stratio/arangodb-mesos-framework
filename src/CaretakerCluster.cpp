@@ -195,6 +195,38 @@ static int countRunningInstances (TasksPlan const& plans) {
 // --SECTION--                                            virtual public methods
 // -----------------------------------------------------------------------------
 
+int CaretakerCluster::removeNewTasks(TasksPlan* tasksPlan, TasksCurrent* tasksCurrent, int toRemove) {
+  std::vector<int> toDeleteIndices = {};
+  // mop: first find new tasks which have not yet been started...they can simply be deleted
+  for (int i=tasksPlan->entries_size() - 1;i>=0 && toDeleteIndices.size() < toRemove;i--) {
+    auto task = tasksPlan->mutable_entries(i);
+
+    if (task->state() == TASK_STATE_NEW) {
+      toDeleteIndices.push_back(i);
+    }
+  }
+
+  if (toDeleteIndices.size() > 0) {
+    TasksPlan oldPlan;
+    TasksCurrent oldCurrent;
+    oldPlan.CopyFrom(*tasksPlan);
+    oldCurrent.CopyFrom(*tasksCurrent);
+
+    tasksPlan->clear_entries();
+    tasksCurrent->clear_entries();
+    for (size_t i=0;i<oldPlan.entries_size();i++) {
+      if (std::find(std::begin(toDeleteIndices), std::end(toDeleteIndices), i) == std::end(toDeleteIndices)) {
+        auto taskPlan = oldPlan.entries(i);
+        tasksPlan->add_entries()->CopyFrom(taskPlan);
+        auto taskCurrent = oldCurrent.entries(i);
+        tasksCurrent->add_entries()->CopyFrom(taskCurrent);
+      }
+    }
+  }
+
+  return toDeleteIndices.size();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 /// {@inheritDoc}
 ////////////////////////////////////////////////////////////////////////////////
@@ -234,10 +266,10 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
       agents->add_entries();
     }
   }
-  
+
   // need at least one DB server
   tasks = plan->mutable_dbservers();
-  
+
   for (auto const& serverId: cleanedServers) {
     for (int i=0;i<tasks->entries_size();i++) {
       auto planDbServer = tasks->mutable_entries(i);
@@ -251,6 +283,16 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
   t = (int) targets->dbservers().instances();
   p = countPlannedInstances(plan->dbservers());
 
+  if (t < p) {
+    LOG(INFO)
+    << "DEBUG reducing dbservers by " << (p - t) << " in plan";
+    auto tasksCurrent = current->mutable_dbservers();
+    // mop: try to kill dbservers which have not yet been started
+    removeNewTasks(tasks, tasksCurrent, p - t);
+    // mop: if there are still more dbservers than planned the supervision is
+    // supposed to clean out some existing dbservers....we remain helpless
+    // here :)
+  }
   if (p < t) {
     LOG(INFO)
     << "DEBUG creating " << (t - p) << " more db-servers in plan";
@@ -258,10 +300,10 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
     for (int i = p;  i < t;  ++i) {
       TaskPlan* task = tasks->add_entries();
       task->set_state(TASK_STATE_NEW);
-      std::string name = "DBServer" 
+      std::string name = "DBServer"
                          + std::to_string(tasks->entries_size());
       task->set_name(name);
-      
+
       // mop: by convention Current and Plan arrays have to have equal size
       TasksCurrent* dbservers = current->mutable_dbservers();
       dbservers->add_entries();
@@ -276,15 +318,21 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
   if (t < p) {
     LOG(INFO)
     << "INFO reducing the number of coordinators from " << p << " to " << t;
-    
-    int toShutdown = p - t; 
-    int shuttingDown = 0;
+
+    int toShutdown = p - t;
 
     double now = chrono::duration_cast<chrono::seconds>(
       chrono::steady_clock::now().time_since_epoch()).count();
+
+    auto tasksCurrent = current->mutable_coordinators();
+    // mop: first remove "hanging" tasks which are trying to start right now
+    toShutdown -= removeNewTasks(tasks, tasksCurrent, toShutdown);
+    int shuttingDown = 0;
+    // mop: finally if still necessary kill the newest tasks
     for (int i=tasks->entries_size() - 1;i>=0 && shuttingDown < toShutdown;i--) {
       auto planCoordinator = tasks->mutable_entries(i);
-      auto const& currentCoordinator = current->coordinators().entries(i);
+      auto const& currentCoordinator = tasksCurrent->entries(i);
+
       if (planCoordinator->has_server_id()) {
         if (shutdownServer(planCoordinator, currentCoordinator)) {
           shuttingDown++;

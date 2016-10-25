@@ -82,6 +82,8 @@ namespace arangodb {
       void shutdownSecondary(ArangoState::Lease&, TaskPlan*);
 
       bool shutdownServer(TaskPlan*, TaskCurrent const&);
+
+      int removeNewTasks(TasksPlan*, TasksCurrent*, int);
   };
 }
 
