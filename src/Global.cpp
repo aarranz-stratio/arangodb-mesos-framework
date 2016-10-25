@@ -201,6 +201,8 @@ static std::string ARANGODB_ENTERPRISE_KEY = "";
 
 static std::string ARANGODB_JWT_SECRET = "";
 
+static std::string ARANGODB_SSL_KEYFILE = "";
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                             static public methods
 // -----------------------------------------------------------------------------
@@ -698,6 +700,14 @@ void Global::setArangoDBJwtSecret(std::string const& arangoDBJwtSecret) {
 
 std::string Global::arangoDBJwtSecret() {
   return ARANGODB_JWT_SECRET;
+}
+
+void Global::setArangoDBSslKeyfile(std::string const& sslKeyfile) {
+  ARANGODB_SSL_KEYFILE = sslKeyfile;
+}
+
+std::string Global::arangoDBSslKeyfile() {
+  return ARANGODB_SSL_KEYFILE;
 }
 
 // -----------------------------------------------------------------------------

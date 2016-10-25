@@ -218,6 +218,7 @@ bool ArangoState::createReverseProxyConfig() {
     # Stats required for this module to work
     # https://github.com/observing/haproxy#haproxycfg
     stats socket /tmp/haproxy.sock level admin
+    ssl-server-verify none
 
 defaults
     log     global
@@ -240,7 +241,7 @@ defaults
     backend arangodb
         # i have no idea how to really detect the adminrouter :(
         cookie SERVERID insert indirect nocache
-        acl is_adminrouter hdr_reg(x-forwarded-for) .*        
+        acl is_adminrouter hdr_reg(x-forwarded-for) .*
         option forwardfor
         reqadd X-Script-Name:\ /service/)" << Global::frameworkName() << " if is_adminrouter\n" << "        cookie SERVERID insert indirect nocache\n" << _coordinatorHAProxyList;
 
@@ -260,7 +261,14 @@ std::string ArangoState::getAgencyURL (ArangoState::Lease& lease) {
   auto const& agents = lease.state().current().agents();
   std::string hostname = agents.entries(0).hostname();
   uint32_t port = agents.entries(0).ports(0);
-  return "http://" + hostname + ":" + std::to_string(port) + "/v2/keys/arango";
+
+  std::string url;
+  if (!Global::arangoDBSslKeyfile().empty()) {
+    url = "https://";
+  } else {
+    url = "http://";
+  }
+  return url + hostname + ":" + std::to_string(port) + "/v2/keys/arango";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -288,7 +296,14 @@ std::string ArangoState::getCoordinatorURL (ArangoState::Lease& lease) {
   }
 
   uint32_t port = coordinator.ports(0);
-  std::string url("http://" + hostname + ":" + std::to_string(port));
+  
+  std::string url;
+  if (!Global::arangoDBSslKeyfile().empty()) {
+    url = "https://";
+  } else {
+    url = "http://";
+  }
+  url += hostname + ":" + std::to_string(port);
 
   return url;
 }
@@ -329,6 +344,11 @@ bool ArangoState::save () {
 
   std::string backends = "";
   auto const coordinators = _state.current().coordinators().entries();
+  
+  std::string options = "check";
+  if (!Global::arangoDBSslKeyfile().empty()) {
+    options += " ssl";
+  }
 
   int i=0;
   for (auto const& coordinator: coordinators) {
@@ -337,7 +357,7 @@ bool ArangoState::save () {
       continue;
     }
     std::string serverName = std::to_string(i);
-    backends += "        server coordinator" + std::to_string(i) + " " + coordinator.hostname() + ":" + std::to_string(coordinator.ports(0)) + " check cookie coordinator" + std::to_string(i) + '\n';
+    backends += "        server coordinator" + std::to_string(i) + " " + coordinator.hostname() + ":" + std::to_string(coordinator.ports(0)) + " " + options + " cookie coordinator" + std::to_string(i) + '\n';
     i++;
   }
 

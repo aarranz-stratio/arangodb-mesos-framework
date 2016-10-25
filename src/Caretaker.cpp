@@ -460,6 +460,13 @@ static bool allEndpointsAvailable(google::protobuf::RepeatedPtrField<arangodb::T
 static std::string getEndpointsList(google::protobuf::RepeatedPtrField<arangodb::TaskCurrent> const& tasks) {
   std::string endpointsList;
   bool isFirst = true;
+
+  std::string protocol;
+  if (Global::arangoDBSslKeyfile().empty()) {
+    protocol = "tcp";
+  } else {
+    protocol = "ssl";
+  }
   for (const auto &task: tasks) {
     if (task.ports().size() == 0) {
       continue;
@@ -470,7 +477,7 @@ static std::string getEndpointsList(google::protobuf::RepeatedPtrField<arangodb:
     } else {
       endpointsList += " ";
     }
-    endpointsList += "tcp://" + getIPAddress(task.hostname()) + ":" + to_string(task.ports(0));
+    endpointsList += protocol + "://" + getIPAddress(task.hostname()) + ":" + to_string(task.ports(0));
   }
   return endpointsList;
 }
@@ -563,6 +570,12 @@ static void startArangoDBTask (ArangoState::Lease& lease,
     clusterId->set_value(task.server_id());
   }
 
+  if (!Global::arangoDBSslKeyfile().empty()) {
+    mesos::Environment::Variable* sslKeyfile = environment.add_variables();
+    sslKeyfile->set_name("SSL_KEYFILE");
+    sslKeyfile->set_value(Global::arangoDBSslKeyfile());
+  }
+
   switch (taskType) {
     case TaskType::AGENT: {
       auto current = state.current();
@@ -571,11 +584,11 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
       agencyId->set_name("AGENCY_ID");
       agencyId->set_value(std::to_string(pos));
-      
+
       auto agencySize = environment.add_variables();
       agencySize->set_name("AGENCY_SIZE");
       agencySize->set_value(std::to_string(plan.agents().entries().size()));
-      
+
       // mop: it is the last agency...this may happen during startup
       // or upon task restart..in any case this is the one that should
       // notify the rest
@@ -603,7 +616,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
       // mop: standalone will simply execute the image in default mode
       if (Global::mode() != OperationMode::STANDALONE) {
         auto agents = state.current().agents();
-        
+
         auto agencyEndpoints = environment.add_variables();
         agencyEndpoints->set_name("AGENCY_ENDPOINTS");
         agencyEndpoints->set_value(getEndpointsList(agents.entries()));
@@ -616,7 +629,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
       break;
     }
   }
-  
+
   mesos::CommandInfo command;
   command.set_shell(false);
 
@@ -640,29 +653,11 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   // port mapping
   mesos::ContainerInfo::DockerInfo::PortMapping* mapping = docker->add_port_mappings();
   mapping->set_host_port(info.ports(0));
+  mapping->set_container_port(8529);
 
-  switch (taskType) {
-    case TaskType::AGENT:
-      mapping->set_container_port(4001);
-      break;
-
-    case TaskType::PRIMARY_DBSERVER:
-      mapping->set_container_port(8529);
-      break;
-
-    case TaskType::COORDINATOR:
-      mapping->set_container_port(8529);
-      break;
-
-    case TaskType::SECONDARY_DBSERVER:
-      mapping->set_container_port(8529);
-      break;
-
-    case TaskType::UNKNOWN:
-      assert(false);
-      break;
+  if (taskType == TaskType::UNKNOWN) {
+    assert(false);
   }
-
   mapping->set_protocol("tcp");
 
   // volume

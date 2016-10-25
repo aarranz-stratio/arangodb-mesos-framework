@@ -141,6 +141,8 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "                       overrides '--arangodb_privileged_image'\n"
        << "  ARANGODB_JWT_SECRET\n"
        << "                       overrides '--arangodb_jwt_secret\n"
+       << "  ARANGODB_SSL_KEYFILE\n"
+       << "                       overrides '--arangodb_ssl_keyfile\n"
        << "  ARANGODB_ENTERPRISE_KEY\n"
        << "                       overrides '--arangodb_enterprise_key'\n"
        << "  ARANGODB_ZK          overrides '--zk'\n"
@@ -350,11 +352,17 @@ int main (int argc, char** argv) {
             "arangodb_enterprise_key",
             "enterprise key for arangodb",
             "");
-  
+
   string arangoDBJwtSecret;
   flags.add(&arangoDBJwtSecret,
             "arangodb_jwt_secret",
             "secret for internal cluster communication",
+            "");
+
+  string arangoDBSslKeyfile;
+  flags.add(&arangoDBSslKeyfile,
+            "arangodb_ssl_keyfile",
+            "SSL keyfile to use (optional - specify .pem file base64 encoded)",
             "");
 
   string zk;
@@ -416,6 +424,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_PRIVILEGED_IMAGE", arangoDBPrivilegedImage);
   updateFromEnv("ARANGODB_ENTERPRISE_KEY", arangoDBEnterpriseKey);
   updateFromEnv("ARANGODB_JWT_SECRET", arangoDBJwtSecret);
+  updateFromEnv("ARANGODB_SSL_KEYFILE", arangoDBSslKeyfile);
 
   updateFromEnv("MESOS_MASTER", master);
   updateFromEnv("ARANGODB_ZK", zk);
@@ -490,6 +499,7 @@ int main (int argc, char** argv) {
   Global::setWebuiPort(webuiPort);
   Global::setArangoDBEnterpriseKey(arangoDBEnterpriseKey);
   Global::setArangoDBJwtSecret(arangoDBJwtSecret);
+  Global::setArangoDBSslKeyfile(arangoDBSslKeyfile);
 
   // ...........................................................................
   // state

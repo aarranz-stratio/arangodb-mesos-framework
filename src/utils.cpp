@@ -487,6 +487,9 @@ static int executeHTTPGet (std::string url, Headers const& headers, std::string&
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*) &resultBody);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+    // mop: XXX :S CURLE 51 and 60...
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
     res = curl_easy_perform(curl);
 
@@ -549,6 +552,9 @@ static int executeHTTPPost (std::string url, Headers const& headers, std::string
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
     curl_easy_setopt(curl, CURLOPT_POST, 1);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+    // mop: XXX :S CURLE 51 and 60...
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
     res = curl_easy_perform(curl);
 
@@ -616,6 +622,9 @@ static int executeHTTPPut (std::string url, Headers const& headers, std::string 
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*) &resultBody);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
     curl_easy_setopt(curl, CURLOPT_UPLOAD, 1);
+    // mop: XXX :S CURLE 51 and 60...
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
     
     res = curl_easy_perform(curl);
 
@@ -677,6 +686,9 @@ static int executeHTTPDelete (std::string url, Headers const& headers, std::stri
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*) &resultBody);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+    // mop: XXX :S CURLE 51 and 60...
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
     res = curl_easy_perform(curl);
 

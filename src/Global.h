@@ -396,6 +396,9 @@ namespace arangodb {
 
       static void setArangoDBJwtSecret(std::string const& arangoDBJwtSecret);
       static std::string arangoDBJwtSecret();
+
+      static void setArangoDBSslKeyfile(std::string const&);
+      static std::string arangoDBSslKeyfile();
   };
 }
 

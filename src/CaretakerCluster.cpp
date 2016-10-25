@@ -258,7 +258,7 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
       TaskPlan* task = tasks->add_entries();
       task->set_state(TASK_STATE_NEW);
 
-      std::string name = "Agent" 
+      std::string name = "Agent"
                          + std::to_string(tasks->entries_size());
       task->set_name(name);
 
@@ -348,7 +348,7 @@ void CaretakerCluster::updatePlan (std::vector<std::string> const& cleanedServer
     for (int i = p; i < t; ++i) {
       TaskPlan* task = tasks->add_entries();
       task->set_state(TASK_STATE_NEW);
-      std::string name = "Coordinator" 
+      std::string name = "Coordinator"
                          + std::to_string(tasks->entries_size());
       task->set_name(name);
 
@@ -364,7 +364,7 @@ void CaretakerCluster::shutdownSecondary(ArangoState::Lease& lease, TaskPlan* db
   }
 
   Plan* plan = lease.state().mutable_plan();
-  
+
   TasksPlan* secondaries = plan->mutable_secondaries();
   TaskPlan* foundPlan = nullptr;
   TaskCurrent foundCurrent;
@@ -379,7 +379,7 @@ void CaretakerCluster::shutdownSecondary(ArangoState::Lease& lease, TaskPlan* db
 
   if (foundPlan != nullptr) {
     std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
-    std::string body 
+    std::string body
       =   R"({"primary":")" + dbserver->server_id() + R"(",)"
       + R"("oldSecondary":")" + foundPlan->server_id() + R"(",)"
       + R"("newSecondary":"none"})";
@@ -404,7 +404,13 @@ void CaretakerCluster::shutdownSecondary(ArangoState::Lease& lease, TaskPlan* db
 
 bool CaretakerCluster::shutdownServer(TaskPlan* taskPlan, TaskCurrent const& taskCurrent) {
   if (taskCurrent.has_hostname() && taskCurrent.ports_size() > 0) {
-    string endpoint = "http://" + taskCurrent.hostname() + ":" 
+    string endpoint;
+    if (!Global::arangoDBSslKeyfile().empty()) {
+      endpoint = "https://";
+    } else {
+      endpoint = "http://";
+    }
+    endpoint += taskCurrent.hostname() + ":"
       + to_string(taskCurrent.ports(0));
 
     std::string body;
@@ -438,7 +444,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   //   Otherwise, if not all DBservers are up and running, we check first
   //   whether this offer is good for one of them.
   //   If all DBservers are up, and we use asynchronous replication,
-  //   we check whether all secondaries are up, lastly, we check with 
+  //   we check whether all secondaries are up, lastly, we check with
   //   the coordinators. If all is well, we decline politely.
 
   auto lease = Global::state().lease();
@@ -451,7 +457,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
 
 #if 0
   // Further debugging output:
-  LOG(INFO) 
+  LOG(INFO)
   << "checkOffer, here is the state:\n"
   << "TARGETS:" << Global::state().jsonTargets() << "\n"
   << "PLAN:"   << Global::state().jsonPlan() << "\n"
@@ -511,7 +517,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
     // at the offer. This only happens when the cluster is already
     // initialized.
   }
-  
+
   // Create coordinators:
   plannedInstances = countPlannedInstances(plan->coordinators());
   runningInstances = countRunningInstances(plan->coordinators());
@@ -527,7 +533,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
                           offer, ! current->cluster_complete(),
                           TaskType::COORDINATOR)) {
       lease.changed();  // make sure that the new state is saved
-      return;   // if we have used or declined the offer, we will not 
+      return;   // if we have used or declined the offer, we will not
                 // want to run cluster init and will no longer have to
                 // return reservations or persistent volumes
     }
@@ -544,10 +550,10 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
       LOG(INFO)
       << "planned secondary DBServer instances: " << plannedInstances << ", "
       << "running secondary DBServer instances: " << runningInstances;
-      
+
       for (int i=0;i<plan->mutable_dbservers()->entries_size();i++) {
         if (!plan->mutable_dbservers()->mutable_entries(i)->has_sync_partner()) {
-          
+
           if (!Global::manager().registerNewSecondary(lease, plan->mutable_dbservers()->mutable_entries(i))) {
             // mop: reconfiguration failed...decline and retry on next offer
             Global::scheduler().declineOffer(offer.id());
@@ -576,16 +582,16 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
 
 
   // plannedInstances is 0 if and only if we have shut down the cluster,
-  // if this happened before the cluster was complete, there would be 
+  // if this happened before the cluster was complete, there would be
   // chaos.
-  if (plannedInstances > 0 && 
+  if (plannedInstances > 0 &&
       runningInstances == plannedInstances &&
       ! current->cluster_complete()) {
     std::stringstream sin;
     sin << "{\"numberOfCoordinators\":" << targets->coordinators().instances() << ",\"numberOfDBServers\":" << targets->dbservers().instances() << "}";
 
     std::string body = sin.str();
-    std::string resultBody; 
+    std::string resultBody;
     long httpCode = 0;
     std::string coordinatorURL = Global::state().getCoordinatorURL(lease);
     int res = arangodb::doClusterHTTPPut(coordinatorURL +
@@ -673,17 +679,17 @@ void CaretakerCluster::updateTarget() {
     coordinator->set_instances(Global::nrCoordinators());
     changed = true;
   }
-    
+
   // DBSERVER
   Target* dbserver = targets->mutable_dbservers();
   if (dbserver->instances() != Global::nrDBServers()) {
     dbserver->set_instances(Global::nrDBServers());
     changed = true;
   }
-  
+
   // SECONDARIES
   Target* secondary = targets->mutable_secondaries();
-  if (secondary->instances() != Global::nrDBServers()) { 
+  if (secondary->instances() != Global::nrDBServers()) {
     secondary->set_instances(Global::nrDBServers());
     changed = true;
   }

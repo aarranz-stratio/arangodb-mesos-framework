@@ -230,8 +230,14 @@ vector<string> ArangoManager::coordinatorEndpoints () {
   for (int i = 0;  i < coordinators.entries_size();  ++i) {
     auto const& coordinator = coordinators.entries(i);
     if (coordinator.has_hostname() && coordinator.ports_size() > 0) {
-      string endpoint = "http://" + coordinator.hostname() + ":" 
-                        + to_string(coordinator.ports(0));
+      string endpoint;
+      if (!Global::arangoDBSslKeyfile().empty()) {
+        endpoint = "https://";
+      } else {
+        endpoint = "http://";
+      }
+      endpoint += coordinator.hostname() + ":"
+        + to_string(coordinator.ports(0));
       endpoints.push_back(endpoint);
     }
   }
@@ -253,8 +259,14 @@ vector<string> ArangoManager::dbserverEndpoints () {
   for (int i = 0; i < dbservers.entries_size(); ++i) {
     auto const& dbserver = dbservers.entries(i);
     if (dbserver.has_hostname() && dbserver.ports_size() > 0) {
-      string endpoint = "http://" + dbserver.hostname() + ":" 
-                        + to_string(dbserver.ports(0));
+      string endpoint;
+      if (!Global::arangoDBSslKeyfile().empty()) {
+        endpoint = "https://";
+      } else {
+        endpoint = "http://";
+      }
+      endpoint += dbserver.hostname() + ":"
+        + to_string(dbserver.ports(0));
       endpoints.push_back(endpoint);
     }
   }
@@ -610,8 +622,16 @@ static double const TryingToResurrectTimeout = 30;  // Patience before we
 static bool getServerId(TaskCurrent* task, std::string& server_id) {
   std::string body;
   long httpCode = 0;
-  int res = doClusterHTTPGet("http://" + task->hostname() + ":" + to_string(task->ports(0)) 
-                      + "/_admin/server/id", body, httpCode);
+
+  std::string endpoint;
+  if (!Global::arangoDBSslKeyfile().empty()) {
+    endpoint = "https://";
+  } else {
+    endpoint = "http://";
+  }
+  endpoint += task->hostname() + ":" + to_string(task->ports(0)) + "/_admin/server/id";
+
+  int res = doClusterHTTPGet(endpoint, body, httpCode);
 
   if (res != 0 || httpCode != 200) {
     LOG(ERROR) << "Couldn't retrieve server id. HTTP Code: " << httpCode;
