@@ -2,7 +2,7 @@
 
 if [ $# -lt 2 ]; then
   echo "$0 <docker-image-name> <build-tag>"
-  echo "Example: $0 arangodb/arangodb-mesos-framework 3.0-build2"
+  echo "Example: $0 arangodb/arangodb-mesos-framework 3.1-build1"
   exit 99
 fi
 

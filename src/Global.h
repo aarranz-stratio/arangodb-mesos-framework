@@ -399,6 +399,18 @@ namespace arangodb {
 
       static void setArangoDBSslKeyfile(std::string const&);
       static std::string arangoDBSslKeyfile();
+
+      static void setArangoDBAdditionalAgentArgs(std::string const&);
+      static std::string arangoDBAdditionalAgentArgs();
+
+      static void setArangoDBAdditionalDBServerArgs(std::string const&);
+      static std::string arangoDBAdditionalDBServerArgs();
+
+      static void setArangoDBAdditionalSecondaryArgs(std::string const&);
+      static std::string arangoDBAdditionalSecondaryArgs();
+
+      static void setArangoDBAdditionalCoordinatorArgs(std::string const&);
+      static std::string arangoDBAdditionalCoordinatorArgs();
   };
 }
 

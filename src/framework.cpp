@@ -145,6 +145,14 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "                       overrides '--arangodb_ssl_keyfile\n"
        << "  ARANGODB_ENTERPRISE_KEY\n"
        << "                       overrides '--arangodb_enterprise_key'\n"
+       << "  ARANGODB_ADDITIONAL_AGENT_ARGS\n"
+       << "                       overrides '--arangodb_additional_agent_args'\n"
+       << "  ARANGODB_ADDITIONAL_DBSERVER_ARGS\n"
+       << "                       overrides '--arangodb_additional_dbserver_args'\n"
+       << "  ARANGODB_ADDITIONAL_SECONDARY_ARGS\n"
+       << "                       overrides '--arangodb_additional_secondary_args'\n"
+       << "  ARANGODB_ADDITIONAL_COORDINATOR_ARGS\n"
+       << "                       overrides '--arangodb_additional_coordinator_args'\n"
        << "  ARANGODB_ZK          overrides '--zk'\n"
        << "\n"
        << "  MESOS_MASTER         overrides '--master'\n"
@@ -365,6 +373,30 @@ int main (int argc, char** argv) {
             "SSL keyfile to use (optional - specify .pem file base64 encoded)",
             "");
 
+  string arangoDBAdditionalAgentArgs;
+  flags.add(&arangoDBAdditionalAgentArgs,
+            "arangodb_additional_agent_args",
+            "additional command line arguments to be passed when starting an agent",
+            "");
+
+  string arangoDBAdditionalDBServerArgs;
+  flags.add(&arangoDBAdditionalDBServerArgs,
+            "arangodb_additional_dbserver_args",
+            "additional command line arguments to be passed when starting a dbserver",
+            "");
+
+  string arangoDBAdditionalSecondaryArgs;
+  flags.add(&arangoDBAdditionalSecondaryArgs,
+            "arangodb_additional_secondary_args",
+            "additional command line arguments to be passed when starting a secondary",
+            "");
+
+  string arangoDBAdditionalCoordinatorArgs;
+  flags.add(&arangoDBAdditionalCoordinatorArgs,
+            "arangodb_additional_coordinator_args",
+            "additional command line arguments to be passed when starting an coordinator",
+            "");
+
   string zk;
   flags.add(&zk,
             "zk",
@@ -425,6 +457,11 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_ENTERPRISE_KEY", arangoDBEnterpriseKey);
   updateFromEnv("ARANGODB_JWT_SECRET", arangoDBJwtSecret);
   updateFromEnv("ARANGODB_SSL_KEYFILE", arangoDBSslKeyfile);
+  updateFromEnv("ARANGODB_SSL_KEYFILE", arangoDBSslKeyfile);
+  updateFromEnv("ARANGODB_ADDITIONAL_AGENT_ARGS", arangoDBAdditionalAgentArgs);
+  updateFromEnv("ARANGODB_ADDITIONAL_DBSERVER_ARGS", arangoDBAdditionalDBServerArgs);
+  updateFromEnv("ARANGODB_ADDITIONAL_SECONDARY_ARGS", arangoDBAdditionalSecondaryArgs);
+  updateFromEnv("ARANGODB_ADDITIONAL_COORDINATOR_ARGS", arangoDBAdditionalCoordinatorArgs);
 
   updateFromEnv("MESOS_MASTER", master);
   updateFromEnv("ARANGODB_ZK", zk);
@@ -494,12 +531,24 @@ int main (int argc, char** argv) {
   Global::setNrDBServers(nrdbservers);
   LOG(INFO) << "Number of coordinators: " << nrcoordinators;
   Global::setNrCoordinators(nrcoordinators);
-
+  LOG(INFO) << "Framework port: " << frameworkPort;
   Global::setFrameworkPort(frameworkPort);
+  LOG(INFO) << "WebUI port: " << webuiPort;
   Global::setWebuiPort(webuiPort);
+  LOG(INFO) << "ArangoDB Enterprise Key: " << arangoDBEnterpriseKey;
   Global::setArangoDBEnterpriseKey(arangoDBEnterpriseKey);
+  LOG(INFO) << "ArangoDB JWT Secret: " << arangoDBJwtSecret;
   Global::setArangoDBJwtSecret(arangoDBJwtSecret);
+  LOG(INFO) << "ArangoDB SSL Keyfile: " << arangoDBSslKeyfile;
   Global::setArangoDBSslKeyfile(arangoDBSslKeyfile);
+  LOG(INFO) << "ArangoDB additional agent args: " << arangoDBAdditionalAgentArgs;
+  Global::setArangoDBAdditionalAgentArgs(arangoDBAdditionalAgentArgs);
+  LOG(INFO) << "ArangoDB additional dbserver args: " << arangoDBAdditionalAgentArgs;
+  Global::setArangoDBAdditionalDBServerArgs(arangoDBAdditionalDBServerArgs);
+  LOG(INFO) << "ArangoDB additional secondary args: " << arangoDBAdditionalSecondaryArgs;
+  Global::setArangoDBAdditionalSecondaryArgs(arangoDBAdditionalSecondaryArgs);
+  LOG(INFO) << "ArangoDB additional coordinator args: " << arangoDBAdditionalCoordinatorArgs;
+  Global::setArangoDBAdditionalCoordinatorArgs(arangoDBAdditionalCoordinatorArgs);
 
   // ...........................................................................
   // state

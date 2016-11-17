@@ -564,10 +564,15 @@ static void startArangoDBTask (ArangoState::Lease& lease,
     jwtSecretVar->set_value(jwtSecret);
   }
 
-  if (!task.server_id().empty()) {
-    mesos::Environment::Variable* clusterId = environment.add_variables();
+  if (!task.server_id().empty() || taskType == TaskType::SECONDARY_DBSERVER) {
+    mesos::Environment::Variable* clusterId = nullptr;
+    clusterId = environment.add_variables();
     clusterId->set_name("CLUSTER_ID");
-    clusterId->set_value(task.server_id());
+    if (taskType == TaskType::SECONDARY_DBSERVER) {
+      clusterId->set_value(myInternalName);
+    } else {
+      clusterId->set_value(task.server_id());
+    }
   }
 
   if (!Global::arangoDBSslKeyfile().empty()) {
@@ -575,6 +580,9 @@ static void startArangoDBTask (ArangoState::Lease& lease,
     sslKeyfile->set_name("SSL_KEYFILE");
     sslKeyfile->set_value(Global::arangoDBSslKeyfile());
   }
+  mesos::Environment::Variable* additionalArgs = environment.add_variables();
+  additionalArgs->set_name("ADDITIONAL_ARGS");
+  additionalArgs->set_value("");
 
   switch (taskType) {
     case TaskType::AGENT: {
@@ -602,15 +610,11 @@ static void startArangoDBTask (ArangoState::Lease& lease,
         notify->set_name("AGENCY_NOTIFY");
         notify->set_value(std::to_string(doNotify));
       }
+      additionalArgs->set_value(Global::arangoDBAdditionalAgentArgs());
       break;
     }
 
-    case TaskType::SECONDARY_DBSERVER: {
-      // mop: intentional fall through
-      auto p = environment.add_variables();
-      p->set_name("CLUSTER_ID");
-      p->set_value(myInternalName);
-    }
+    case TaskType::SECONDARY_DBSERVER:
     case TaskType::PRIMARY_DBSERVER:
     case TaskType::COORDINATOR: {
       // mop: standalone will simply execute the image in default mode
@@ -620,6 +624,14 @@ static void startArangoDBTask (ArangoState::Lease& lease,
         auto agencyEndpoints = environment.add_variables();
         agencyEndpoints->set_name("AGENCY_ENDPOINTS");
         agencyEndpoints->set_value(getEndpointsList(agents.entries()));
+      }
+
+      if (taskType == TaskType::PRIMARY_DBSERVER) {
+        additionalArgs->set_value(Global::arangoDBAdditionalDBServerArgs());
+      } else if (taskType == TaskType::SECONDARY_DBSERVER) {
+        additionalArgs->set_value(Global::arangoDBAdditionalSecondaryArgs());
+      } else if (taskType == TaskType::COORDINATOR) {
+        additionalArgs->set_value(Global::arangoDBAdditionalCoordinatorArgs());
       }
       break;
     }

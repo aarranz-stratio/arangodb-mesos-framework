@@ -203,6 +203,11 @@ static std::string ARANGODB_JWT_SECRET = "";
 
 static std::string ARANGODB_SSL_KEYFILE = "";
 
+static std::string ARANGODB_ADDITIONAL_AGENT_ARGS = "";
+static std::string ARANGODB_ADDITIONAL_DBSERVER_ARGS = "";
+static std::string ARANGODB_ADDITIONAL_SECONDARY_ARGS = "";
+static std::string ARANGODB_ADDITIONAL_COORDINATOR_ARGS = "";
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                             static public methods
 // -----------------------------------------------------------------------------
@@ -708,6 +713,38 @@ void Global::setArangoDBSslKeyfile(std::string const& sslKeyfile) {
 
 std::string Global::arangoDBSslKeyfile() {
   return ARANGODB_SSL_KEYFILE;
+}
+
+void Global::setArangoDBAdditionalAgentArgs(std::string const& additionalAgentArgs) {
+  ARANGODB_ADDITIONAL_AGENT_ARGS = additionalAgentArgs;
+}
+
+std::string Global::arangoDBAdditionalAgentArgs() {
+  return ARANGODB_ADDITIONAL_AGENT_ARGS;
+}
+
+void Global::setArangoDBAdditionalDBServerArgs(std::string const& additionalDBServerArgs) {
+  ARANGODB_ADDITIONAL_DBSERVER_ARGS = additionalDBServerArgs;
+}
+
+std::string Global::arangoDBAdditionalDBServerArgs() {
+  return ARANGODB_ADDITIONAL_DBSERVER_ARGS;
+}
+
+void Global::setArangoDBAdditionalSecondaryArgs(std::string const& additionalSecondaryArgs) {
+  ARANGODB_ADDITIONAL_SECONDARY_ARGS = additionalSecondaryArgs;
+}
+
+std::string Global::arangoDBAdditionalSecondaryArgs() {
+  return ARANGODB_ADDITIONAL_SECONDARY_ARGS;
+}
+
+void Global::setArangoDBAdditionalCoordinatorArgs(std::string const& additionalCoordinatorArgs) {
+  ARANGODB_ADDITIONAL_COORDINATOR_ARGS = additionalCoordinatorArgs;
+}
+
+std::string Global::arangoDBAdditionalCoordinatorArgs() {
+  return ARANGODB_ADDITIONAL_COORDINATOR_ARGS;
 }
 
 // -----------------------------------------------------------------------------
