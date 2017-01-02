@@ -588,8 +588,11 @@ static void startArangoDBTask (ArangoState::Lease& lease,
     case TaskType::AGENT: {
       auto current = state.current();
       auto plan = state.plan();
-      auto agencyId = environment.add_variables();
 
+      // mop: must keep this flag because up to 3.1.8 the entrypoint expects
+      // this to be present even though it is not used
+      // remove for 3.2
+      auto agencyId = environment.add_variables();
       agencyId->set_name("AGENCY_ID");
       agencyId->set_value(std::to_string(pos));
 
@@ -597,19 +600,10 @@ static void startArangoDBTask (ArangoState::Lease& lease,
       agencySize->set_name("AGENCY_SIZE");
       agencySize->set_value(std::to_string(plan.agents().entries().size()));
 
-      // mop: it is the last agency...this may happen during startup
-      // or upon task restart..in any case this is the one that should
-      // notify the rest
-      if (state.current().agents().entries().size() == state.plan().agents().entries().size()) {
-        auto endpoints = environment.add_variables();
-        endpoints->set_name("AGENCY_ENDPOINTS");
-        endpoints->set_value(getEndpointsList(state.current().agents().entries()));
+      auto endpoints = environment.add_variables();
+      endpoints->set_name("AGENCY_ENDPOINTS");
+      endpoints->set_value(getEndpointsList(state.current().agents().entries()));
 
-        bool doNotify = allEndpointsAvailable(state.current().agents().entries());
-        auto notify = environment.add_variables();
-        notify->set_name("AGENCY_NOTIFY");
-        notify->set_value(std::to_string(doNotify));
-      }
       additionalArgs->set_value(Global::arangoDBAdditionalAgentArgs());
       break;
     }
