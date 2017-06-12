@@ -203,6 +203,8 @@ static std::string ARANGODB_JWT_SECRET = "";
 
 static std::string ARANGODB_SSL_KEYFILE = "";
 
+static std::string ARANGODB_STORAGE_ENGINE = "auto";
+
 static std::string ARANGODB_ADDITIONAL_AGENT_ARGS = "";
 static std::string ARANGODB_ADDITIONAL_DBSERVER_ARGS = "";
 static std::string ARANGODB_ADDITIONAL_SECONDARY_ARGS = "";
@@ -745,6 +747,14 @@ void Global::setArangoDBAdditionalCoordinatorArgs(std::string const& additionalC
 
 std::string Global::arangoDBAdditionalCoordinatorArgs() {
   return ARANGODB_ADDITIONAL_COORDINATOR_ARGS;
+}
+
+void Global::setArangoDBStorageEngine(std::string const& arangoDBStorageEngine) {
+  ARANGODB_STORAGE_ENGINE = arangoDBStorageEngine;
+}
+
+std::string Global::arangoDBStorageEngine() {
+  return ARANGODB_STORAGE_ENGINE;
 }
 
 // -----------------------------------------------------------------------------

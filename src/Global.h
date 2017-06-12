@@ -411,6 +411,9 @@ namespace arangodb {
 
       static void setArangoDBAdditionalCoordinatorArgs(std::string const&);
       static std::string arangoDBAdditionalCoordinatorArgs();
+
+      static void setArangoDBStorageEngine(std::string const& arangoDBStorageEngine);
+      static std::string arangoDBStorageEngine();
   };
 }
 

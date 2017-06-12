@@ -145,6 +145,8 @@ static void usage (const string& argv0, const flags::FlagsBase& flags) {
        << "                       overrides '--arangodb_ssl_keyfile\n"
        << "  ARANGODB_ENTERPRISE_KEY\n"
        << "                       overrides '--arangodb_enterprise_key'\n"
+       << "  ARANGODB_STORAGE_ENGINE\n"
+       << "                       overrides '--arangodb_storage_engine\n"
        << "  ARANGODB_ADDITIONAL_AGENT_ARGS\n"
        << "                       overrides '--arangodb_additional_agent_args'\n"
        << "  ARANGODB_ADDITIONAL_DBSERVER_ARGS\n"
@@ -360,6 +362,12 @@ int main (int argc, char** argv) {
             "arangodb_enterprise_key",
             "enterprise key for arangodb",
             "");
+  
+  string arangoDBStorageEngine;
+  flags.add(&arangoDBStorageEngine,
+            "arangodb_storage_engine",
+            "storage engine to choose",
+            "auto");
 
   string arangoDBJwtSecret;
   flags.add(&arangoDBJwtSecret,
@@ -457,7 +465,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_ENTERPRISE_KEY", arangoDBEnterpriseKey);
   updateFromEnv("ARANGODB_JWT_SECRET", arangoDBJwtSecret);
   updateFromEnv("ARANGODB_SSL_KEYFILE", arangoDBSslKeyfile);
-  updateFromEnv("ARANGODB_SSL_KEYFILE", arangoDBSslKeyfile);
+  updateFromEnv("ARANGODB_STORAGE_ENGINE", arangoDBStorageEngine);
   updateFromEnv("ARANGODB_ADDITIONAL_AGENT_ARGS", arangoDBAdditionalAgentArgs);
   updateFromEnv("ARANGODB_ADDITIONAL_DBSERVER_ARGS", arangoDBAdditionalDBServerArgs);
   updateFromEnv("ARANGODB_ADDITIONAL_SECONDARY_ARGS", arangoDBAdditionalSecondaryArgs);
@@ -541,6 +549,8 @@ int main (int argc, char** argv) {
   Global::setArangoDBJwtSecret(arangoDBJwtSecret);
   LOG(INFO) << "ArangoDB SSL Keyfile: " << arangoDBSslKeyfile;
   Global::setArangoDBSslKeyfile(arangoDBSslKeyfile);
+  LOG(INFO) << "ArangoDB Storage Engine: " << arangoDBStorageEngine;
+  Global::setArangoDBStorageEngine(arangoDBStorageEngine);
   LOG(INFO) << "ArangoDB additional agent args: " << arangoDBAdditionalAgentArgs;
   Global::setArangoDBAdditionalAgentArgs(arangoDBAdditionalAgentArgs);
   LOG(INFO) << "ArangoDB additional dbserver args: " << arangoDBAdditionalAgentArgs;

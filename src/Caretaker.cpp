@@ -529,6 +529,11 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   // command to execute
   mesos::Environment environment;
+  
+  mesos::Environment::Variable* storageEngineEnv = environment.add_variables();
+  storageEngineEnv->set_name("ARANGO_STORAGE_ENGINE");
+  storageEngineEnv->set_value(Global::arangoDBStorageEngine());
+
   mesos::Environment::Variable* roleEnv = environment.add_variables();
   roleEnv->set_name("CLUSTER_ROLE");
 

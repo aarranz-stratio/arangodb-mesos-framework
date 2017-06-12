@@ -332,11 +332,9 @@ bool ArangoState::save () {
   string value;
   _state.SerializeToString(&value);
 
-#if 0
   string json;
   pbjson::pb2json(&_state, json);
-  LOG(INFO) << "State saved: " << json << "\n";
-#endif
+  LOG(INFO) << "State saved: " << json;
 
   Variable variable = _stateStore->fetch("state_"+_name).get();
   variable = variable.mutate(value);
