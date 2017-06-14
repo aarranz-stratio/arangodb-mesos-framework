@@ -414,6 +414,9 @@ namespace arangodb {
 
       static void setArangoDBStorageEngine(std::string const& arangoDBStorageEngine);
       static std::string arangoDBStorageEngine();
+
+      static void setArangoDBEncryptionKeyfile(std::string const& arangoDBEncryptionKeyfile);
+      static std::string arangoDBEncryptionKeyfile();
   };
 }
 

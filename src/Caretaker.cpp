@@ -533,6 +533,11 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   mesos::Environment::Variable* storageEngineEnv = environment.add_variables();
   storageEngineEnv->set_name("ARANGO_STORAGE_ENGINE");
   storageEngineEnv->set_value(Global::arangoDBStorageEngine());
+  if (!Global::arangoDBEncryptionKeyfile().empty()) {
+    mesos::Environment::Variable* encryptionKeyfileEnv = environment.add_variables();
+    encryptionKeyfileEnv->set_name("ENCRYPTION_KEYFILE");
+    encryptionKeyfileEnv->set_value(Global::arangoDBEncryptionKeyfile());
+  }
 
   mesos::Environment::Variable* roleEnv = environment.add_variables();
   roleEnv->set_name("CLUSTER_ROLE");

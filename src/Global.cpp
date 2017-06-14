@@ -198,12 +198,10 @@ static int ARANGODB_WEBUI_PORT = 8180;
 static int ARANGODB_FRAMEWORK_PORT = 8181;
 
 static std::string ARANGODB_ENTERPRISE_KEY = "";
-
 static std::string ARANGODB_JWT_SECRET = "";
-
 static std::string ARANGODB_SSL_KEYFILE = "";
-
 static std::string ARANGODB_STORAGE_ENGINE = "auto";
+static std::string ARANGODB_ENCRYPTION_KEYFILE = "";
 
 static std::string ARANGODB_ADDITIONAL_AGENT_ARGS = "";
 static std::string ARANGODB_ADDITIONAL_DBSERVER_ARGS = "";
@@ -755,6 +753,14 @@ void Global::setArangoDBStorageEngine(std::string const& arangoDBStorageEngine) 
 
 std::string Global::arangoDBStorageEngine() {
   return ARANGODB_STORAGE_ENGINE;
+}
+
+void Global::setArangoDBEncryptionKeyfile(std::string const& arangoDBEncryptionKeyfile) {
+  ARANGODB_ENCRYPTION_KEYFILE = arangoDBEncryptionKeyfile;
+}
+
+std::string Global::arangoDBEncryptionKeyfile() {
+  return ARANGODB_ENCRYPTION_KEYFILE;
 }
 
 // -----------------------------------------------------------------------------

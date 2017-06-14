@@ -380,6 +380,12 @@ int main (int argc, char** argv) {
             "arangodb_ssl_keyfile",
             "SSL keyfile to use (optional - specify .pem file base64 encoded)",
             "");
+  
+  string arangoDBEncryptionKeyfile;
+  flags.add(&arangoDBEncryptionKeyfile,
+            "arangodb_encryption_keyfile",
+            "data encryption keyfile to use (optional - specify 32 byte aes keyfile base64 encoded)",
+            "");
 
   string arangoDBAdditionalAgentArgs;
   flags.add(&arangoDBAdditionalAgentArgs,
@@ -466,6 +472,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_JWT_SECRET", arangoDBJwtSecret);
   updateFromEnv("ARANGODB_SSL_KEYFILE", arangoDBSslKeyfile);
   updateFromEnv("ARANGODB_STORAGE_ENGINE", arangoDBStorageEngine);
+  updateFromEnv("ARANGODB_ENCRYPTION_KEYFILE", arangoDBEncryptionKeyfile);
   updateFromEnv("ARANGODB_ADDITIONAL_AGENT_ARGS", arangoDBAdditionalAgentArgs);
   updateFromEnv("ARANGODB_ADDITIONAL_DBSERVER_ARGS", arangoDBAdditionalDBServerArgs);
   updateFromEnv("ARANGODB_ADDITIONAL_SECONDARY_ARGS", arangoDBAdditionalSecondaryArgs);
@@ -551,6 +558,8 @@ int main (int argc, char** argv) {
   Global::setArangoDBSslKeyfile(arangoDBSslKeyfile);
   LOG(INFO) << "ArangoDB Storage Engine: " << arangoDBStorageEngine;
   Global::setArangoDBStorageEngine(arangoDBStorageEngine);
+  LOG(INFO) << "ArangoDB Encryption Keyfile: " << arangoDBEncryptionKeyfile;
+  Global::setArangoDBEncryptionKeyfile(arangoDBEncryptionKeyfile);
   LOG(INFO) << "ArangoDB additional agent args: " << arangoDBAdditionalAgentArgs;
   Global::setArangoDBAdditionalAgentArgs(arangoDBAdditionalAgentArgs);
   LOG(INFO) << "ArangoDB additional dbserver args: " << arangoDBAdditionalAgentArgs;
