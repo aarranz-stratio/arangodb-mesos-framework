@@ -118,6 +118,14 @@ void ArangoManager::addOffer (const mesos::Offer& offer) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+/// @brief secured communication?
+////////////////////////////////////////////////////////////////////////////////
+
+bool ArangoManager::secured() {
+  return !Global::arangoDBSslKeyfile().empty();
+}
+
+////////////////////////////////////////////////////////////////////////////////
 /// @brief removes an offer
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -214,6 +222,26 @@ void ArangoManager::restart() {
   
   Caretaker& caretaker = Global::caretaker();
   caretaker.restart();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// @brief endpoints of the agents
+////////////////////////////////////////////////////////////////////////////////
+
+vector<string> ArangoManager::agentEndpoints () {
+  auto const& agents = Global::state().lease().state().current().agents();
+  vector<string> endpoints;
+
+  for (int i = 0;  i < agents.entries_size(); ++i) {
+    auto const& agent = agents.entries(i);
+    if (agent.has_hostname() && agent.ports_size() > 0) {
+      string endpoint;
+      endpoint += agent.hostname() + ":" + to_string(agent.ports(0));
+      endpoints.push_back(endpoint);
+    }
+  }
+
+  return endpoints;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -800,6 +828,7 @@ void ArangoManager::updateServerIds() {
 
 bool ArangoManager::checkTimeouts () {
   auto l = Global::state().lease();
+  Caretaker& caretaker = Global::caretaker();
 
   std::vector<TaskType> types 
     = { TaskType::AGENT, TaskType::PRIMARY_DBSERVER,
@@ -912,10 +941,110 @@ bool ArangoManager::checkTimeouts () {
             LOG(INFO) << "Timeout " << FailoverTimeout << "s reached "
                       << " for task " << ic->task_info().name()
                       << " in state TASK_STATE_KILLED.";
+
+            // Agents
             if (taskType == TaskType::AGENT) {
-              // ignore timeout, keep trying, otherwise we are lost
-              LOG(INFO) << "Task is an agent, simply reset the timestamp and "
-                        << "wait forever.";
+
+              LOG(INFO) << "Task is an agent, remove gone agent from Agency";
+
+              std::string httpProtocol = secured() ? "https":"http" + "://";
+              std::string endpointProtocol = secured() ? "ssl":"tcp" + "://";
+              
+              // Failed agent's address
+              std::string failedAddress =
+                ic->hostname() + std::string(":") + to_string(ic->ports(0));
+              std::string failedId;
+              LOG(INFO) << "Failed endpoint is " << failedEndpoint;
+
+              // Randomly ordered agency endpoints without failed
+              std::vector<std::string> agents = agentEndpoints();
+              std::random_device rd;
+              std::mt19937 g(rd());
+              std::shuffle(agents.begin(), agents.end(), g);
+              agents.erase(
+                std::remove(agents.begin(), agents.end(),
+                            endpointProtocol + failedAddress), agents.end());
+              
+              std::string agency("Agents to be contacted: ");
+              for (auto const& i : agents) {
+                agency += i + " ";
+              }
+              LOG(INFO) << agency;
+              
+              // Get agency configuration from any one of the other agent
+              for (auto const& agent : agents) {
+
+                // Get a hold on agency configuration
+                std::string const configPath("/_api/agency/config");
+                std::string resultBody, body; 
+                long httpCode = 0;
+                int res = arangodb::doClusterHTTPGet(
+                  httProtocol + agent + "/_api/agency_priv/remove-server",
+                  resultBody, httpCode);
+
+                // Got a configuration. Extract the failed agent's ID by
+                // reverse lookup in the pool
+                if (httpCode==200) {
+
+                  // Parse configuration
+                  picojson::value value;
+                  std::string err = picojson::parse(value, resultBody);
+                  if (!err.empty()) { // No point going on :(
+                    LOG(WARNING)
+                      << "Couldn't parse json: " << err << ". Body was: " << body;
+                    return false; // continue!
+                  }
+                  
+                  auto pool = value.get("pool"); // Pool
+                  auto active = value.get("active"); // Ids
+
+                  if (active.is<picojson::array>()) {
+                    for (const auto i : active.get<picojson::array>()) {
+                      std::string id = i.to_str();
+                      if (pool.get(id).to_str()==failedEndpoint) {
+                        failedId = id;
+
+                        body = "{\"id\": \"" + failedId + "\"}";
+
+                        int res = arangodb::doClusterHTTPPost(
+                          httProtocol + agent + "/_api/agency_priv/remove-server",
+                          body, resultBody, httpCode);
+                          
+                        if (httpCode==200) {
+                          picojson::value value;
+                          std::string err = picojson::parse(value, resultBody);
+                          if (!err.empty()) {
+                            LOG(WARNING) << "Couldn't remove " << failedId
+                                         << " from agency : " << err << ". Body was: "
+                                         << body;
+                            return false;
+                          }
+
+                          // Declare task dead
+                          tp->set_state(TASK_STATE_DEAD);
+
+                          // Clear resources
+                          tp->clear_persistence_id();
+                          ic->clear_offer_id();
+                          ic->clear_ports();
+                          ic->clear_hostname();
+                          ic->clear_container_path();
+                          ic->clear_task_info();
+
+                          l.changed();
+                        }
+                      }
+                    }
+                  }
+
+                }
+              }
+              
+              
+              LOG(INFO) << "Going back to state TASK_STATE_NEW.";
+              tp->set_state(TASK_STATE_NEW);
+              tp->clear_persistence_id();
+
               tp->set_timestamp(now);
               l.changed();
             }
