@@ -1,4 +1,4 @@
-FROM ubuntu:15.10
+FROM ubuntu:16.10
 MAINTAINER Frank Celler <info@arangodb.com>
 
 RUN apt-get -y -qq --force-yes update
