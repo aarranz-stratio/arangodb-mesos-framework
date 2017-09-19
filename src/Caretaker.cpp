@@ -62,6 +62,7 @@ static bool checkPorts (size_t numberOfPorts, const mesos::Offer& offer,
   return true;
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief checks if the minimum resources are satisfied
 /// the offer as well as the minimum resources are
@@ -92,7 +93,7 @@ static bool isSuitableOffer (Target const& target,
   // Always flatten the minimal resources with our role, because find is 
   // flexible:
   mesos::Resources minimum = target.minimal_resources();
-  minimum = minimum.flatten(Global::role());
+  minimum = Caretaker::oldFlattenWithRole(minimum);
 
   Option<mesos::Resources> found = offered.find(minimum);
   if (! found.isSome()) {
@@ -125,7 +126,7 @@ static bool isSuitableReservedOffer (mesos::Offer const& offer,
   mesos::Resources offered = offer.resources();
   mesos::Resources reserved = offered.reserved(Global::role());
   mesos::Resources required = target.minimal_resources();
-  required = required.flatten(Global::role());
+  required = Caretaker::oldFlattenWithRole(required);
 
   LOG(INFO) << "Reserved: " << reserved;
   LOG(INFO) << "Target: " << required;
@@ -282,15 +283,15 @@ static mesos::Resources resourcesForRequestReservation (
   // when we ignore roles. We now have to reserve that part of the 
   // resources with role "*" that is necessary to have all of the minimal
   // resources with our role.
-  minimum = minimum.flatten(Global::role());
+  minimum = Caretaker::oldFlattenWithRole(minimum);
   mesos::Resources roleSpecificPart 
       = arangodb::intersectResources(offered, minimum);
   mesos::Resources defaultPart = minimum - roleSpecificPart;
-  defaultPart = defaultPart.flatten(Global::role(), Global::createReservation());
+  defaultPart = Caretaker::oldFlattenWithPrincipal(defaultPart);
 
   // Now add a port reservation:
   mesos::Resources ports = findFreePorts(offer, 1);
-  ports = ports.flatten(Global::role(), Global::createReservation());
+  ports = Caretaker::oldFlattenWithPrincipal(ports);
   defaultPart += ports;
 
   // TODO(fc) check if we could use additional resources
@@ -322,7 +323,7 @@ static mesos::Resources suitablePersistent (string const& name,
   offered = filterNotIsDisk(offered);
 
   mesos::Resources minimum = target.minimal_resources();
-  minimum = minimum.flatten(Global::role());
+  minimum = Caretaker::oldFlattenWithRole(minimum);
   mesos::Resources minimumDisk = filterIsDisk(minimum);
   minimum = filterNotIsDisk(minimum);
 
@@ -344,7 +345,7 @@ static mesos::Resources suitablePersistent (string const& name,
 
   bool found = false;
 
-  for (const auto& res : offeredDisk) {
+  for (mesos::Resource const& res : offeredDisk) {
     if (res.role() != Global::role()) {
       continue;
     }
@@ -835,7 +836,7 @@ static bool startWithResources(ArangoState::Lease& lease,
     size_t oldPortsSize = oldTask.ports_size();
 
     std::vector<uint64_t> ports;
-    for (auto& res : resources) {
+    for (mesos::Resource const& res : resources) {
       if (res.name() == "ports" && res.type() == mesos::Value::RANGES) {
         auto const& ranges = res.ranges();
         for (int r = 0; r < ranges.range_size(); r++) {
@@ -1571,6 +1572,27 @@ void Caretaker::restart() {
   while (Global::state().lease().state().has_restart()) {
     usleep(20000);
   }
+}
+
+
+// old mesos versions had a flatten() method...compat methods
+mesos::Resources Caretaker::oldFlatten(mesos::Resources const& resources) {
+  return resources.toUnreserved();
+}
+
+mesos::Resources Caretaker::oldFlattenWithRole(mesos::Resources const& resources) {
+  mesos::Resource::ReservationInfo reservation;
+  reservation.set_type(mesos::Resource::ReservationInfo::DYNAMIC);
+  reservation.set_role(Global::role());
+  return resources.pushReservation(reservation);
+}
+
+mesos::Resources Caretaker::oldFlattenWithPrincipal(mesos::Resources const& resources) {
+  mesos::Resource::ReservationInfo reservation;
+  reservation.set_type(mesos::Resource::ReservationInfo::DYNAMIC);
+  reservation.set_role(Global::role());
+  reservation.set_principal(Global::principal());
+  return resources.pushReservation(reservation);
 }
 
 // -----------------------------------------------------------------------------

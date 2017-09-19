@@ -38,6 +38,7 @@
 #include "ArangoState.h"
 #include "CaretakerStandalone.h"
 #include "CaretakerCluster.h"
+#include "FrameworkFlags.h"
 #include "Global.h"
 #include "HttpServer.h"
 
@@ -49,7 +50,6 @@
 #include <stout/stringify.hpp>
 #include <stout/net.hpp>
 
-#include "logging/flags.hpp"
 #include "logging/logging.hpp"
 
 using namespace std;
@@ -204,220 +204,8 @@ int main (int argc, char** argv) {
   // ...........................................................................
 
   // parse the command line flags
-  logging::Flags flags;
-
-  string mode;
-  flags.add(&mode,
-            "mode",
-            "Mode of operation (standalone, cluster)",
-            "cluster");
-
-  string async_repl;
-  flags.add(&async_repl,
-            "async_replication",
-            "Flag, whether we run secondaries for asynchronous replication",
-            "false");
-
-  string role;
-  flags.add(&role,
-            "role",
-            "Role to use when registering",
-            "*");
-
-  string minimal_resources_agent;
-  flags.add(&minimal_resources_agent,
-            "minimal_resources_agent",
-            "Minimal resources to accept for an agent",
-            "");
-
-  string minimal_resources_dbserver;
-  flags.add(&minimal_resources_dbserver,
-            "minimal_resources_dbserver",
-            "Minimal resources to accept for a DBServer",
-            "");
-
-  string minimal_resources_secondary;
-  flags.add(&minimal_resources_secondary,
-            "minimal_resources_secondary",
-            "Minimal resources to accept for a secondary DBServer",
-            "");
-
-  string minimal_resources_coordinator;
-  flags.add(&minimal_resources_coordinator,
-            "minimal_resources_coordinator",
-            "Minimal resources to accept for a coordinator",
-            "");
-
-  int nragents;
-  flags.add(&nragents,
-            "nr_agents",
-            "Number of agents in agency",
-            1);
-
-  int nrdbservers;
-  flags.add(&nrdbservers,
-            "nr_dbservers",
-            "Initial number of DBservers in cluster",
-            2);
-
-  int nrcoordinators;
-  flags.add(&nrcoordinators,
-            "nr_coordinators",
-            "Initial number of coordinators in cluster",
-            1);
-
-  string principal;
-  flags.add(&principal,
-            "principal",
-            "Principal for persistent volumes",
-            "arangodb");
-
-  string frameworkUser;
-  flags.add(&frameworkUser,
-            "user",
-            "User for the framework",
-            "");
-
-  string frameworkName;
-  flags.add(&frameworkName,
-            "framework_name",
-            "custom framework name",
-            "arangodb");
-
-  string webui;
-  flags.add(&webui,
-            "webui",
-            "URL to advertise for external access to the UI",
-            "");
-
-  int frameworkPort;
-  flags.add(&frameworkPort,
-            "framework_port",
-            "framework http port",
-            Global::frameworkPort());
-  
-  int webuiPort;
-  flags.add(&webuiPort,
-            "webui_port",
-            "webui http port",
-            Global::webuiPort());
-
-  double failoverTimeout;
-  flags.add(&failoverTimeout,
-            "failover_timeout",
-            "failover timeout in seconds",
-            60 * 60 * 24 * 10);
-
-  string resetState;
-  flags.add(&resetState,
-            "reset_state",
-            "ignore any old state",
-            "false");
-
-  string secondariesWithDBservers;
-  flags.add(&secondariesWithDBservers,
-            "secondaries_with_dbservers",
-            "run secondaries only on agents with DBservers",
-            "false");
-
-  string coordinatorsWithDBservers;
-  flags.add(&coordinatorsWithDBservers,
-            "coordinators_with_dbservers",
-            "run coordinators only on agents with DBservers",
-            "false");
-
-  string secondarySameServer;
-  flags.add(&secondarySameServer,
-            "secondary_same_server",
-            "allow to run a secondary on same agent as its primary",
-            "false");
-  
-  string arangoDBImage;
-  flags.add(&arangoDBImage,
-            "arangodb_image",
-            "ArangoDB docker image to use",
-            "");
-  
-  string arangoDBForcePullImage;
-  flags.add(&arangoDBForcePullImage,
-            "arangodb_force_pull_image",
-            "force pulling the ArangoDB image",
-            "true");
-
-
-  string arangoDBPrivilegedImage;
-  flags.add(&arangoDBPrivilegedImage,
-            "arangodb_privileged_image",
-            "start the arangodb image privileged",
-            "false");
-  // address of master and zookeeper
-  string master;
-  flags.add(&master,
-            "master",
-            "ip:port of master to connect",
-            "");
-  
-  string arangoDBEnterpriseKey;
-  flags.add(&arangoDBEnterpriseKey,
-            "arangodb_enterprise_key",
-            "enterprise key for arangodb",
-            "");
-  
-  string arangoDBStorageEngine;
-  flags.add(&arangoDBStorageEngine,
-            "arangodb_storage_engine",
-            "storage engine to choose",
-            "auto");
-
-  string arangoDBJwtSecret;
-  flags.add(&arangoDBJwtSecret,
-            "arangodb_jwt_secret",
-            "secret for internal cluster communication",
-            "");
-
-  string arangoDBSslKeyfile;
-  flags.add(&arangoDBSslKeyfile,
-            "arangodb_ssl_keyfile",
-            "SSL keyfile to use (optional - specify .pem file base64 encoded)",
-            "");
-  
-  string arangoDBEncryptionKeyfile;
-  flags.add(&arangoDBEncryptionKeyfile,
-            "arangodb_encryption_keyfile",
-            "data encryption keyfile to use (optional - specify 32 byte aes keyfile base64 encoded)",
-            "");
-
-  string arangoDBAdditionalAgentArgs;
-  flags.add(&arangoDBAdditionalAgentArgs,
-            "arangodb_additional_agent_args",
-            "additional command line arguments to be passed when starting an agent",
-            "");
-
-  string arangoDBAdditionalDBServerArgs;
-  flags.add(&arangoDBAdditionalDBServerArgs,
-            "arangodb_additional_dbserver_args",
-            "additional command line arguments to be passed when starting a dbserver",
-            "");
-
-  string arangoDBAdditionalSecondaryArgs;
-  flags.add(&arangoDBAdditionalSecondaryArgs,
-            "arangodb_additional_secondary_args",
-            "additional command line arguments to be passed when starting a secondary",
-            "");
-
-  string arangoDBAdditionalCoordinatorArgs;
-  flags.add(&arangoDBAdditionalCoordinatorArgs,
-            "arangodb_additional_coordinator_args",
-            "additional command line arguments to be passed when starting an coordinator",
-            "");
-
-  string zk;
-  flags.add(&zk,
-            "zk",
-            "zookeeper for state",
-            "");
-
-  Try<Nothing> load = flags.load(None(), argc, argv);
+  FrameworkFlags flags;
+  Try<flags::Warnings> load = flags.load(None(), argc, argv);
 
   if (load.isError()) {
     cerr << load.error() << endl;
@@ -430,64 +218,64 @@ int main (int argc, char** argv) {
     exit(EXIT_SUCCESS);
   }
 
-  updateFromEnv("ARANGODB_MODE", mode);
-  updateFromEnv("ARANGODB_ASYNC_REPLICATION", async_repl);
-  updateFromEnv("ARANGODB_ROLE", role);
-  updateFromEnv("ARANGODB_MINIMAL_RESOURCES_AGENT", minimal_resources_agent);
-  updateFromEnv("ARANGODB_MINIMAL_RESOURCES_DBSERVER", minimal_resources_dbserver);
-  updateFromEnv("ARANGODB_MINIMAL_RESOURCES_SECONDARY",  minimal_resources_secondary);
-  updateFromEnv("ARANGODB_MINIMAL_RESOURCES_COORDINATOR", minimal_resources_coordinator);
-  updateFromEnv("ARANGODB_NR_AGENTS", nragents);
+  updateFromEnv("ARANGODB_MODE", flags.mode);
+  updateFromEnv("ARANGODB_ASYNC_REPLICATION", flags.async_repl);
+  updateFromEnv("ARANGODB_ROLE", flags.role);
+  updateFromEnv("ARANGODB_MINIMAL_RESOURCES_AGENT", flags.minimal_resources_agent);
+  updateFromEnv("ARANGODB_MINIMAL_RESOURCES_DBSERVER", flags.minimal_resources_dbserver);
+  updateFromEnv("ARANGODB_MINIMAL_RESOURCES_SECONDARY",  flags.minimal_resources_secondary);
+  updateFromEnv("ARANGODB_MINIMAL_RESOURCES_COORDINATOR", flags.minimal_resources_coordinator);
+  updateFromEnv("ARANGODB_NR_AGENTS", flags.nragents);
 
-  if (nragents < 1) {
-    nragents = 1;
+  if (flags.nragents < 1) {
+    flags.nragents = 1;
   }
 
-  updateFromEnv("ARANGODB_NR_DBSERVERS", nrdbservers);
+  updateFromEnv("ARANGODB_NR_DBSERVERS", flags.nrdbservers);
 
-  if (nrdbservers < 1) {
-    nrdbservers = 1;
+  if (flags.nrdbservers < 1) {
+    flags.nrdbservers = 1;
   }
 
-  updateFromEnv("ARANGODB_NR_COORDINATORS", nrcoordinators);
+  updateFromEnv("ARANGODB_NR_COORDINATORS", flags.nrcoordinators);
 
-  if (nrcoordinators < 1) {
-    nrcoordinators = 1;
+  if (flags.nrcoordinators < 1) {
+    flags.nrcoordinators = 1;
   }
 
-  updateFromEnv("ARANGODB_PRINCIPAL", principal);
-  updateFromEnv("ARANGODB_USER", frameworkUser);
-  updateFromEnv("ARANGODB_FRAMEWORK_NAME", frameworkName);
-  updateFromEnv("ARANGODB_WEBUI", webui);
-  updateFromEnv("ARANGODB_WEBUI_PORT", webuiPort);
-  updateFromEnv("ARANGODB_FRAMEWORK_PORT", frameworkPort);
-  updateFromEnv("ARANGODB_FAILOVER_TIMEOUT", failoverTimeout);
-  updateFromEnv("ARANGODB_RESET_STATE", resetState);
-  updateFromEnv("ARANGODB_SECONDARIES_WITH_DBSERVERS", secondariesWithDBservers);
-  updateFromEnv("ARANGODB_COORDINATORS_WITH_DBSERVERS", coordinatorsWithDBservers);
-  updateFromEnv("ARANGODB_IMAGE", arangoDBImage);
-  updateFromEnv("ARANGODB_FORCE_PULL_IMAGE", arangoDBForcePullImage);
-  updateFromEnv("ARANGODB_PRIVILEGED_IMAGE", arangoDBPrivilegedImage);
-  updateFromEnv("ARANGODB_ENTERPRISE_KEY", arangoDBEnterpriseKey);
-  updateFromEnv("ARANGODB_JWT_SECRET", arangoDBJwtSecret);
-  updateFromEnv("ARANGODB_SSL_KEYFILE", arangoDBSslKeyfile);
-  updateFromEnv("ARANGODB_STORAGE_ENGINE", arangoDBStorageEngine);
-  updateFromEnv("ARANGODB_ENCRYPTION_KEYFILE", arangoDBEncryptionKeyfile);
-  updateFromEnv("ARANGODB_ADDITIONAL_AGENT_ARGS", arangoDBAdditionalAgentArgs);
-  updateFromEnv("ARANGODB_ADDITIONAL_DBSERVER_ARGS", arangoDBAdditionalDBServerArgs);
-  updateFromEnv("ARANGODB_ADDITIONAL_SECONDARY_ARGS", arangoDBAdditionalSecondaryArgs);
-  updateFromEnv("ARANGODB_ADDITIONAL_COORDINATOR_ARGS", arangoDBAdditionalCoordinatorArgs);
+  updateFromEnv("ARANGODB_PRINCIPAL", flags.principal);
+  updateFromEnv("ARANGODB_USER", flags.frameworkUser);
+  updateFromEnv("ARANGODB_FRAMEWORK_NAME", flags.frameworkName);
+  updateFromEnv("ARANGODB_WEBUI", flags.webui);
+  updateFromEnv("ARANGODB_WEBUI_PORT", flags.webuiPort);
+  updateFromEnv("ARANGODB_FRAMEWORK_PORT", flags.frameworkPort);
+  updateFromEnv("ARANGODB_FAILOVER_TIMEOUT", flags.failoverTimeout);
+  updateFromEnv("ARANGODB_RESET_STATE", flags.resetState);
+  updateFromEnv("ARANGODB_SECONDARIES_WITH_DBSERVERS", flags.secondariesWithDBservers);
+  updateFromEnv("ARANGODB_COORDINATORS_WITH_DBSERVERS", flags.coordinatorsWithDBservers);
+  updateFromEnv("ARANGODB_IMAGE", flags.arangoDBImage);
+  updateFromEnv("ARANGODB_FORCE_PULL_IMAGE", flags.arangoDBForcePullImage);
+  updateFromEnv("ARANGODB_PRIVILEGED_IMAGE", flags.arangoDBPrivilegedImage);
+  updateFromEnv("ARANGODB_ENTERPRISE_KEY", flags.arangoDBEnterpriseKey);
+  updateFromEnv("ARANGODB_JWT_SECRET", flags.arangoDBJwtSecret);
+  updateFromEnv("ARANGODB_SSL_KEYFILE", flags.arangoDBSslKeyfile);
+  updateFromEnv("ARANGODB_STORAGE_ENGINE", flags.arangoDBStorageEngine);
+  updateFromEnv("ARANGODB_ENCRYPTION_KEYFILE", flags.arangoDBEncryptionKeyfile);
+  updateFromEnv("ARANGODB_ADDITIONAL_AGENT_ARGS", flags.arangoDBAdditionalAgentArgs);
+  updateFromEnv("ARANGODB_ADDITIONAL_DBSERVER_ARGS", flags.arangoDBAdditionalDBServerArgs);
+  updateFromEnv("ARANGODB_ADDITIONAL_SECONDARY_ARGS", flags.arangoDBAdditionalSecondaryArgs);
+  updateFromEnv("ARANGODB_ADDITIONAL_COORDINATOR_ARGS", flags.arangoDBAdditionalCoordinatorArgs);
 
-  updateFromEnv("MESOS_MASTER", master);
-  updateFromEnv("ARANGODB_ZK", zk);
+  updateFromEnv("MESOS_MASTER", flags.master);
+  updateFromEnv("ARANGODB_ZK", flags.zk);
 
-  if (master.empty()) {
+  if (flags.master.empty()) {
     cerr << "Missing master, either use flag '--master' or set 'MESOS_MASTER'" << endl;
     usage(argv[0], flags);
     exit(EXIT_FAILURE);
   }
 
-  if (arangoDBImage.empty()) {
+  if (flags.arangoDBImage.empty()) {
     cerr << "Missing image, please provide an arangodb image to run on the agents via '--arangodb_image' or set 'ARANGODB_IMAGE'" << endl;
     usage(argv[0], flags);
     exit(EXIT_FAILURE);
@@ -495,90 +283,90 @@ int main (int argc, char** argv) {
 
   logging::initialize(argv[0], flags, true); // Catch signals.
 
-  Global::setArangoDBImage(arangoDBImage);
+  Global::setArangoDBImage(flags.arangoDBImage);
   LOG(INFO) << "ArangoDB Image: " << Global::arangoDBImage();
 
-  if (mode == "standalone") {
+  if (flags.mode == "standalone") {
     Global::setMode(OperationMode::STANDALONE);
   }
-  else if (mode == "cluster") {
+  else if (flags.mode == "cluster") {
     Global::setMode(OperationMode::CLUSTER);
   }
   else {
-    cerr << argv[0] << ": expecting mode '" << mode << "' to be "
+    cerr << argv[0] << ": expecting mode '" << flags.mode << "' to be "
          << "standalone, cluster" << "\n";
   }
-  LOG(INFO) << "Mode: " << mode;
+  LOG(INFO) << "Mode: " << flags.mode;
 
-  Global::setAsyncReplication(str2bool(async_repl));
+  Global::setAsyncReplication(str2bool(flags.async_repl));
   LOG(INFO) << "Asynchronous replication flag: " << Global::asyncReplication();
 
-  Global::setFrameworkName(frameworkName);
+  Global::setFrameworkName(flags.frameworkName);
 
-  Global::setSecondariesWithDBservers(str2bool(secondariesWithDBservers));
+  Global::setSecondariesWithDBservers(str2bool(flags.secondariesWithDBservers));
   LOG(INFO) << "SecondariesWithDBservers: " << Global::secondariesWithDBservers();
 
-  Global::setCoordinatorsWithDBservers(str2bool(coordinatorsWithDBservers));
+  Global::setCoordinatorsWithDBservers(str2bool(flags.coordinatorsWithDBservers));
   LOG(INFO) << "CoordinatorsWithDBservers: " << Global::coordinatorsWithDBservers();
   
-  Global::setSecondarySameServer(str2bool(secondarySameServer));
+  Global::setSecondarySameServer(str2bool(flags.secondarySameServer));
   LOG(INFO) << "SecondarySameServer: " << Global::secondarySameServer();
   
-  Global::setArangoDBForcePullImage(str2bool(arangoDBForcePullImage));
+  Global::setArangoDBForcePullImage(str2bool(flags.arangoDBForcePullImage));
   LOG(INFO) << "ArangoDBForcePullImage: " << Global::arangoDBForcePullImage();
 
-  Global::setArangoDBPrivilegedImage(str2bool(arangoDBPrivilegedImage));
+  Global::setArangoDBPrivilegedImage(str2bool(flags.arangoDBPrivilegedImage));
   LOG(INFO) << "ArangoDBPrivilegedImage: " << Global::arangoDBPrivilegedImage();
 
-  LOG(INFO) << "Minimal resources agent: " << minimal_resources_agent;
-  Global::setMinResourcesAgent(minimal_resources_agent);
-  LOG(INFO) << "Minimal resources DBserver: " << minimal_resources_dbserver;
-  Global::setMinResourcesDBServer(minimal_resources_dbserver);
+  LOG(INFO) << "Minimal resources agent: " << flags.minimal_resources_agent;
+  Global::setMinResourcesAgent(flags.minimal_resources_agent);
+  LOG(INFO) << "Minimal resources DBserver: " << flags.minimal_resources_dbserver;
+  Global::setMinResourcesDBServer(flags.minimal_resources_dbserver);
   LOG(INFO) << "Minimal resources secondary DBserver: " 
-            << minimal_resources_secondary;
-  Global::setMinResourcesSecondary(minimal_resources_secondary);
+            << flags.minimal_resources_secondary;
+  Global::setMinResourcesSecondary(flags.minimal_resources_secondary);
   LOG(INFO) << "Minimal resources coordinator: " 
-            << minimal_resources_coordinator;
-  Global::setMinResourcesCoordinator(minimal_resources_coordinator);
-  LOG(INFO) << "Number of agents in agency: " << nragents;
-  Global::setNrAgents(nragents);
-  LOG(INFO) << "Number of DBservers: " << nrdbservers;
-  Global::setNrDBServers(nrdbservers);
-  LOG(INFO) << "Number of coordinators: " << nrcoordinators;
-  Global::setNrCoordinators(nrcoordinators);
-  LOG(INFO) << "Framework port: " << frameworkPort;
-  Global::setFrameworkPort(frameworkPort);
-  LOG(INFO) << "WebUI port: " << webuiPort;
-  Global::setWebuiPort(webuiPort);
-  LOG(INFO) << "ArangoDB Enterprise Key: " << arangoDBEnterpriseKey;
-  Global::setArangoDBEnterpriseKey(arangoDBEnterpriseKey);
-  LOG(INFO) << "ArangoDB JWT Secret: " << arangoDBJwtSecret;
-  Global::setArangoDBJwtSecret(arangoDBJwtSecret);
-  LOG(INFO) << "ArangoDB SSL Keyfile: " << arangoDBSslKeyfile;
-  Global::setArangoDBSslKeyfile(arangoDBSslKeyfile);
-  LOG(INFO) << "ArangoDB Storage Engine: " << arangoDBStorageEngine;
-  Global::setArangoDBStorageEngine(arangoDBStorageEngine);
-  LOG(INFO) << "ArangoDB Encryption Keyfile: " << arangoDBEncryptionKeyfile;
-  Global::setArangoDBEncryptionKeyfile(arangoDBEncryptionKeyfile);
-  LOG(INFO) << "ArangoDB additional agent args: " << arangoDBAdditionalAgentArgs;
-  Global::setArangoDBAdditionalAgentArgs(arangoDBAdditionalAgentArgs);
-  LOG(INFO) << "ArangoDB additional dbserver args: " << arangoDBAdditionalAgentArgs;
-  Global::setArangoDBAdditionalDBServerArgs(arangoDBAdditionalDBServerArgs);
-  LOG(INFO) << "ArangoDB additional secondary args: " << arangoDBAdditionalSecondaryArgs;
-  Global::setArangoDBAdditionalSecondaryArgs(arangoDBAdditionalSecondaryArgs);
-  LOG(INFO) << "ArangoDB additional coordinator args: " << arangoDBAdditionalCoordinatorArgs;
-  Global::setArangoDBAdditionalCoordinatorArgs(arangoDBAdditionalCoordinatorArgs);
+            << flags.minimal_resources_coordinator;
+  Global::setMinResourcesCoordinator(flags.minimal_resources_coordinator);
+  LOG(INFO) << "Number of agents in agency: " << flags.nragents;
+  Global::setNrAgents(flags.nragents);
+  LOG(INFO) << "Number of DBservers: " << flags.nrdbservers;
+  Global::setNrDBServers(flags.nrdbservers);
+  LOG(INFO) << "Number of coordinators: " << flags.nrcoordinators;
+  Global::setNrCoordinators(flags.nrcoordinators);
+  LOG(INFO) << "Framework port: " << flags.frameworkPort;
+  Global::setFrameworkPort(flags.frameworkPort);
+  LOG(INFO) << "WebUI port: " << flags.webuiPort;
+  Global::setWebuiPort(flags.webuiPort);
+  LOG(INFO) << "ArangoDB Enterprise Key: " << flags.arangoDBEnterpriseKey;
+  Global::setArangoDBEnterpriseKey(flags.arangoDBEnterpriseKey);
+  LOG(INFO) << "ArangoDB JWT Secret: " << flags.arangoDBJwtSecret;
+  Global::setArangoDBJwtSecret(flags.arangoDBJwtSecret);
+  LOG(INFO) << "ArangoDB SSL Keyfile: " << flags.arangoDBSslKeyfile;
+  Global::setArangoDBSslKeyfile(flags.arangoDBSslKeyfile);
+  LOG(INFO) << "ArangoDB Storage Engine: " << flags.arangoDBStorageEngine;
+  Global::setArangoDBStorageEngine(flags.arangoDBStorageEngine);
+  LOG(INFO) << "ArangoDB Encryption Keyfile: " << flags.arangoDBEncryptionKeyfile;
+  Global::setArangoDBEncryptionKeyfile(flags.arangoDBEncryptionKeyfile);
+  LOG(INFO) << "ArangoDB additional agent args: " << flags.arangoDBAdditionalAgentArgs;
+  Global::setArangoDBAdditionalAgentArgs(flags.arangoDBAdditionalAgentArgs);
+  LOG(INFO) << "ArangoDB additional dbserver args: " << flags.arangoDBAdditionalAgentArgs;
+  Global::setArangoDBAdditionalDBServerArgs(flags.arangoDBAdditionalDBServerArgs);
+  LOG(INFO) << "ArangoDB additional secondary args: " << flags.arangoDBAdditionalSecondaryArgs;
+  Global::setArangoDBAdditionalSecondaryArgs(flags.arangoDBAdditionalSecondaryArgs);
+  LOG(INFO) << "ArangoDB additional coordinator args: " << flags.arangoDBAdditionalCoordinatorArgs;
+  Global::setArangoDBAdditionalCoordinatorArgs(flags.arangoDBAdditionalCoordinatorArgs);
 
   // ...........................................................................
   // state
   // ...........................................................................
 
-  LOG(INFO) << "zookeeper: " << zk;
+  LOG(INFO) << "zookeeper: " << flags.zk;
 
-  ArangoState state(frameworkName, zk);
+  ArangoState state(flags.frameworkName, flags.zk);
   state.init();
 
-  if (resetState == "true" || resetState == "y" || resetState == "yes") {
+  if (flags.resetState == "true" || flags.resetState == "y" || flags.resetState == "yes") {
     state.destroy();
   }
   else {
@@ -605,24 +393,24 @@ int main (int argc, char** argv) {
 
   // create the framework
   mesos::FrameworkInfo framework;
-  framework.set_user(frameworkUser);
-  LOG(INFO) << "framework user: " << frameworkUser;
+  framework.set_user(flags.frameworkUser);
+  LOG(INFO) << "framework user: " << flags.frameworkUser;
   framework.set_checkpoint(true);
 
-  framework.set_name(frameworkName);
-  LOG(INFO) << "framework name: " << frameworkName;
+  framework.set_name(flags.frameworkName);
+  LOG(INFO) << "framework name: " << flags.frameworkName;
 
-  framework.set_role(role);
-  LOG(INFO) << "role: " << role;
+  framework.set_role(flags.role);
+  LOG(INFO) << "role: " << flags.role;
 
-  if (0.0 < failoverTimeout) {
-    framework.set_failover_timeout(failoverTimeout);
+  if (0.0 < flags.failoverTimeout) {
+    framework.set_failover_timeout(flags.failoverTimeout);
   }
   else {
-    failoverTimeout = 0.0;
+    flags.failoverTimeout = 0.0;
   }
 
-  LOG(INFO) << "failover timeout: " << failoverTimeout;
+  LOG(INFO) << "failover timeout: " << flags.failoverTimeout;
 
   {
     auto lease = Global::state().lease();
@@ -635,17 +423,17 @@ int main (int argc, char** argv) {
   // http server
   // ...........................................................................
 
-  if (webui.empty()) {
+  if (flags.webui.empty()) {
     Try<string> hostnameTry = net::hostname();
     string hostname = hostnameTry.get();
 
-    webui = "http://" + hostname + ":" + std::to_string(webuiPort);
+    flags.webui = "http://" + hostname + ":" + std::to_string(flags.webuiPort);
   }
 
-  LOG(INFO) << "webui url: " << webui << " (local port is " << webuiPort << ")";
-  LOG(INFO) << "framework listening on port: " << frameworkPort;
+  LOG(INFO) << "webui url: " << flags.webui << " (local port is " << flags.webuiPort << ")";
+  LOG(INFO) << "framework listening on port: " << flags.frameworkPort;
 
-  framework.set_webui_url(webui);
+  framework.set_webui_url(flags.webui);
 
   Option<string> mesosCheckpoint =  os::getenv("MESOS_CHECKPOINT");
 
@@ -657,8 +445,8 @@ int main (int argc, char** argv) {
   // global options
   // ...........................................................................
 
-  Global::setRole(role);
-  Global::setPrincipal(principal);
+  Global::setRole(flags.role);
+  Global::setPrincipal(flags.principal);
 
   // ...........................................................................
   // Caretaker
@@ -696,10 +484,11 @@ int main (int argc, char** argv) {
 
   Option<string> mesosAuthenticate = os::getenv("MESOS_AUTHENTICATE");
 
+  framework.set_principal(flags.principal);
   if (mesosAuthenticate.isSome() && mesosAuthenticate.get() == "true") {
     cout << "Enabling authentication for the framework" << endl;
 
-    if (principal.empty()) {
+    if (flags.principal.empty()) {
       EXIT(EXIT_FAILURE) << "Expecting authentication principal in the environment";
     }
 
@@ -710,15 +499,13 @@ int main (int argc, char** argv) {
     }
 
     mesos::Credential credential;
-    credential.set_principal(principal);
+    credential.set_principal(flags.principal);
     credential.set_secret(mesosSecret.get());
 
-    framework.set_principal(principal);
-    driver = new mesos::MesosSchedulerDriver(&scheduler, framework, master, credential);
+    driver = new mesos::MesosSchedulerDriver(&scheduler, framework, flags.master, credential);
   }
   else {
-    framework.set_principal(principal);
-    driver = new mesos::MesosSchedulerDriver(&scheduler, framework, master);
+    driver = new mesos::MesosSchedulerDriver(&scheduler, framework, flags.master);
   }
 
   scheduler.setDriver(driver);

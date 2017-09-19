@@ -139,6 +139,10 @@ namespace arangodb {
 
       void restart();
 
+    public:
+      static mesos::Resources oldFlatten(mesos::Resources const& resources);
+      static mesos::Resources oldFlattenWithRole(mesos::Resources const& resources);
+      static mesos::Resources oldFlattenWithPrincipal(mesos::Resources const& resources);
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                          static protected methods

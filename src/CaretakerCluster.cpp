@@ -74,7 +74,7 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(agency, 0);
       }
       else {
-        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        mesos::Resources res = Caretaker::oldFlatten(x.get());   // always flatten to role "*"
         auto m = agency->mutable_minimal_resources();
         m->CopyFrom(res);
       }
@@ -96,7 +96,7 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(coordinator, 1);
       }
       else {
-        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        mesos::Resources res = Caretaker::oldFlatten(x.get());    // always flatten to role "*"
         auto m = coordinator->mutable_minimal_resources();
         m->CopyFrom(res);
       }
@@ -118,7 +118,7 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(dbserver, 1);
       }
       else {
-        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        mesos::Resources res = Caretaker::oldFlatten(x.get());    // always flatten to role "*"
         auto m = dbserver->mutable_minimal_resources();
         m->CopyFrom(res);
       }
@@ -140,7 +140,7 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(secondary, 1);
       }
       else {
-        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        mesos::Resources res = Caretaker::oldFlatten(x.get());    // always flatten to role "*"
         auto m = secondary->mutable_minimal_resources();
         m->CopyFrom(res);
       }
@@ -613,7 +613,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   mesos::Resources offered = offer.resources();
   mesos::Resources offeredDisk = filterIsDisk(offered);
   mesos::Resources toDestroy;
-  for (auto& res : offeredDisk) {
+  for (mesos::Resource const& res : offeredDisk) {
     if (res.role() == Global::role() &&
         res.has_disk() &&
         res.disk().has_persistence() &&
@@ -635,7 +635,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   // If there was no persistent disk, maybe there is a dynamic reservation,
   // if so, unreserve it:
   mesos::Resources toUnreserve;
-  for (auto& res : offered) {
+  for (mesos::Resource const& res : offered) {
     if (res.role() == Global::role() &&
         res.has_reservation() &&
         res.reservation().principal() == Global::principal()) {
