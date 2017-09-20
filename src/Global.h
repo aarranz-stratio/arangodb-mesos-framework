@@ -420,6 +420,9 @@ namespace arangodb {
 
       static void setArangoDBEncryptionKeyfile(std::string const& arangoDBEncryptionKeyfile);
       static std::string arangoDBEncryptionKeyfile();
+      
+      static void setOfferLimit(size_t offerLimit);
+      static size_t offerLimit();
   };
 }
 

@@ -104,9 +104,11 @@ ArangoManager::~ArangoManager () {
 /// @brief adds an offer
 ////////////////////////////////////////////////////////////////////////////////
 
-void ArangoManager::addOffer (const mesos::Offer& offer) {
+bool ArangoManager::addOffer (const mesos::Offer& offer) {
   lock_guard<mutex> lock(_lock);
-
+  if (_storedOffers.find(offer.id().value()) == _storedOffers.end() && _storedOffers.size() > Global::offerLimit()) {
+    return false;
+  }
 #if 0
   // This is already logged in the scheduler in more concise format.
   {
@@ -115,6 +117,7 @@ void ArangoManager::addOffer (const mesos::Offer& offer) {
 #endif
 
   _storedOffers[offer.id().value()] = offer;
+  return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +150,6 @@ void ArangoManager::taskStatusUpdate (const mesos::TaskStatus& status) {
 
 void ArangoManager::destroy () {
   LOG(INFO) << "destroy() called, killing off everything...";
-
   {
     // First set the target state to 0 instances:
     auto l = Global::state().lease(true);

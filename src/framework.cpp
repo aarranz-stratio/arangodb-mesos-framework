@@ -314,6 +314,12 @@ int main (int argc, char** argv) {
             "number of seconds to refuse an offer if declined",
             20);
 
+  int offerLimit;
+  flags.add(&offerLimit,
+            "offer_limit",
+            "number of offers we are accepting",
+            10);
+
   string resetState;
   flags.add(&resetState,
             "reset_state",
@@ -469,6 +475,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_FRAMEWORK_PORT", frameworkPort);
   updateFromEnv("ARANGODB_FAILOVER_TIMEOUT", failoverTimeout);
   updateFromEnv("ARANGODB_DECLINE_OFFER_REFUSE_SECONDS", declineOfferRefuseSeconds);
+  updateFromEnv("ARANGODB_OFFER_LIMIT", offerLimit);
   updateFromEnv("ARANGODB_RESET_STATE", resetState);
   updateFromEnv("ARANGODB_SECONDARIES_WITH_DBSERVERS", secondariesWithDBservers);
   updateFromEnv("ARANGODB_COORDINATORS_WITH_DBSERVERS", coordinatorsWithDBservers);
@@ -667,7 +674,9 @@ int main (int argc, char** argv) {
   Global::setRole(role);
   Global::setPrincipal(principal);
   Global::setDeclineOfferRefuseSeconds(declineOfferRefuseSeconds);
-  LOG(INFO) << "refuse secods: " << Global::declineOfferRefuseSeconds();
+  LOG(INFO) << "refuse seconds: " << Global::declineOfferRefuseSeconds();
+  Global::setOfferLimit(offerLimit);
+  LOG(INFO) << "offer limit: " << Global::offerLimit();
 
 
   // ...........................................................................

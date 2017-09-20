@@ -32,6 +32,7 @@
 
 #include <mesos/resources.hpp>
 #include <mesos/scheduler.hpp>
+#include <atomic>
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                             class ArangoScheduler
@@ -150,6 +151,7 @@ namespace arangodb {
 
       void reconcileTask (std::string const& taskId,
                           std::string const& slaveId);
+
 
 // -----------------------------------------------------------------------------
 // --SECTION--                                                 Scheduler methods

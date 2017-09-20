@@ -231,8 +231,9 @@ void ArangoScheduler::destroyPersistent (const mesos::Offer& offer,
 ////////////////////////////////////////////////////////////////////////////////
 
 void ArangoScheduler::declineOffer (const mesos::OfferID& offerId) const {
-  // TODO: use Global::declineOfferRefuseSeconds();
-  _driver->declineOffer(offerId);
+  mesos::Filters filters;
+  filters.set_refuse_seconds(Global::declineOfferRefuseSeconds());
+  _driver->declineOffer(offerId, filters);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -413,6 +414,42 @@ void ArangoScheduler::disconnected (mesos::SchedulerDriver* driver) {
 
 void ArangoScheduler::resourceOffers (mesos::SchedulerDriver* driver,
                                       const vector<mesos::Offer>& offers) {
+  // this is true if we are absolutely sure that everything is fine
+  // if it is not healthy we might need to look at offers
+  bool isHealthy = true;
+  {
+    auto lease = Global::state().lease();
+    Current current = lease.state().current();
+    isHealthy = current.cluster_complete();
+    if (isHealthy) {
+      Plan plan = lease.state().plan();
+
+      auto taskGroups = {
+        std::make_pair(plan.agents(), current.agents()),
+        std::make_pair(plan.coordinators(), current.coordinators()),
+        std::make_pair(plan.dbservers(), current.dbservers()),
+        std::make_pair(plan.secondaries(), current.secondaries()),
+      };
+
+      for (auto const& taskGroup: taskGroups) {
+        TasksPlan const& plan = taskGroup.first;
+        TasksCurrent const& current = taskGroup.second;
+
+        if (current.entries().size() != plan.entries().size()) {
+          isHealthy = false;
+          break;
+        }
+
+        for (auto const& planTask: plan.entries()) {
+          if (planTask.state() != TASK_STATE_RUNNING) {
+            isHealthy = false;
+            break;
+          }
+        }
+      }
+    }
+  }
+
   for (auto& offer : offers) {
 #if 0
     LOG(INFO)
@@ -421,13 +458,18 @@ void ArangoScheduler::resourceOffers (mesos::SchedulerDriver* driver,
 #endif
 
     if (Global::ignoreOffers() & 1) {
-      LOG(INFO) << "Ignoring/declining all offers since the ignoreOffers flag 1 is set.";
+      LOG(INFO) << "Ignoring/declining all offer since the ignoreOffers flag 1 is set.";
+      declineOffer(offer.id());
+    } else if (isHealthy) {
+      LOG(INFO) << "Declining offer since cluster is healthy and we are not interested.";
       declineOffer(offer.id());
     }
     else {
-      // TODO: check here if we already have enough resources. if yes, we can
-      // decline the offer for a while
-      Global::manager().addOffer(offer);
+      bool hasAccepted = Global::manager().addOffer(offer);
+      if (!hasAccepted) {
+        LOG(INFO) << "Declining offer since our queue is full.";
+        declineOffer(offer.id());
+      }
     }
   }
 }

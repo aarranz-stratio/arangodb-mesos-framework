@@ -214,6 +214,8 @@ static std::string ARANGODB_ADDITIONAL_DBSERVER_ARGS = "";
 static std::string ARANGODB_ADDITIONAL_SECONDARY_ARGS = "";
 static std::string ARANGODB_ADDITIONAL_COORDINATOR_ARGS = "";
 
+static size_t ARANGODB_OFFER_LIMIT = 10;
+
 // -----------------------------------------------------------------------------
 // --SECTION--                                             static public methods
 // -----------------------------------------------------------------------------
@@ -775,6 +777,14 @@ void Global::setArangoDBEncryptionKeyfile(std::string const& arangoDBEncryptionK
 
 std::string Global::arangoDBEncryptionKeyfile() {
   return ARANGODB_ENCRYPTION_KEYFILE;
+}
+
+void Global::setOfferLimit(size_t offerLimit) {
+  ARANGODB_OFFER_LIMIT = offerLimit;
+}
+
+size_t Global::offerLimit() {
+  return ARANGODB_OFFER_LIMIT;
 }
 
 // -----------------------------------------------------------------------------
