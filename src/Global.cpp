@@ -197,6 +197,12 @@ static int ARANGODB_WEBUI_PORT = 8180;
 
 static int ARANGODB_FRAMEWORK_PORT = 8181;
 
+////////////////////////////////////////////////////////////////////////////////
+/// @brief Number of seconds to refuse an offer
+////////////////////////////////////////////////////////////////////////////////
+
+static double ARANGODB_DECLINE_OFFER_REFUSE_SECONDS = 20.0;
+
 static std::string ARANGODB_ENTERPRISE_KEY = "";
 static std::string ARANGODB_JWT_SECRET = "";
 static std::string ARANGODB_SSL_KEYFILE = "";
@@ -667,6 +673,14 @@ int Global::webuiPort() {
 
 void Global::setWebuiPort(int port) {
   ARANGODB_WEBUI_PORT = port;
+}
+      
+void Global::setDeclineOfferRefuseSeconds(double value) {
+  ARANGODB_DECLINE_OFFER_REFUSE_SECONDS = value;
+}
+
+double Global::declineOfferRefuseSeconds() {
+  return ARANGODB_DECLINE_OFFER_REFUSE_SECONDS;
 }
 
 bool Global::startReverseProxy() {

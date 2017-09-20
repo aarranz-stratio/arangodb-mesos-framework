@@ -231,6 +231,7 @@ void ArangoScheduler::destroyPersistent (const mesos::Offer& offer,
 ////////////////////////////////////////////////////////////////////////////////
 
 void ArangoScheduler::declineOffer (const mesos::OfferID& offerId) const {
+  // TODO: use Global::declineOfferRefuseSeconds();
   _driver->declineOffer(offerId);
 }
 
@@ -424,6 +425,8 @@ void ArangoScheduler::resourceOffers (mesos::SchedulerDriver* driver,
       declineOffer(offer.id());
     }
     else {
+      // TODO: check here if we already have enough resources. if yes, we can
+      // decline the offer for a while
       Global::manager().addOffer(offer);
     }
   }

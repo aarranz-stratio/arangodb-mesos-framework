@@ -389,6 +389,9 @@ namespace arangodb {
 
       static void setWebuiPort(int);
 
+      static void setDeclineOfferRefuseSeconds(double value);
+      static double declineOfferRefuseSeconds();
+
       static bool startReverseProxy();
 
       static void setArangoDBEnterpriseKey(std::string const& arangoDBEnterpriseKey);

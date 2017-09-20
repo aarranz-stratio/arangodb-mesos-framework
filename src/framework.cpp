@@ -307,6 +307,12 @@ int main (int argc, char** argv) {
             "failover_timeout",
             "failover timeout in seconds",
             60 * 60 * 24 * 10);
+  
+  double declineOfferRefuseSeconds;
+  flags.add(&declineOfferRefuseSeconds,
+            "refuse_seconds",
+            "number of seconds to refuse an offer if declined",
+            20);
 
   string resetState;
   flags.add(&resetState,
@@ -462,6 +468,7 @@ int main (int argc, char** argv) {
   updateFromEnv("ARANGODB_WEBUI_PORT", webuiPort);
   updateFromEnv("ARANGODB_FRAMEWORK_PORT", frameworkPort);
   updateFromEnv("ARANGODB_FAILOVER_TIMEOUT", failoverTimeout);
+  updateFromEnv("ARANGODB_DECLINE_OFFER_REFUSE_SECONDS", declineOfferRefuseSeconds);
   updateFromEnv("ARANGODB_RESET_STATE", resetState);
   updateFromEnv("ARANGODB_SECONDARIES_WITH_DBSERVERS", secondariesWithDBservers);
   updateFromEnv("ARANGODB_COORDINATORS_WITH_DBSERVERS", coordinatorsWithDBservers);
@@ -623,7 +630,7 @@ int main (int argc, char** argv) {
   }
 
   LOG(INFO) << "failover timeout: " << failoverTimeout;
-
+  
   {
     auto lease = Global::state().lease();
     if (lease.state().has_framework_id()) {
@@ -659,6 +666,9 @@ int main (int argc, char** argv) {
 
   Global::setRole(role);
   Global::setPrincipal(principal);
+  Global::setDeclineOfferRefuseSeconds(declineOfferRefuseSeconds);
+  LOG(INFO) << "refuse secods: " << Global::declineOfferRefuseSeconds();
+
 
   // ...........................................................................
   // Caretaker
