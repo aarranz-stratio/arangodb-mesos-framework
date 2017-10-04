@@ -40,7 +40,7 @@ if(NOT MESOS_SOURCE_PATH)
 endif()
 
 find_path(MESOS_FOUND_SOURCE_PATH
-  NAMES build/3rdparty/libprocess/3rdparty/stout/include/Makefile
+  NAMES mesos.pc.in
   PATHS ${MESOS_SOURCE_PATH}
   NO_CMAKE_SYSTEM_PATH
 )
