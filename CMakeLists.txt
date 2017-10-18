@@ -43,9 +43,10 @@ find_path(MESOS_FOUND_SOURCE_PATH
   NO_CMAKE_SYSTEM_PATH
 )
 
-if(NOT MESOS_FOUND_SOURCE_PATH)
-  message(FATAL_ERROR "Please provide -DMESOS_SOURCE_PATH or link the mesos source directory to ${CMAKE_BINARY_DIR}/mesos")
-endif ()
+set(MESOS_FOUND_SOURCE_PATH ${CMAKE_CURRENT_BINARY_DIR}/mesos/)
+#if(NOT MESOS_FOUND_SOURCE_PATH)
+#  message(FATAL_ERROR "Please provide -DMESOS_SOURCE_PATH or link the mesos source directory to ${CMAKE_BINARY_DIR}/mesos")
+#endif ()
 
 find_package(apr REQUIRED)
 find_package(Threads REQUIRED)
@@ -62,19 +63,21 @@ find_package(gflags)
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/pbjson/src
   ${MESOS_FOUND_SOURCE_PATH}/3rdparty/libprocess/include
-  ${MESOS_FOUND_SOURCE_PATH}/3rdparty/libprocess/3rdparty/stout/include
+  ${MESOS_FOUND_SOURCE_PATH}/3rdparty/stout/include
   ${MESOS_FOUND_SOURCE_PATH}/include
+  ${MESOS_FOUND_SOURCE_PATH}/include/mesos
   ${MESOS_FOUND_SOURCE_PATH}/src
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/stout/include
-  SYSTEM ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/boost-1.53.0
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/glog-0.3.3/src
+  SYSTEM ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/boost-1.53.0
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/glog-0.3.3/src
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/include
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/include
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/generated
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/protobuf-2.5.0/src
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.8/src/c/include
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.8/src/c/generated
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/protobuf-2.6.1/src
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/protobuf-2.6.1/src/
   ${MESOS_FOUND_SOURCE_PATH}/build/src
   ${MESOS_FOUND_SOURCE_PATH}/build/include
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/picojson-1.3.0/
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/picojson-1.3.0/
   ${Libmicrohttpd_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
   ${OPENSSL_INCLUDE_DIR}
@@ -93,11 +96,11 @@ find_file(MESOS_LIB_LEVELDB
 set(LIBS
   ${MESOS_FOUND_SOURCE_PATH}/build/src/.libs/libmesos_no_3rdparty.a
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/.libs/libprocess.a
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/glog-0.3.3/.libs/libglog.a
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/protobuf-2.5.0/src/.libs/libprotobuf.a
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.5/src/c/.libs/libzookeeper_mt.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/glog-0.3.3/.libs/libglog.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty//protobuf-2.6.1/src/.libs/libprotobuf.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.8/src/c/.libs/libzookeeper_mt.a
   ${MESOS_LIB_LEVELDB}
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/libev-4.15/.libs/libev.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libev-4.22/.libs/libev.a
   ${CURL_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${apr_LIBRARIES}
@@ -121,6 +124,6 @@ target_link_libraries(
 
 add_custom_command(
   OUTPUT ${CMAKE_SOURCE_DIR}/src/arangodb.pb.cc ${CMAKE_SOURCE_DIR}/src/arangodb.pb.h
-  COMMAND ${CMAKE_BINARY_DIR}/mesos/build/3rdparty/libprocess/3rdparty/protobuf-2.5.0/src/protoc -I${CMAKE_SOURCE_DIR}/src -I${CMAKE_BINARY_DIR}/mesos/include --cpp_out=${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/arangodb.proto
+  COMMAND ${CMAKE_BINARY_DIR}/mesos/build/3rdparty/protobuf-2.6.1/src/protoc -I${CMAKE_SOURCE_DIR}/src -I${CMAKE_BINARY_DIR}/mesos/include --cpp_out=${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/arangodb.proto
   DEPENDS ${CMAKE_SOURCE_DIR}/src/arangodb.proto
 )

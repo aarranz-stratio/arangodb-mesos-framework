@@ -429,7 +429,7 @@ int main (int argc, char** argv) {
             "zookeeper for state",
             "");
 
-  Try<Nothing> load = flags.load(None(), argc, argv);
+  Try<flags::Warnings> load = flags.load(None(), argc, argv);
 
   if (load.isError()) {
     cerr << load.error() << endl;

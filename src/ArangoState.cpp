@@ -45,7 +45,7 @@
 #include <string>
 
 using namespace arangodb;
-using namespace mesos::internal::state;
+using namespace mesos::state;
 using namespace std;
 
 // -----------------------------------------------------------------------------
@@ -115,7 +115,7 @@ void ArangoState::init () {
     _storage = new ZooKeeperStorage(m[1], Seconds(120), m[9]);
   }
 
-  _stateStore = new mesos::internal::state::State(_storage);
+  _stateStore = new mesos::state::State(_storage);
 
   _state.mutable_targets();
   _state.mutable_targets()->set_mode(Global::modeLC());

@@ -396,9 +396,9 @@ static mesos::Resources suitablePersistent (string const& name,
 /// @brief helper to get rid of an offer
 ////////////////////////////////////////////////////////////////////////////////
 
-static bool notInterested (mesos::Offer const& offer, bool doDecline) {
+static bool notInterested (mesos::Offer const& offer, bool doDecline, const char *who) {
   if (doDecline) {
-    LOG(INFO) << "Declining offer " << offer.id().value();
+    LOG(INFO) << who << "Declining offer " << offer.id().value();
     Global::scheduler().declineOffer(offer.id());
     return true;
   }
@@ -522,7 +522,8 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   // use docker to run the task
   mesos::ContainerInfo container;
-  container.set_type(mesos::ContainerInfo::DOCKER);
+  container.set_type(mesos::ContainerInfo::MESOS);
+  ///container.set_type(mesos::ContainerInfo::DOCKER);
 
   string myInternalName = task.name();
   string myName = Global::frameworkName() + "-" + myInternalName;
@@ -676,6 +677,12 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   }
   mapping->set_protocol("tcp");
 
+  /*
+  // Network info
+  mesos::NetworkInfo *network = container.add_network_infos();
+  network->set_name("mesos-bridge");
+  */
+
   // volume
   mesos::Resources res = info.resources();
   res = arangodb::filterIsDisk(res);
@@ -720,7 +727,7 @@ static bool requestPersistent (string const& upper,
   mesos::Resources resources;
 
   if (! isSuitableReservedOffer(offer, target, resources)) {
-    return notInterested(offer, doDecline);
+    return notInterested(offer, doDecline, __FUNCTION__);
   }
 
   double now = chrono::duration_cast<chrono::seconds>(
@@ -893,7 +900,7 @@ static bool requestStartPersistent (ArangoState::Lease& lease,
   if (startWithResources(lease, resources, offer, TASK_STATE_TRYING_TO_START, taskType, pos, task, taskCur)) {
     return true;
   } else {
-    return notInterested(offer, doDecline);
+    return notInterested(offer, doDecline, __FUNCTION__);
   }
 }                                  
 
@@ -942,7 +949,7 @@ static bool requestRestartPersistent (ArangoState::Lease& lease,
   if (startWithResources(lease, resources, offer, TASK_STATE_TRYING_TO_RESTART, taskType, pos, task, taskCur)) {
     return true;
   } else {
-    return notInterested(offer, doDecline);
+    return notInterested(offer, doDecline, __FUNCTION__);
   }
 }
 
@@ -1061,14 +1068,14 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
 
   if ((Global::ignoreOffers() & 2) == 2) {
     LOG(INFO) << "Ignoring offer because of 0x2 flag.";
-    return notInterested(offer, doDecline);
+    return notInterested(offer, doDecline, __FUNCTION__);
   }
 
   int p = tasks->entries_size();
 
   if (p == 0) {
     LOG(INFO) << "nothing planned for " << name;
-    return notInterested(offer, doDecline);
+    return notInterested(offer, doDecline, __FUNCTION__);
   }
 
   // ...........................................................................
@@ -1117,7 +1124,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
         case TASK_STATE_TRYING_TO_RESERVE:
           if ((Global::ignoreOffers() & 4) == 4) {
             LOG(INFO) << "Ignoring offer because of 0x4 flag.";
-            return notInterested(offer, doDecline);
+            return notInterested(offer, doDecline, __FUNCTION__);
           }
           return requestPersistent(upper, offer, target, task, taskCur, 
                                    doDecline, taskType, i);
@@ -1125,7 +1132,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
         case TASK_STATE_TRYING_TO_PERSIST:
           if ((Global::ignoreOffers() & 8) == 8) {
             LOG(INFO) << "Ignoring offer because of 0x8 flag.";
-            return notInterested(offer, doDecline);
+            return notInterested(offer, doDecline, __FUNCTION__);
           }
           return requestStartPersistent(lease, upper, offer, target, task,
                                         taskCur, doDecline, taskType, i);
@@ -1134,7 +1141,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
         case TASK_STATE_FAILED_OVER:
           if ((Global::ignoreOffers() & 0x10) == 0x10) {
             LOG(INFO) << "Ignoring offer because of 0x10 flag.";
-            return notInterested(offer, doDecline);
+            return notInterested(offer, doDecline, __FUNCTION__);
           }
           if (taskType == TaskType::COORDINATOR) {
             return requestRestartEphemeral(lease, upper, offer, target, task,
@@ -1149,9 +1156,9 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
           // mop: there was some special logic here that tried to cover an unknown edge case
           // removed as it completely spammed the logfile and makes one look into a completely
           // wrong direction
-          return notInterested(offer, doDecline);
+          return notInterested(offer, doDecline, __FUNCTION__);
         default:
-          return notInterested(offer, doDecline);
+          return notInterested(offer, doDecline, __FUNCTION__);
       }
     }
   }
@@ -1162,14 +1169,14 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
 
   if (required.size() == 0) {
     LOG(INFO) << "nothing required";
-    return notInterested(offer, doDecline);
+    return notInterested(offer, doDecline, __FUNCTION__);
   }
 
   // ...........................................................................
   // check whether the offer is suitable:
   // ...........................................................................
   if (! isSuitableOffer(target, offer)) {
-    return notInterested(offer, doDecline);
+    return notInterested(offer, doDecline, __FUNCTION__);
   }
 
   // ...........................................................................
@@ -1230,7 +1237,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
     if (isPartnerOnThisSlave(lease, decision, offer.slave_id().value())) {
       // we decline this offer, there will be another one
       LOG(INFO) << "secondary not on same slave as its primary";
-      return notInterested(offer, doDecline);
+      return notInterested(offer, doDecline, __FUNCTION__);
     }
   }
 
@@ -1257,7 +1264,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
     if (found == -1) {
       // we decline this offer, there will be another one
       LOG(INFO) << "secondary not alone on a slave";
-      return notInterested(offer, doDecline);
+      return notInterested(offer, doDecline, __FUNCTION__);
     }
   }
 
@@ -1284,7 +1291,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
     if (found == -1) {
       // we decline this offer, there will be another one
       LOG(INFO) << "coordinator not alone on a slave";
-      return notInterested(offer, doDecline);
+      return notInterested(offer, doDecline, __FUNCTION__);
     }
   }
 
@@ -1298,7 +1305,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
   if (! persistent) {
     if ((Global::ignoreOffers() & 0x20) == 0x20) {
       LOG(INFO) << "Ignoring offer because of 0x20 flag.";
-      return notInterested(offer, doDecline);
+      return notInterested(offer, doDecline, __FUNCTION__);
     }
     return requestStartEphemeral(lease, offer, target, task, taskCur, 
                                  taskType, decision);
@@ -1310,7 +1317,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
 
   if ((Global::ignoreOffers() & 0x40) == 0x40) {
     LOG(INFO) << "Ignoring offer because of 0x40 flag.";
-    return notInterested(offer, doDecline);
+    return notInterested(offer, doDecline, __FUNCTION__);
   }
   return requestReservation(upper, offer, target, task, taskCur, doDecline,
                             taskType, decision);
