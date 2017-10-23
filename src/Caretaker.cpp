@@ -522,9 +522,11 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   // use docker to run the task
   mesos::ContainerInfo container;
+#if DOCKERCONTAINER
+  container.set_type(mesos::ContainerInfo::DOCKER);
+#else
   container.set_type(mesos::ContainerInfo::MESOS);
-  ///container.set_type(mesos::ContainerInfo::DOCKER);
-
+#endif
   string myInternalName = task.name();
   string myName = Global::frameworkName() + "-" + myInternalName;
 
@@ -660,6 +662,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   p->set_value(std::to_string(info.ports(0)));
   command.mutable_environment()->CopyFrom(environment);
 
+#if DOCKERCONTAINER
   // docker info
   mesos::ContainerInfo::DockerInfo* docker = container.mutable_docker();
   docker->set_image(arangoDBImageName());
@@ -676,12 +679,34 @@ static void startArangoDBTask (ArangoState::Lease& lease,
     assert(false);
   }
   mapping->set_protocol("tcp");
+#else
+  // docker info
+  mesos::ContainerInfo::MesosInfo* mesosContainer = container.mutable_mesos();
+  
+  //mesos::Image& mesosImage = mesosContainer->image();
+  mesos::Image* mesosImage = mesosContainer->mutable_image();
 
-  /*
+  mesosImage->set_cached(false);
+  mesosImage->set_type(mesos::Image::DOCKER);
+  mesos::Image_Docker* dockerImage = mesosImage->mutable_docker();
+  dockerImage->set_name(arangoDBImageName());
+  
+  // dockerImage->set_privileged(Global::arangoDBPrivilegedImage());
+  // port mapping
+  //mesos::ContainerInfo::MesosInfo::PortMapping* mapping = mesosContainer->add_port_mappings();
+  //mapping->set_host_port(info.ports(0));
+  //mapping->set_container_port(8529);
+
+  if (taskType == TaskType::UNKNOWN) {
+    assert(false);
+  }
+  // mapping->set_protocol("tcp");
+
   // Network info
   mesos::NetworkInfo *network = container.add_network_infos();
   network->set_name("mesos-bridge");
-  */
+
+#endif
 
   // volume
   mesos::Resources res = info.resources();
@@ -706,6 +731,12 @@ static void startArangoDBTask (ArangoState::Lease& lease,
     info,
     container,
     command);
+
+
+  std::string taskstr;
+  pbjson::pb2json(&taskInfo, taskstr);
+  LOG(INFO) 
+    << "DEBUG Taskinfo: " << taskstr;
 
   Global::manager().registerNewTask(taskId, taskType, pos);
 
@@ -857,6 +888,7 @@ static bool startWithResources(ArangoState::Lease& lease,
               }
             }
             ports.emplace_back(i);
+            // ports.emplace_back(8529);
           }
         }
       }
