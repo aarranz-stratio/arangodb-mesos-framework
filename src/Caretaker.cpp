@@ -43,7 +43,7 @@
 
 using namespace arangodb;
 using namespace std;
-
+using namespace mesos;
 // -----------------------------------------------------------------------------
 // --SECTION--                                                 private functions
 // -----------------------------------------------------------------------------
@@ -92,7 +92,7 @@ static bool isSuitableOffer (Target const& target,
   // Always flatten the minimal resources with our role, because find is 
   // flexible:
   mesos::Resources minimum = target.minimal_resources();
-  minimum = minimum.flatten(Global::role());
+  minimum = minimum.flatten(Global::role()).get();
 
   Option<mesos::Resources> found = offered.find(minimum);
   if (! found.isSome()) {
@@ -125,7 +125,7 @@ static bool isSuitableReservedOffer (mesos::Offer const& offer,
   mesos::Resources offered = offer.resources();
   mesos::Resources reserved = offered.reserved(Global::role());
   mesos::Resources required = target.minimal_resources();
-  required = required.flatten(Global::role());
+  required = required.flatten(Global::role()).get();
 
   LOG(INFO) << "Reserved: " << reserved;
   LOG(INFO) << "Target: " << required;
@@ -282,15 +282,15 @@ static mesos::Resources resourcesForRequestReservation (
   // when we ignore roles. We now have to reserve that part of the 
   // resources with role "*" that is necessary to have all of the minimal
   // resources with our role.
-  minimum = minimum.flatten(Global::role());
+  minimum = minimum.flatten(Global::role()).get();
   mesos::Resources roleSpecificPart 
       = arangodb::intersectResources(offered, minimum);
   mesos::Resources defaultPart = minimum - roleSpecificPart;
-  defaultPart = defaultPart.flatten(Global::role(), Global::createReservation());
+  defaultPart = defaultPart.flatten(Global::role(), Global::createReservation()).get();
 
   // Now add a port reservation:
   mesos::Resources ports = findFreePorts(offer, 1);
-  ports = ports.flatten(Global::role(), Global::createReservation());
+  ports = ports.flatten(Global::role(), Global::createReservation()).get();
   defaultPart += ports;
 
   // TODO(fc) check if we could use additional resources
@@ -322,7 +322,7 @@ static mesos::Resources suitablePersistent (string const& name,
   offered = filterNotIsDisk(offered);
 
   mesos::Resources minimum = target.minimal_resources();
-  minimum = minimum.flatten(Global::role());
+  minimum = minimum.flatten(Global::role()).get();
   mesos::Resources minimumDisk = filterIsDisk(minimum);
   minimum = filterNotIsDisk(minimum);
 
@@ -344,7 +344,7 @@ static mesos::Resources suitablePersistent (string const& name,
 
   bool found = false;
 
-  for (const auto& res : offeredDisk) {
+  for (const mesos::Resource& res : offeredDisk) {
     if (res.role() != Global::role()) {
       continue;
     }
@@ -360,11 +360,9 @@ static mesos::Resources suitablePersistent (string const& name,
     if (! res.disk().has_persistence()) {
       continue;
     }
-
     if (persistenceId != res.disk().persistence().id()) {
       continue;
     }
-
     containerPath = "myPersistentVolume";
 
     toUse += res;
@@ -873,8 +871,9 @@ static bool startWithResources(ArangoState::Lease& lease,
     size_t oldPortsSize = oldTask.ports_size();
 
     std::vector<uint64_t> ports;
-    for (auto& res : resources) {
-      if (res.name() == "ports" && res.type() == mesos::Value::RANGES) {
+    for (const mesos::Resource& res : resources) {
+      if (res.name() == "ports" &&
+          res.type() == mesos::Value::RANGES) {
         auto const& ranges = res.ranges();
         for (int r = 0; r < ranges.range_size(); r++) {
           for (uint64_t i = ranges.range(r).begin();

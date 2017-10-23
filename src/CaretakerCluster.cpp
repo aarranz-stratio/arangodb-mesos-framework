@@ -613,7 +613,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   mesos::Resources offered = offer.resources();
   mesos::Resources offeredDisk = filterIsDisk(offered);
   mesos::Resources toDestroy;
-  for (auto& res : offeredDisk) {
+  for (const mesos::Resource& res : offeredDisk) {
     if (res.role() == Global::role() &&
         res.has_disk() &&
         res.disk().has_persistence() &&
@@ -635,7 +635,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
   // If there was no persistent disk, maybe there is a dynamic reservation,
   // if so, unreserve it:
   mesos::Resources toUnreserve;
-  for (auto& res : offered) {
+  for (const mesos::Resource& res : offered) {
     if (res.role() == Global::role() &&
         res.has_reservation() &&
         res.reservation().principal() == Global::principal()) {

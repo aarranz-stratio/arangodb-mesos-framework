@@ -88,12 +88,12 @@ typedef std::unordered_map<std::string, std::string> Headers;
 /// @brief extracts diskspace from a resource
 ///////////////////////////////////////////////////////////////////////////////
 
-static double diskspaceResource (const mesos::Resource& resource) {
+double arangodb::diskspaceResource (const mesos::Resource& resource) {
   if (resource.name() == "disk" && resource.type() == mesos::Value::SCALAR) {
     return resource.scalar().value();
   }
 
-  return 0;
+  return 0.0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -105,7 +105,7 @@ static double cpusResource (const mesos::Resource& resource) {
     return resource.scalar().value();
   }
 
-  return 0;
+  return 0.0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
