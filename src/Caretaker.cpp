@@ -520,7 +520,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   // use docker to run the task
   mesos::ContainerInfo container;
-#define DOCKERCONTAINER 1
+  //#define DOCKERCONTAINER 1
 #if DOCKERCONTAINER
   container.set_type(mesos::ContainerInfo::DOCKER);
 #else
@@ -691,19 +691,17 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   dockerImage->set_name(arangoDBImageName());
   
   // dockerImage->set_privileged(Global::arangoDBPrivilegedImage());
-  // port mapping
-  //mesos::ContainerInfo::MesosInfo::PortMapping* mapping = mesosContainer->add_port_mappings();
-  //mapping->set_host_port(info.ports(0));
-  //mapping->set_container_port(8529);
-
   if (taskType == TaskType::UNKNOWN) {
     assert(false);
   }
-  // mapping->set_protocol("tcp");
 
-  // Network info
+  // Network info, port mapping
   mesos::NetworkInfo *network = container.add_network_infos();
   network->set_name("mesos-bridge");
+  mesos::NetworkInfo::PortMapping* mapping = network->add_port_mappings();
+  mapping->set_host_port(info.ports(0));
+  mapping->set_container_port(8529);
+  mapping->set_protocol("tcp");
 
 #endif
 
