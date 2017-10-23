@@ -520,6 +520,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   // use docker to run the task
   mesos::ContainerInfo container;
+#define DOCKERCONTAINER 1
 #if DOCKERCONTAINER
   container.set_type(mesos::ContainerInfo::DOCKER);
 #else
