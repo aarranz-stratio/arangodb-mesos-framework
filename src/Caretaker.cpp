@@ -520,12 +520,8 @@ static void startArangoDBTask (ArangoState::Lease& lease,
 
   // use docker to run the task
   mesos::ContainerInfo container;
-#define DOCKERCONTAINER 1
-#if DOCKERCONTAINER
-  container.set_type(mesos::ContainerInfo::DOCKER);
-#else
-  container.set_type(mesos::ContainerInfo::MESOS);
-#endif
+  container.set_type(Global::containerizer());
+
   string myInternalName = task.name();
   string myName = Global::frameworkName() + "-" + myInternalName;
 
@@ -661,49 +657,51 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   p->set_value(std::to_string(info.ports(0)));
   command.mutable_environment()->CopyFrom(environment);
 
-#if DOCKERCONTAINER
-  // docker info
-  mesos::ContainerInfo::DockerInfo* docker = container.mutable_docker();
-  docker->set_image(arangoDBImageName());
-  docker->set_privileged(Global::arangoDBPrivilegedImage());
-  docker->set_network(mesos::ContainerInfo::DockerInfo::BRIDGE);
-  docker->set_force_pull_image(Global::arangoDBForcePullImage());
 
-  // port mapping
-  mesos::ContainerInfo::DockerInfo::PortMapping* mapping = docker->add_port_mappings();
-  mapping->set_host_port(info.ports(0));
-  mapping->set_container_port(info.ports(0));
+  if (Global::containerizer() == mesos::ContainerInfo::DOCKER) {
+    // docker info
+    mesos::ContainerInfo::DockerInfo* docker = container.mutable_docker();
+    docker->set_image(arangoDBImageName());
+    docker->set_privileged(Global::arangoDBPrivilegedImage());
+    docker->set_network(mesos::ContainerInfo::DockerInfo::BRIDGE);
+    docker->set_force_pull_image(Global::arangoDBForcePullImage());
 
-  if (taskType == TaskType::UNKNOWN) {
-    assert(false);
-  }
-  mapping->set_protocol("tcp");
-#else
-  // docker info
-  mesos::ContainerInfo::MesosInfo* mesosContainer = container.mutable_mesos();
+    // port mapping
+    mesos::ContainerInfo::DockerInfo::PortMapping* mapping = docker->add_port_mappings();
+    mapping->set_host_port(info.ports(0));
+    mapping->set_container_port(info.ports(0));
+
+    if (taskType == TaskType::UNKNOWN) {
+      assert(false);
+    }
+    mapping->set_protocol("tcp");
+  } else {
+    // docker info
+    mesos::ContainerInfo::MesosInfo* mesosContainer = container.mutable_mesos();
   
-  //mesos::Image& mesosImage = mesosContainer->image();
-  mesos::Image* mesosImage = mesosContainer->mutable_image();
+    //mesos::Image& mesosImage = mesosContainer->image();
+    mesos::Image* mesosImage = mesosContainer->mutable_image();
 
-  mesosImage->set_cached(false);
-  mesosImage->set_type(mesos::Image::DOCKER);
-  mesos::Image_Docker* dockerImage = mesosImage->mutable_docker();
-  dockerImage->set_name(arangoDBImageName());
+    mesosImage->set_cached(false);
+    mesosImage->set_type(mesos::Image::DOCKER);
+    mesos::Image_Docker* dockerImage = mesosImage->mutable_docker();
+    dockerImage->set_name(arangoDBImageName());
   
-  // dockerImage->set_privileged(Global::arangoDBPrivilegedImage());
-  if (taskType == TaskType::UNKNOWN) {
-    assert(false);
+    // dockerImage->set_privileged(Global::arangoDBPrivilegedImage());
+    if (taskType == TaskType::UNKNOWN) {
+      assert(false);
+    }
+
+    // Network info, port mapping
+    // this actually doesn't work, since containers running on the same
+    // host aren't able to talk to each other.
+    // mesos::NetworkInfo *network = container.add_network_infos();
+    // network->set_name("mesos-bridge");
+    // mesos::NetworkInfo::PortMapping* mapping = network->add_port_mappings();
+    // mapping->set_host_port(info.ports(0));
+    // mapping->set_container_port(info.ports(0));
+    // mapping->set_protocol("tcp");
   }
-
-  // Network info, port mapping
-  mesos::NetworkInfo *network = container.add_network_infos();
-  network->set_name("mesos-bridge");
-  mesos::NetworkInfo::PortMapping* mapping = network->add_port_mappings();
-  mapping->set_host_port(info.ports(0));
-  mapping->set_container_port(info.ports(0));
-  mapping->set_protocol("tcp");
-
-#endif
 
   // volume
   mesos::Resources res = info.resources();

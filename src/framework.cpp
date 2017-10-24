@@ -206,6 +206,12 @@ int main (int argc, char** argv) {
   // parse the command line flags
   logging::Flags flags;
 
+  string containerizer;
+  flags.add(&containerizer,
+            "containerizer",
+            "Which containerizer we should run arangodb in (docker, mesos)",
+            "docker");
+
   string mode;
   flags.add(&mode,
             "mode",
@@ -528,6 +534,8 @@ int main (int argc, char** argv) {
   LOG(INFO) << "Asynchronous replication flag: " << Global::asyncReplication();
 
   Global::setFrameworkName(frameworkName);
+  
+  Global::setContainerizer(containerizer);
 
   Global::setSecondariesWithDBservers(str2bool(secondariesWithDBservers));
   LOG(INFO) << "SecondariesWithDBservers: " << Global::secondariesWithDBservers();
