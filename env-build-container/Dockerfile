@@ -10,7 +10,7 @@ RUN apt-get update && \
 
 RUN apt-get install -y zlib1g-dev cmake
 
-RUN git clone --single-branch --branch 1.1.3 https://github.com/apache/mesos.git
+RUN git clone --single-branch --branch 1.4.0 https://github.com/apache/mesos.git
 
 RUN cd mesos && \
   ./bootstrap && \
