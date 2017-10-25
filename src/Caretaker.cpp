@@ -25,6 +25,9 @@
 /// @author Copyright 2015, ArangoDB GmbH, Cologne, Germany
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef unix
+#undef unix
+#endif
 #include "Caretaker.h"
 
 #include "ArangoState.h"

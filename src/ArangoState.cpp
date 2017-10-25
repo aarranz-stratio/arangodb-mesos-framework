@@ -25,11 +25,14 @@
 /// @author Copyright 2015, ArangoDB GmbH, Cologne, Germany
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef unix
+#undef unix
+#endif
+
 #include "ArangoState.h"
 
 #include "Global.h"
 #include "utils.h"
-
 #include "pbjson.hpp"
 
 #include <state/leveldb.hpp>

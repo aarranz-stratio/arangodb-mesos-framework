@@ -28,6 +28,10 @@
 #ifndef ARANGO_UTILS_H
 #define ARANGO_UTILS_H 1
 
+#ifdef unix
+#undef unix
+#endif
+
 #include <chrono>
 #include <string>
 #include <vector>
