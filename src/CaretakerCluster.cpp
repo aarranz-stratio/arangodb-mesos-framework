@@ -74,7 +74,10 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(agency, 0);
       }
       else {
-        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        // mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        mesos::Resources res = x.get();   // always flatten to role "*"
+        LOG(INFO) << "XXX 1 DEBUG CaretakerCluster: " << " res " <<  res;
+
         auto m = agency->mutable_minimal_resources();
         m->CopyFrom(res);
       }
@@ -96,7 +99,9 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(coordinator, 1);
       }
       else {
-        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        // mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        mesos::Resources res = x.get();   // always flatten to role "*"
+        LOG(INFO) << "XXX 2 DEBUG CaretakerCluster: " << " res " <<  res;
         auto m = coordinator->mutable_minimal_resources();
         m->CopyFrom(res);
       }
@@ -118,7 +123,9 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(dbserver, 1);
       }
       else {
-        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        // mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        mesos::Resources res = x.get();   // always flatten to role "*"
+        LOG(INFO) << "XXX 3 DEBUG CaretakerCluster: " << " res " <<  res;
         auto m = dbserver->mutable_minimal_resources();
         m->CopyFrom(res);
       }
@@ -140,7 +147,9 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(secondary, 1);
       }
       else {
-        mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        // mesos::Resources res = x.get().flatten();   // always flatten to role "*"
+        mesos::Resources res = x.get();   // always flatten to role "*"
+        LOG(INFO) << "XXX 4 DEBUG CaretakerCluster: " << " res " <<  res;
         auto m = secondary->mutable_minimal_resources();
         m->CopyFrom(res);
       }

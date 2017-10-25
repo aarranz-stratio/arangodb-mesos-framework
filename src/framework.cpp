@@ -206,12 +206,12 @@ int main (int argc, char** argv) {
   // parse the command line flags
   logging::Flags flags;
 
-  string containerizer;
+  logging::Flags containerizer;
   flags.add(&containerizer,
             "containerizer",
             "Which containerizer we should run arangodb in (docker, mesos)",
             "docker");
-
+  /*
   string mode;
   flags.add(&mode,
             "mode",
@@ -434,7 +434,7 @@ int main (int argc, char** argv) {
             "zk",
             "zookeeper for state",
             "");
-
+  */
   Try<flags::Warnings> load = flags.load(None(), argc, argv);
 
   if (load.isError()) {

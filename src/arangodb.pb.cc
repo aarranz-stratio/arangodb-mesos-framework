@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
@@ -17,437 +18,445 @@
 // @@protoc_insertion_point(includes)
 
 namespace arangodb {
+class RestartDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Restart> {
+} _Restart_default_instance_;
+class RestartBucketDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<RestartBucket> {
+} _RestartBucket_default_instance_;
+class RestartTaskInfoDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<RestartTaskInfo> {
+} _RestartTaskInfo_default_instance_;
+class TargetDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Target> {
+} _Target_default_instance_;
+class TargetsDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Targets> {
+} _Targets_default_instance_;
+class TaskPlanDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<TaskPlan> {
+} _TaskPlan_default_instance_;
+class TasksPlanDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<TasksPlan> {
+} _TasksPlan_default_instance_;
+class PlanDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Plan> {
+} _Plan_default_instance_;
+class TaskCurrentDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<TaskCurrent> {
+} _TaskCurrent_default_instance_;
+class TasksCurrentDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<TasksCurrent> {
+} _TasksCurrent_default_instance_;
+class CurrentDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Current> {
+} _Current_default_instance_;
+class StateDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<State> {
+} _State_default_instance_;
+
+namespace protobuf_arangodb_2eproto {
+
 
 namespace {
 
-const ::google::protobuf::Descriptor* Restart_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Restart_reflection_ = NULL;
-const ::google::protobuf::Descriptor* RestartBucket_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  RestartBucket_reflection_ = NULL;
-const ::google::protobuf::Descriptor* RestartTaskInfo_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  RestartTaskInfo_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Target_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Target_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Targets_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Targets_reflection_ = NULL;
-const ::google::protobuf::Descriptor* TaskPlan_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  TaskPlan_reflection_ = NULL;
-const ::google::protobuf::Descriptor* TasksPlan_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  TasksPlan_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Plan_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Plan_reflection_ = NULL;
-const ::google::protobuf::Descriptor* TaskCurrent_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  TaskCurrent_reflection_ = NULL;
-const ::google::protobuf::Descriptor* TasksCurrent_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  TasksCurrent_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Current_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Current_reflection_ = NULL;
-const ::google::protobuf::Descriptor* State_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  State_reflection_ = NULL;
-const ::google::protobuf::EnumDescriptor* TaskPlanState_descriptor_ = NULL;
+::google::protobuf::Metadata file_level_metadata[12];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 }  // namespace
 
+PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
+    const TableStruct::entries[] = {
+  {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
+};
 
-void protobuf_AssignDesc_arangodb_2eproto() {
-  protobuf_AddDesc_arangodb_2eproto();
-  const ::google::protobuf::FileDescriptor* file =
-    ::google::protobuf::DescriptorPool::generated_pool()->FindFileByName(
-      "arangodb.proto");
-  GOOGLE_CHECK(file != NULL);
-  Restart_descriptor_ = file->message_type(0);
-  static const int Restart_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restart, buckets_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restart, timestamp_),
-  };
-  Restart_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Restart_descriptor_,
-      Restart::default_instance_,
-      Restart_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restart, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restart, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Restart));
-  RestartBucket_descriptor_ = file->message_type(1);
-  static const int RestartBucket_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartBucket, restart_tasks_),
-  };
-  RestartBucket_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      RestartBucket_descriptor_,
-      RestartBucket::default_instance_,
-      RestartBucket_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartBucket, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartBucket, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(RestartBucket));
-  RestartTaskInfo_descriptor_ = file->message_type(2);
-  static const int RestartTaskInfo_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartTaskInfo, task_type_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartTaskInfo, task_name_),
-  };
-  RestartTaskInfo_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      RestartTaskInfo_descriptor_,
-      RestartTaskInfo::default_instance_,
-      RestartTaskInfo_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartTaskInfo, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartTaskInfo, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(RestartTaskInfo));
-  Target_descriptor_ = file->message_type(3);
-  static const int Target_offsets_[4] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, instances_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, minimal_resources_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, additional_resources_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, number_ports_),
-  };
-  Target_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Target_descriptor_,
-      Target::default_instance_,
-      Target_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Target));
-  Targets_descriptor_ = file->message_type(4);
-  static const int Targets_offsets_[6] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, mode_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, agents_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, coordinators_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, dbservers_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, secondaries_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, asynchronous_replication_),
-  };
-  Targets_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Targets_descriptor_,
-      Targets::default_instance_,
-      Targets_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Targets));
-  TaskPlan_descriptor_ = file->message_type(5);
-  static const int TaskPlan_offsets_[6] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, state_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, persistence_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, timestamp_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, name_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, sync_partner_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, server_id_),
-  };
-  TaskPlan_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      TaskPlan_descriptor_,
-      TaskPlan::default_instance_,
-      TaskPlan_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(TaskPlan));
-  TasksPlan_descriptor_ = file->message_type(6);
-  static const int TasksPlan_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksPlan, entries_),
-  };
-  TasksPlan_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      TasksPlan_descriptor_,
-      TasksPlan::default_instance_,
-      TasksPlan_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksPlan, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksPlan, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(TasksPlan));
-  Plan_descriptor_ = file->message_type(7);
-  static const int Plan_offsets_[4] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, agents_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, coordinators_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, dbservers_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, secondaries_),
-  };
-  Plan_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Plan_descriptor_,
-      Plan::default_instance_,
-      Plan_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Plan));
-  TaskCurrent_descriptor_ = file->message_type(8);
-  static const int TaskCurrent_offsets_[9] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, slave_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, offer_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, resources_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, ports_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, hostname_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, container_path_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, task_info_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, start_time_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, kill_time_),
-  };
-  TaskCurrent_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      TaskCurrent_descriptor_,
-      TaskCurrent::default_instance_,
-      TaskCurrent_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(TaskCurrent));
-  TasksCurrent_descriptor_ = file->message_type(9);
-  static const int TasksCurrent_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksCurrent, entries_),
-  };
-  TasksCurrent_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      TasksCurrent_descriptor_,
-      TasksCurrent::default_instance_,
-      TasksCurrent_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksCurrent, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksCurrent, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(TasksCurrent));
-  Current_descriptor_ = file->message_type(10);
-  static const int Current_offsets_[5] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, agents_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, coordinators_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, dbservers_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, secondaries_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, cluster_complete_),
-  };
-  Current_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Current_descriptor_,
-      Current::default_instance_,
-      Current_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Current));
-  State_descriptor_ = file->message_type(11);
-  static const int State_offsets_[5] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, framework_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, targets_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, plan_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, current_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, restart_),
-  };
-  State_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      State_descriptor_,
-      State::default_instance_,
-      State_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(State));
-  TaskPlanState_descriptor_ = file->enum_type(0);
-}
+PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
+    const TableStruct::aux[] = {
+  ::google::protobuf::internal::AuxillaryParseTableField(),
+};
+PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
+    TableStruct::schema[] = {
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+  { NULL, NULL, 0, -1, -1, false },
+};
+
+const ::google::protobuf::uint32 TableStruct::offsets[] = {
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restart, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restart, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restart, buckets_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Restart, timestamp_),
+  ~0u,
+  0,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartBucket, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartBucket, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartBucket, restart_tasks_),
+  ~0u,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartTaskInfo, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartTaskInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartTaskInfo, task_type_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RestartTaskInfo, task_name_),
+  1,
+  0,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, instances_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, minimal_resources_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, additional_resources_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Target, number_ports_),
+  0,
+  ~0u,
+  ~0u,
+  1,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, mode_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, agents_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, coordinators_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, dbservers_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, secondaries_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Targets, asynchronous_replication_),
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, state_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, persistence_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, timestamp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, name_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, sync_partner_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskPlan, server_id_),
+  5,
+  0,
+  4,
+  1,
+  2,
+  3,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksPlan, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksPlan, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksPlan, entries_),
+  ~0u,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, agents_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, coordinators_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, dbservers_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Plan, secondaries_),
+  0,
+  1,
+  2,
+  3,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, slave_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, offer_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, resources_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, ports_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, hostname_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, container_path_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, task_info_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, start_time_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TaskCurrent, kill_time_),
+  2,
+  3,
+  ~0u,
+  ~0u,
+  0,
+  1,
+  4,
+  5,
+  6,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksCurrent, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksCurrent, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TasksCurrent, entries_),
+  ~0u,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, agents_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, coordinators_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, dbservers_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, secondaries_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Current, cluster_complete_),
+  0,
+  1,
+  2,
+  3,
+  4,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, framework_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, targets_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, plan_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, current_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(State, restart_),
+  0,
+  1,
+  2,
+  3,
+  4,
+};
+
+static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+  { 0, 7, sizeof(Restart)},
+  { 9, 15, sizeof(RestartBucket)},
+  { 16, 23, sizeof(RestartTaskInfo)},
+  { 25, 34, sizeof(Target)},
+  { 38, 49, sizeof(Targets)},
+  { 55, 66, sizeof(TaskPlan)},
+  { 72, 78, sizeof(TasksPlan)},
+  { 79, 88, sizeof(Plan)},
+  { 92, 106, sizeof(TaskCurrent)},
+  { 115, 121, sizeof(TasksCurrent)},
+  { 122, 132, sizeof(Current)},
+  { 137, 147, sizeof(State)},
+};
+
+static ::google::protobuf::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::google::protobuf::Message*>(&_Restart_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_RestartBucket_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_RestartTaskInfo_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_Target_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_Targets_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_TaskPlan_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_TasksPlan_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_Plan_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_TaskCurrent_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_TasksCurrent_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_Current_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_State_default_instance_),
+};
 
 namespace {
 
-GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_AssignDescriptors_once_);
-inline void protobuf_AssignDescriptorsOnce() {
-  ::google::protobuf::GoogleOnceInit(&protobuf_AssignDescriptors_once_,
-                 &protobuf_AssignDesc_arangodb_2eproto);
+void protobuf_AssignDescriptors() {
+  AddDescriptors();
+  ::google::protobuf::MessageFactory* factory = NULL;
+  AssignDescriptors(
+      "arangodb.proto", schemas, file_default_instances, TableStruct::offsets, factory,
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
+void protobuf_AssignDescriptorsOnce() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &protobuf_AssignDescriptors);
+}
+
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Restart_descriptor_, &Restart::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    RestartBucket_descriptor_, &RestartBucket::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    RestartTaskInfo_descriptor_, &RestartTaskInfo::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Target_descriptor_, &Target::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Targets_descriptor_, &Targets::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    TaskPlan_descriptor_, &TaskPlan::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    TasksPlan_descriptor_, &TasksPlan::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Plan_descriptor_, &Plan::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    TaskCurrent_descriptor_, &TaskCurrent::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    TasksCurrent_descriptor_, &TasksCurrent::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Current_descriptor_, &Current::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    State_descriptor_, &State::default_instance());
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 12);
 }
 
 }  // namespace
 
-void protobuf_ShutdownFile_arangodb_2eproto() {
-  delete Restart::default_instance_;
-  delete Restart_reflection_;
-  delete RestartBucket::default_instance_;
-  delete RestartBucket_reflection_;
-  delete RestartTaskInfo::default_instance_;
-  delete RestartTaskInfo_reflection_;
-  delete Target::default_instance_;
-  delete Target_reflection_;
-  delete Targets::default_instance_;
-  delete Targets_reflection_;
-  delete TaskPlan::default_instance_;
-  delete TaskPlan_reflection_;
-  delete TasksPlan::default_instance_;
-  delete TasksPlan_reflection_;
-  delete Plan::default_instance_;
-  delete Plan_reflection_;
-  delete TaskCurrent::default_instance_;
-  delete TaskCurrent_reflection_;
-  delete TasksCurrent::default_instance_;
-  delete TasksCurrent_reflection_;
-  delete Current::default_instance_;
-  delete Current_reflection_;
-  delete State::default_instance_;
-  delete State_reflection_;
+void TableStruct::Shutdown() {
+  _Restart_default_instance_.Shutdown();
+  delete file_level_metadata[0].reflection;
+  _RestartBucket_default_instance_.Shutdown();
+  delete file_level_metadata[1].reflection;
+  _RestartTaskInfo_default_instance_.Shutdown();
+  delete file_level_metadata[2].reflection;
+  _Target_default_instance_.Shutdown();
+  delete file_level_metadata[3].reflection;
+  _Targets_default_instance_.Shutdown();
+  delete file_level_metadata[4].reflection;
+  _TaskPlan_default_instance_.Shutdown();
+  delete file_level_metadata[5].reflection;
+  _TasksPlan_default_instance_.Shutdown();
+  delete file_level_metadata[6].reflection;
+  _Plan_default_instance_.Shutdown();
+  delete file_level_metadata[7].reflection;
+  _TaskCurrent_default_instance_.Shutdown();
+  delete file_level_metadata[8].reflection;
+  _TasksCurrent_default_instance_.Shutdown();
+  delete file_level_metadata[9].reflection;
+  _Current_default_instance_.Shutdown();
+  delete file_level_metadata[10].reflection;
+  _State_default_instance_.Shutdown();
+  delete file_level_metadata[11].reflection;
 }
 
-void protobuf_AddDesc_arangodb_2eproto() {
-  static bool already_here = false;
-  if (already_here) return;
-  already_here = true;
+void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::mesos::protobuf_AddDesc_mesos_2fmesos_2eproto();
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\016arangodb.proto\022\010arangodb\032\021mesos/mesos."
-    "proto\"F\n\007Restart\022(\n\007buckets\030\001 \003(\0132\027.aran"
-    "godb.RestartBucket\022\021\n\ttimestamp\030\002 \002(\001\"A\n"
-    "\rRestartBucket\0220\n\rrestart_tasks\030\001 \003(\0132\031."
-    "arangodb.RestartTaskInfo\"7\n\017RestartTaskI"
-    "nfo\022\021\n\ttask_type\030\001 \002(\r\022\021\n\ttask_name\030\002 \002("
-    "\t\"\214\001\n\006Target\022\021\n\tinstances\030\001 \002(\r\022*\n\021minim"
-    "al_resources\030\002 \003(\0132\017.mesos.Resource\022-\n\024a"
-    "dditional_resources\030\003 \003(\0132\017.mesos.Resour"
-    "ce\022\024\n\014number_ports\030\004 \002(\r\"\317\001\n\007Targets\022\014\n\004"
-    "mode\030\001 \002(\t\022 \n\006agents\030\002 \002(\0132\020.arangodb.Ta"
-    "rget\022&\n\014coordinators\030\003 \002(\0132\020.arangodb.Ta"
-    "rget\022#\n\tdbservers\030\004 \002(\0132\020.arangodb.Targe"
-    "t\022%\n\013secondaries\030\005 \002(\0132\020.arangodb.Target"
-    "\022 \n\030asynchronous_replication\030\006 \001(\010\"\244\001\n\010T"
-    "askPlan\0226\n\005state\030\001 \002(\0162\027.arangodb.TaskPl"
-    "anState:\016TASK_STATE_NEW\022\026\n\016persistence_i"
-    "d\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\001\022\014\n\004name\030\004 \002(\t"
-    "\022\024\n\014sync_partner\030\005 \001(\t\022\021\n\tserver_id\030\006 \001("
-    "\t\"0\n\tTasksPlan\022#\n\007entries\030\001 \003(\0132\022.arango"
-    "db.TaskPlan\"\250\001\n\004Plan\022#\n\006agents\030\001 \002(\0132\023.a"
-    "rangodb.TasksPlan\022)\n\014coordinators\030\002 \002(\0132"
-    "\023.arangodb.TasksPlan\022&\n\tdbservers\030\003 \002(\0132"
-    "\023.arangodb.TasksPlan\022(\n\013secondaries\030\004 \002("
-    "\0132\023.arangodb.TasksPlan\"\371\001\n\013TaskCurrent\022 "
-    "\n\010slave_id\030\001 \001(\0132\016.mesos.SlaveID\022 \n\010offe"
-    "r_id\030\002 \001(\0132\016.mesos.OfferID\022\"\n\tresources\030"
-    "\003 \003(\0132\017.mesos.Resource\022\r\n\005ports\030\004 \003(\r\022\020\n"
-    "\010hostname\030\005 \001(\t\022\026\n\016container_path\030\006 \001(\t\022"
-    "\"\n\ttask_info\030\007 \001(\0132\017.mesos.TaskInfo\022\022\n\ns"
-    "tart_time\030\010 \001(\001\022\021\n\tkill_time\030\t \001(\001\"6\n\014Ta"
-    "sksCurrent\022&\n\007entries\030\001 \003(\0132\025.arangodb.T"
-    "askCurrent\"\321\001\n\007Current\022&\n\006agents\030\001 \002(\0132\026"
-    ".arangodb.TasksCurrent\022,\n\014coordinators\030\002"
-    " \002(\0132\026.arangodb.TasksCurrent\022)\n\tdbserver"
-    "s\030\003 \002(\0132\026.arangodb.TasksCurrent\022+\n\013secon"
-    "daries\030\004 \002(\0132\026.arangodb.TasksCurrent\022\030\n\020"
-    "cluster_complete\030\005 \002(\010\"\273\001\n\005State\022(\n\014fram"
-    "ework_id\030\001 \001(\0132\022.mesos.FrameworkID\022\"\n\007ta"
-    "rgets\030\002 \002(\0132\021.arangodb.Targets\022\034\n\004plan\030\003"
-    " \002(\0132\016.arangodb.Plan\022\"\n\007current\030\004 \002(\0132\021."
-    "arangodb.Current\022\"\n\007restart\030\005 \001(\0132\021.aran"
-    "godb.Restart*\247\002\n\rTaskPlanState\022\022\n\016TASK_S"
-    "TATE_NEW\020\001\022 \n\034TASK_STATE_TRYING_TO_RESER"
-    "VE\020\002\022 \n\034TASK_STATE_TRYING_TO_PERSIST\020\003\022\036"
-    "\n\032TASK_STATE_TRYING_TO_START\020\004\022 \n\034TASK_S"
-    "TATE_TRYING_TO_RESTART\020\005\022\026\n\022TASK_STATE_R"
-    "UNNING\020\006\022\025\n\021TASK_STATE_KILLED\020\007\022\032\n\026TASK_"
-    "STATE_FAILED_OVER\020\010\022\023\n\017TASK_STATE_DEAD\020\t"
-    "\022\034\n\030TASK_STATE_SHUTTING_DOWN\020\n", 1990);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "arangodb.proto", &protobuf_RegisterTypes);
-  Restart::default_instance_ = new Restart();
-  RestartBucket::default_instance_ = new RestartBucket();
-  RestartTaskInfo::default_instance_ = new RestartTaskInfo();
-  Target::default_instance_ = new Target();
-  Targets::default_instance_ = new Targets();
-  TaskPlan::default_instance_ = new TaskPlan();
-  TasksPlan::default_instance_ = new TasksPlan();
-  Plan::default_instance_ = new Plan();
-  TaskCurrent::default_instance_ = new TaskCurrent();
-  TasksCurrent::default_instance_ = new TasksCurrent();
-  Current::default_instance_ = new Current();
-  State::default_instance_ = new State();
-  Restart::default_instance_->InitAsDefaultInstance();
-  RestartBucket::default_instance_->InitAsDefaultInstance();
-  RestartTaskInfo::default_instance_->InitAsDefaultInstance();
-  Target::default_instance_->InitAsDefaultInstance();
-  Targets::default_instance_->InitAsDefaultInstance();
-  TaskPlan::default_instance_->InitAsDefaultInstance();
-  TasksPlan::default_instance_->InitAsDefaultInstance();
-  Plan::default_instance_->InitAsDefaultInstance();
-  TaskCurrent::default_instance_->InitAsDefaultInstance();
-  TasksCurrent::default_instance_->InitAsDefaultInstance();
-  Current::default_instance_->InitAsDefaultInstance();
-  State::default_instance_->InitAsDefaultInstance();
-  ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_arangodb_2eproto);
+  ::google::protobuf::internal::InitProtobufDefaults();
+  ::mesos::protobuf_mesos_2fmesos_2eproto::InitDefaults();
+  _Restart_default_instance_.DefaultConstruct();
+  _RestartBucket_default_instance_.DefaultConstruct();
+  _RestartTaskInfo_default_instance_.DefaultConstruct();
+  _Target_default_instance_.DefaultConstruct();
+  _Targets_default_instance_.DefaultConstruct();
+  _TaskPlan_default_instance_.DefaultConstruct();
+  _TasksPlan_default_instance_.DefaultConstruct();
+  _Plan_default_instance_.DefaultConstruct();
+  _TaskCurrent_default_instance_.DefaultConstruct();
+  _TasksCurrent_default_instance_.DefaultConstruct();
+  _Current_default_instance_.DefaultConstruct();
+  _State_default_instance_.DefaultConstruct();
+  _Targets_default_instance_.get_mutable()->agents_ = const_cast< ::arangodb::Target*>(
+      ::arangodb::Target::internal_default_instance());
+  _Targets_default_instance_.get_mutable()->coordinators_ = const_cast< ::arangodb::Target*>(
+      ::arangodb::Target::internal_default_instance());
+  _Targets_default_instance_.get_mutable()->dbservers_ = const_cast< ::arangodb::Target*>(
+      ::arangodb::Target::internal_default_instance());
+  _Targets_default_instance_.get_mutable()->secondaries_ = const_cast< ::arangodb::Target*>(
+      ::arangodb::Target::internal_default_instance());
+  _Plan_default_instance_.get_mutable()->agents_ = const_cast< ::arangodb::TasksPlan*>(
+      ::arangodb::TasksPlan::internal_default_instance());
+  _Plan_default_instance_.get_mutable()->coordinators_ = const_cast< ::arangodb::TasksPlan*>(
+      ::arangodb::TasksPlan::internal_default_instance());
+  _Plan_default_instance_.get_mutable()->dbservers_ = const_cast< ::arangodb::TasksPlan*>(
+      ::arangodb::TasksPlan::internal_default_instance());
+  _Plan_default_instance_.get_mutable()->secondaries_ = const_cast< ::arangodb::TasksPlan*>(
+      ::arangodb::TasksPlan::internal_default_instance());
+  _TaskCurrent_default_instance_.get_mutable()->slave_id_ = const_cast< ::mesos::SlaveID*>(
+      ::mesos::SlaveID::internal_default_instance());
+  _TaskCurrent_default_instance_.get_mutable()->offer_id_ = const_cast< ::mesos::OfferID*>(
+      ::mesos::OfferID::internal_default_instance());
+  _TaskCurrent_default_instance_.get_mutable()->task_info_ = const_cast< ::mesos::TaskInfo*>(
+      ::mesos::TaskInfo::internal_default_instance());
+  _Current_default_instance_.get_mutable()->agents_ = const_cast< ::arangodb::TasksCurrent*>(
+      ::arangodb::TasksCurrent::internal_default_instance());
+  _Current_default_instance_.get_mutable()->coordinators_ = const_cast< ::arangodb::TasksCurrent*>(
+      ::arangodb::TasksCurrent::internal_default_instance());
+  _Current_default_instance_.get_mutable()->dbservers_ = const_cast< ::arangodb::TasksCurrent*>(
+      ::arangodb::TasksCurrent::internal_default_instance());
+  _Current_default_instance_.get_mutable()->secondaries_ = const_cast< ::arangodb::TasksCurrent*>(
+      ::arangodb::TasksCurrent::internal_default_instance());
+  _State_default_instance_.get_mutable()->framework_id_ = const_cast< ::mesos::FrameworkID*>(
+      ::mesos::FrameworkID::internal_default_instance());
+  _State_default_instance_.get_mutable()->targets_ = const_cast< ::arangodb::Targets*>(
+      ::arangodb::Targets::internal_default_instance());
+  _State_default_instance_.get_mutable()->plan_ = const_cast< ::arangodb::Plan*>(
+      ::arangodb::Plan::internal_default_instance());
+  _State_default_instance_.get_mutable()->current_ = const_cast< ::arangodb::Current*>(
+      ::arangodb::Current::internal_default_instance());
+  _State_default_instance_.get_mutable()->restart_ = const_cast< ::arangodb::Restart*>(
+      ::arangodb::Restart::internal_default_instance());
 }
 
+void InitDefaults() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &TableStruct::InitDefaultsImpl);
+}
+void AddDescriptorsImpl() {
+  InitDefaults();
+  static const char descriptor[] = {
+      "\n\016arangodb.proto\022\010arangodb\032\021mesos/mesos."
+      "proto\"F\n\007Restart\022(\n\007buckets\030\001 \003(\0132\027.aran"
+      "godb.RestartBucket\022\021\n\ttimestamp\030\002 \002(\001\"A\n"
+      "\rRestartBucket\0220\n\rrestart_tasks\030\001 \003(\0132\031."
+      "arangodb.RestartTaskInfo\"7\n\017RestartTaskI"
+      "nfo\022\021\n\ttask_type\030\001 \002(\r\022\021\n\ttask_name\030\002 \002("
+      "\t\"\214\001\n\006Target\022\021\n\tinstances\030\001 \002(\r\022*\n\021minim"
+      "al_resources\030\002 \003(\0132\017.mesos.Resource\022-\n\024a"
+      "dditional_resources\030\003 \003(\0132\017.mesos.Resour"
+      "ce\022\024\n\014number_ports\030\004 \002(\r\"\317\001\n\007Targets\022\014\n\004"
+      "mode\030\001 \002(\t\022 \n\006agents\030\002 \002(\0132\020.arangodb.Ta"
+      "rget\022&\n\014coordinators\030\003 \002(\0132\020.arangodb.Ta"
+      "rget\022#\n\tdbservers\030\004 \002(\0132\020.arangodb.Targe"
+      "t\022%\n\013secondaries\030\005 \002(\0132\020.arangodb.Target"
+      "\022 \n\030asynchronous_replication\030\006 \001(\010\"\244\001\n\010T"
+      "askPlan\0226\n\005state\030\001 \002(\0162\027.arangodb.TaskPl"
+      "anState:\016TASK_STATE_NEW\022\026\n\016persistence_i"
+      "d\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\001\022\014\n\004name\030\004 \002(\t"
+      "\022\024\n\014sync_partner\030\005 \001(\t\022\021\n\tserver_id\030\006 \001("
+      "\t\"0\n\tTasksPlan\022#\n\007entries\030\001 \003(\0132\022.arango"
+      "db.TaskPlan\"\250\001\n\004Plan\022#\n\006agents\030\001 \002(\0132\023.a"
+      "rangodb.TasksPlan\022)\n\014coordinators\030\002 \002(\0132"
+      "\023.arangodb.TasksPlan\022&\n\tdbservers\030\003 \002(\0132"
+      "\023.arangodb.TasksPlan\022(\n\013secondaries\030\004 \002("
+      "\0132\023.arangodb.TasksPlan\"\371\001\n\013TaskCurrent\022 "
+      "\n\010slave_id\030\001 \001(\0132\016.mesos.SlaveID\022 \n\010offe"
+      "r_id\030\002 \001(\0132\016.mesos.OfferID\022\"\n\tresources\030"
+      "\003 \003(\0132\017.mesos.Resource\022\r\n\005ports\030\004 \003(\r\022\020\n"
+      "\010hostname\030\005 \001(\t\022\026\n\016container_path\030\006 \001(\t\022"
+      "\"\n\ttask_info\030\007 \001(\0132\017.mesos.TaskInfo\022\022\n\ns"
+      "tart_time\030\010 \001(\001\022\021\n\tkill_time\030\t \001(\001\"6\n\014Ta"
+      "sksCurrent\022&\n\007entries\030\001 \003(\0132\025.arangodb.T"
+      "askCurrent\"\321\001\n\007Current\022&\n\006agents\030\001 \002(\0132\026"
+      ".arangodb.TasksCurrent\022,\n\014coordinators\030\002"
+      " \002(\0132\026.arangodb.TasksCurrent\022)\n\tdbserver"
+      "s\030\003 \002(\0132\026.arangodb.TasksCurrent\022+\n\013secon"
+      "daries\030\004 \002(\0132\026.arangodb.TasksCurrent\022\030\n\020"
+      "cluster_complete\030\005 \002(\010\"\273\001\n\005State\022(\n\014fram"
+      "ework_id\030\001 \001(\0132\022.mesos.FrameworkID\022\"\n\007ta"
+      "rgets\030\002 \002(\0132\021.arangodb.Targets\022\034\n\004plan\030\003"
+      " \002(\0132\016.arangodb.Plan\022\"\n\007current\030\004 \002(\0132\021."
+      "arangodb.Current\022\"\n\007restart\030\005 \001(\0132\021.aran"
+      "godb.Restart*\247\002\n\rTaskPlanState\022\022\n\016TASK_S"
+      "TATE_NEW\020\001\022 \n\034TASK_STATE_TRYING_TO_RESER"
+      "VE\020\002\022 \n\034TASK_STATE_TRYING_TO_PERSIST\020\003\022\036"
+      "\n\032TASK_STATE_TRYING_TO_START\020\004\022 \n\034TASK_S"
+      "TATE_TRYING_TO_RESTART\020\005\022\026\n\022TASK_STATE_R"
+      "UNNING\020\006\022\025\n\021TASK_STATE_KILLED\020\007\022\032\n\026TASK_"
+      "STATE_FAILED_OVER\020\010\022\023\n\017TASK_STATE_DEAD\020\t"
+      "\022\034\n\030TASK_STATE_SHUTTING_DOWN\020\n"
+  };
+  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
+      descriptor, 1990);
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
+    "arangodb.proto", &protobuf_RegisterTypes);
+  ::mesos::protobuf_mesos_2fmesos_2eproto::AddDescriptors();
+  ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
+}
+
+void AddDescriptors() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &AddDescriptorsImpl);
+}
 // Force AddDescriptors() to be called at static initialization time.
-struct StaticDescriptorInitializer_arangodb_2eproto {
-  StaticDescriptorInitializer_arangodb_2eproto() {
-    protobuf_AddDesc_arangodb_2eproto();
+struct StaticDescriptorInitializer {
+  StaticDescriptorInitializer() {
+    AddDescriptors();
   }
-} static_descriptor_initializer_arangodb_2eproto_;
+} static_descriptor_initializer;
+
+}  // namespace protobuf_arangodb_2eproto
+
 const ::google::protobuf::EnumDescriptor* TaskPlanState_descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return TaskPlanState_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_enum_descriptors[0];
 }
 bool TaskPlanState_IsValid(int value) {
-  switch(value) {
+  switch (value) {
     case 1:
     case 2:
     case 3:
@@ -467,31 +476,33 @@ bool TaskPlanState_IsValid(int value) {
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Restart::kBucketsFieldNumber;
 const int Restart::kTimestampFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Restart::Restart()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.Restart)
 }
-
-void Restart::InitAsDefaultInstance() {
-}
-
 Restart::Restart(const Restart& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0),
+      buckets_(from.buckets_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  timestamp_ = from.timestamp_;
   // @@protoc_insertion_point(copy_constructor:arangodb.Restart)
 }
 
 void Restart::SharedCtor() {
   _cached_size_ = 0;
   timestamp_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 Restart::~Restart() {
@@ -500,8 +511,6 @@ Restart::~Restart() {
 }
 
 void Restart::SharedDtor() {
-  if (this != default_instance_) {
-  }
 }
 
 void Restart::SetCachedSize(int size) const {
@@ -510,64 +519,64 @@ void Restart::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* Restart::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Restart_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const Restart& Restart::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-Restart* Restart::default_instance_ = NULL;
-
-Restart* Restart::New() const {
-  return new Restart;
+Restart* Restart::New(::google::protobuf::Arena* arena) const {
+  Restart* n = new Restart;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void Restart::Clear() {
-  timestamp_ = 0;
+// @@protoc_insertion_point(message_clear_start:arangodb.Restart)
   buckets_.Clear();
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  timestamp_ = 0;
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool Restart::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.Restart)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .arangodb.RestartBucket buckets = 1;
       case 1: {
-        if (tag == 10) {
-         parse_buckets:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_buckets()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_buckets;
-        if (input->ExpectTag(17)) goto parse_timestamp;
         break;
       }
 
       // required double timestamp = 2;
       case 2: {
-        if (tag == 17) {
-         parse_timestamp:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(17u)) {
+          set_has_timestamp();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &timestamp_)));
-          set_has_timestamp();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -596,40 +605,48 @@ failure:
 void Restart::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.Restart)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   // repeated .arangodb.RestartBucket buckets = 1;
-  for (int i = 0; i < this->buckets_size(); i++) {
+  for (unsigned int i = 0, n = this->buckets_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->buckets(i), output);
   }
 
+  cached_has_bits = _has_bits_[0];
   // required double timestamp = 2;
-  if (has_timestamp()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormatLite::WriteDouble(2, this->timestamp(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.Restart)
 }
 
-::google::protobuf::uint8* Restart::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* Restart::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.Restart)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   // repeated .arangodb.RestartBucket buckets = 1;
-  for (int i = 0; i < this->buckets_size(); i++) {
+  for (unsigned int i = 0, n = this->buckets_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->buckets(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->buckets(i), deterministic, target);
   }
 
+  cached_has_bits = _has_bits_[0];
   // required double timestamp = 2;
-  if (has_timestamp()) {
+  if (cached_has_bits & 0x00000001u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(2, this->timestamp(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -637,121 +654,187 @@ void Restart::SerializeWithCachedSizes(
   return target;
 }
 
-int Restart::ByteSize() const {
-  int total_size = 0;
+size_t Restart::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.Restart)
+  size_t total_size = 0;
 
-  if (_has_bits_[1 / 32] & (0xffu << (1 % 32))) {
-    // required double timestamp = 2;
-    if (has_timestamp()) {
-      total_size += 1 + 8;
-    }
-
-  }
-  // repeated .arangodb.RestartBucket buckets = 1;
-  total_size += 1 * this->buckets_size();
-  for (int i = 0; i < this->buckets_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->buckets(i));
-  }
-
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  // required double timestamp = 2;
+  if (has_timestamp()) {
+    total_size += 1 + 8;
+  }
+  // repeated .arangodb.RestartBucket buckets = 1;
+  {
+    unsigned int count = this->buckets_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->buckets(i));
+    }
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void Restart::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.Restart)
+  GOOGLE_DCHECK_NE(&from, this);
   const Restart* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Restart*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const Restart>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.Restart)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.Restart)
     MergeFrom(*source);
   }
 }
 
 void Restart::MergeFrom(const Restart& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.Restart)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   buckets_.MergeFrom(from.buckets_);
-  if (from._has_bits_[1 / 32] & (0xffu << (1 % 32))) {
-    if (from.has_timestamp()) {
-      set_timestamp(from.timestamp());
-    }
+  if (from.has_timestamp()) {
+    set_timestamp(from.timestamp());
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void Restart::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.Restart)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Restart::CopyFrom(const Restart& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.Restart)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 bool Restart::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000002) != 0x00000002) return false;
-
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
   if (!::google::protobuf::internal::AllAreInitialized(this->buckets())) return false;
   return true;
 }
 
 void Restart::Swap(Restart* other) {
-  if (other != this) {
-    buckets_.Swap(&other->buckets_);
-    std::swap(timestamp_, other->timestamp_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Restart::InternalSwap(Restart* other) {
+  buckets_.InternalSwap(&other->buckets_);
+  std::swap(timestamp_, other->timestamp_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Restart::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Restart_descriptor_;
-  metadata.reflection = Restart_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// Restart
+
+// repeated .arangodb.RestartBucket buckets = 1;
+int Restart::buckets_size() const {
+  return buckets_.size();
+}
+void Restart::clear_buckets() {
+  buckets_.Clear();
+}
+const ::arangodb::RestartBucket& Restart::buckets(int index) const {
+  // @@protoc_insertion_point(field_get:arangodb.Restart.buckets)
+  return buckets_.Get(index);
+}
+::arangodb::RestartBucket* Restart::mutable_buckets(int index) {
+  // @@protoc_insertion_point(field_mutable:arangodb.Restart.buckets)
+  return buckets_.Mutable(index);
+}
+::arangodb::RestartBucket* Restart::add_buckets() {
+  // @@protoc_insertion_point(field_add:arangodb.Restart.buckets)
+  return buckets_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::arangodb::RestartBucket >*
+Restart::mutable_buckets() {
+  // @@protoc_insertion_point(field_mutable_list:arangodb.Restart.buckets)
+  return &buckets_;
+}
+const ::google::protobuf::RepeatedPtrField< ::arangodb::RestartBucket >&
+Restart::buckets() const {
+  // @@protoc_insertion_point(field_list:arangodb.Restart.buckets)
+  return buckets_;
+}
+
+// required double timestamp = 2;
+bool Restart::has_timestamp() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void Restart::set_has_timestamp() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void Restart::clear_has_timestamp() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void Restart::clear_timestamp() {
+  timestamp_ = 0;
+  clear_has_timestamp();
+}
+double Restart::timestamp() const {
+  // @@protoc_insertion_point(field_get:arangodb.Restart.timestamp)
+  return timestamp_;
+}
+void Restart::set_timestamp(double value) {
+  set_has_timestamp();
+  timestamp_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.Restart.timestamp)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int RestartBucket::kRestartTasksFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RestartBucket::RestartBucket()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.RestartBucket)
 }
-
-void RestartBucket::InitAsDefaultInstance() {
-}
-
 RestartBucket::RestartBucket(const RestartBucket& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0),
+      restart_tasks_(from.restart_tasks_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:arangodb.RestartBucket)
 }
 
 void RestartBucket::SharedCtor() {
   _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 RestartBucket::~RestartBucket() {
@@ -760,8 +843,6 @@ RestartBucket::~RestartBucket() {
 }
 
 void RestartBucket::SharedDtor() {
-  if (this != default_instance_) {
-  }
 }
 
 void RestartBucket::SetCachedSize(int size) const {
@@ -770,48 +851,49 @@ void RestartBucket::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* RestartBucket::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return RestartBucket_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const RestartBucket& RestartBucket::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-RestartBucket* RestartBucket::default_instance_ = NULL;
-
-RestartBucket* RestartBucket::New() const {
-  return new RestartBucket;
+RestartBucket* RestartBucket::New(::google::protobuf::Arena* arena) const {
+  RestartBucket* n = new RestartBucket;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void RestartBucket::Clear() {
+// @@protoc_insertion_point(message_clear_start:arangodb.RestartBucket)
   restart_tasks_.Clear();
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool RestartBucket::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.RestartBucket)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .arangodb.RestartTaskInfo restart_tasks = 1;
       case 1: {
-        if (tag == 10) {
-         parse_restart_tasks:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_restart_tasks()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_restart_tasks;
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -840,30 +922,36 @@ failure:
 void RestartBucket::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.RestartBucket)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   // repeated .arangodb.RestartTaskInfo restart_tasks = 1;
-  for (int i = 0; i < this->restart_tasks_size(); i++) {
+  for (unsigned int i = 0, n = this->restart_tasks_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->restart_tasks(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.RestartBucket)
 }
 
-::google::protobuf::uint8* RestartBucket::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* RestartBucket::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.RestartBucket)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   // repeated .arangodb.RestartTaskInfo restart_tasks = 1;
-  for (int i = 0; i < this->restart_tasks_size(); i++) {
+  for (unsigned int i = 0, n = this->restart_tasks_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->restart_tasks(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->restart_tasks(i), deterministic, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -871,111 +959,161 @@ void RestartBucket::SerializeWithCachedSizes(
   return target;
 }
 
-int RestartBucket::ByteSize() const {
-  int total_size = 0;
+size_t RestartBucket::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.RestartBucket)
+  size_t total_size = 0;
 
-  // repeated .arangodb.RestartTaskInfo restart_tasks = 1;
-  total_size += 1 * this->restart_tasks_size();
-  for (int i = 0; i < this->restart_tasks_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->restart_tasks(i));
-  }
-
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  // repeated .arangodb.RestartTaskInfo restart_tasks = 1;
+  {
+    unsigned int count = this->restart_tasks_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->restart_tasks(i));
+    }
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void RestartBucket::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.RestartBucket)
+  GOOGLE_DCHECK_NE(&from, this);
   const RestartBucket* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const RestartBucket*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const RestartBucket>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.RestartBucket)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.RestartBucket)
     MergeFrom(*source);
   }
 }
 
 void RestartBucket::MergeFrom(const RestartBucket& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.RestartBucket)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   restart_tasks_.MergeFrom(from.restart_tasks_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void RestartBucket::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.RestartBucket)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void RestartBucket::CopyFrom(const RestartBucket& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.RestartBucket)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 bool RestartBucket::IsInitialized() const {
-
   if (!::google::protobuf::internal::AllAreInitialized(this->restart_tasks())) return false;
   return true;
 }
 
 void RestartBucket::Swap(RestartBucket* other) {
-  if (other != this) {
-    restart_tasks_.Swap(&other->restart_tasks_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void RestartBucket::InternalSwap(RestartBucket* other) {
+  restart_tasks_.InternalSwap(&other->restart_tasks_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata RestartBucket::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = RestartBucket_descriptor_;
-  metadata.reflection = RestartBucket_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// RestartBucket
+
+// repeated .arangodb.RestartTaskInfo restart_tasks = 1;
+int RestartBucket::restart_tasks_size() const {
+  return restart_tasks_.size();
+}
+void RestartBucket::clear_restart_tasks() {
+  restart_tasks_.Clear();
+}
+const ::arangodb::RestartTaskInfo& RestartBucket::restart_tasks(int index) const {
+  // @@protoc_insertion_point(field_get:arangodb.RestartBucket.restart_tasks)
+  return restart_tasks_.Get(index);
+}
+::arangodb::RestartTaskInfo* RestartBucket::mutable_restart_tasks(int index) {
+  // @@protoc_insertion_point(field_mutable:arangodb.RestartBucket.restart_tasks)
+  return restart_tasks_.Mutable(index);
+}
+::arangodb::RestartTaskInfo* RestartBucket::add_restart_tasks() {
+  // @@protoc_insertion_point(field_add:arangodb.RestartBucket.restart_tasks)
+  return restart_tasks_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::arangodb::RestartTaskInfo >*
+RestartBucket::mutable_restart_tasks() {
+  // @@protoc_insertion_point(field_mutable_list:arangodb.RestartBucket.restart_tasks)
+  return &restart_tasks_;
+}
+const ::google::protobuf::RepeatedPtrField< ::arangodb::RestartTaskInfo >&
+RestartBucket::restart_tasks() const {
+  // @@protoc_insertion_point(field_list:arangodb.RestartBucket.restart_tasks)
+  return restart_tasks_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int RestartTaskInfo::kTaskTypeFieldNumber;
 const int RestartTaskInfo::kTaskNameFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RestartTaskInfo::RestartTaskInfo()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.RestartTaskInfo)
 }
-
-void RestartTaskInfo::InitAsDefaultInstance() {
-}
-
 RestartTaskInfo::RestartTaskInfo(const RestartTaskInfo& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  task_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_task_name()) {
+    task_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.task_name_);
+  }
+  task_type_ = from.task_type_;
   // @@protoc_insertion_point(copy_constructor:arangodb.RestartTaskInfo)
 }
 
 void RestartTaskInfo::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
+  task_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   task_type_ = 0u;
-  task_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 RestartTaskInfo::~RestartTaskInfo() {
@@ -984,11 +1122,7 @@ RestartTaskInfo::~RestartTaskInfo() {
 }
 
 void RestartTaskInfo::SharedDtor() {
-  if (task_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete task_name_;
-  }
-  if (this != default_instance_) {
-  }
+  task_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void RestartTaskInfo::SetCachedSize(int size) const {
@@ -997,72 +1131,71 @@ void RestartTaskInfo::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* RestartTaskInfo::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return RestartTaskInfo_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const RestartTaskInfo& RestartTaskInfo::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-RestartTaskInfo* RestartTaskInfo::default_instance_ = NULL;
-
-RestartTaskInfo* RestartTaskInfo::New() const {
-  return new RestartTaskInfo;
+RestartTaskInfo* RestartTaskInfo::New(::google::protobuf::Arena* arena) const {
+  RestartTaskInfo* n = new RestartTaskInfo;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void RestartTaskInfo::Clear() {
-  if (_has_bits_[0 / 32] & 3) {
-    task_type_ = 0u;
-    if (has_task_name()) {
-      if (task_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        task_name_->clear();
-      }
-    }
+// @@protoc_insertion_point(message_clear_start:arangodb.RestartTaskInfo)
+  if (has_task_name()) {
+    GOOGLE_DCHECK(!task_name_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*task_name_.UnsafeRawStringPointer())->clear();
   }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  task_type_ = 0u;
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool RestartTaskInfo::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.RestartTaskInfo)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required uint32 task_type = 1;
       case 1: {
-        if (tag == 8) {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u)) {
+          set_has_task_type();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &task_type_)));
-          set_has_task_type();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_task_name;
         break;
       }
 
       // required string task_name = 2;
       case 2: {
-        if (tag == 18) {
-         parse_task_name:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_task_name()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->task_name().data(), this->task_name().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
-            "task_name");
+            "arangodb.RestartTaskInfo.task_name");
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -1091,48 +1224,56 @@ failure:
 void RestartTaskInfo::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.RestartTaskInfo)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required uint32 task_type = 1;
-  if (has_task_type()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->task_type(), output);
   }
 
   // required string task_name = 2;
-  if (has_task_name()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->task_name().data(), this->task_name().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "task_name");
+      "arangodb.RestartTaskInfo.task_name");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->task_name(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.RestartTaskInfo)
 }
 
-::google::protobuf::uint8* RestartTaskInfo::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* RestartTaskInfo::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.RestartTaskInfo)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required uint32 task_type = 1;
-  if (has_task_type()) {
+  if (cached_has_bits & 0x00000002u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->task_type(), target);
   }
 
   // required string task_name = 2;
-  if (has_task_name()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->task_name().data(), this->task_name().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "task_name");
+      "arangodb.RestartTaskInfo.task_name");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->task_name(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -1140,68 +1281,100 @@ void RestartTaskInfo::SerializeWithCachedSizes(
   return target;
 }
 
-int RestartTaskInfo::ByteSize() const {
-  int total_size = 0;
+size_t RestartTaskInfo::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:arangodb.RestartTaskInfo)
+  size_t total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required uint32 task_type = 1;
-    if (has_task_type()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->task_type());
-    }
-
+  if (has_task_name()) {
     // required string task_name = 2;
-    if (has_task_name()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->task_name());
-    }
-
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->task_name());
   }
-  if (!unknown_fields().empty()) {
+
+  if (has_task_type()) {
+    // required uint32 task_type = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->task_type());
+  }
+
+  return total_size;
+}
+size_t RestartTaskInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.RestartTaskInfo)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+    // required string task_name = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->task_name());
+
+    // required uint32 task_type = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->task_type());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void RestartTaskInfo::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.RestartTaskInfo)
+  GOOGLE_DCHECK_NE(&from, this);
   const RestartTaskInfo* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const RestartTaskInfo*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const RestartTaskInfo>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.RestartTaskInfo)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.RestartTaskInfo)
     MergeFrom(*source);
   }
 }
 
 void RestartTaskInfo::MergeFrom(const RestartTaskInfo& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_task_type()) {
-      set_task_type(from.task_type());
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.RestartTaskInfo)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_task_name();
+      task_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.task_name_);
     }
-    if (from.has_task_name()) {
-      set_task_name(from.task_name());
+    if (cached_has_bits & 0x00000002u) {
+      task_type_ = from.task_type_;
     }
+    _has_bits_[0] |= cached_has_bits;
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void RestartTaskInfo::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.RestartTaskInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void RestartTaskInfo::CopyFrom(const RestartTaskInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.RestartTaskInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1209,59 +1382,153 @@ void RestartTaskInfo::CopyFrom(const RestartTaskInfo& from) {
 
 bool RestartTaskInfo::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
-
   return true;
 }
 
 void RestartTaskInfo::Swap(RestartTaskInfo* other) {
-  if (other != this) {
-    std::swap(task_type_, other->task_type_);
-    std::swap(task_name_, other->task_name_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void RestartTaskInfo::InternalSwap(RestartTaskInfo* other) {
+  task_name_.Swap(&other->task_name_);
+  std::swap(task_type_, other->task_type_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata RestartTaskInfo::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = RestartTaskInfo_descriptor_;
-  metadata.reflection = RestartTaskInfo_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// RestartTaskInfo
+
+// required uint32 task_type = 1;
+bool RestartTaskInfo::has_task_type() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void RestartTaskInfo::set_has_task_type() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void RestartTaskInfo::clear_has_task_type() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void RestartTaskInfo::clear_task_type() {
+  task_type_ = 0u;
+  clear_has_task_type();
+}
+::google::protobuf::uint32 RestartTaskInfo::task_type() const {
+  // @@protoc_insertion_point(field_get:arangodb.RestartTaskInfo.task_type)
+  return task_type_;
+}
+void RestartTaskInfo::set_task_type(::google::protobuf::uint32 value) {
+  set_has_task_type();
+  task_type_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.RestartTaskInfo.task_type)
+}
+
+// required string task_name = 2;
+bool RestartTaskInfo::has_task_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void RestartTaskInfo::set_has_task_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void RestartTaskInfo::clear_has_task_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void RestartTaskInfo::clear_task_name() {
+  task_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_task_name();
+}
+const ::std::string& RestartTaskInfo::task_name() const {
+  // @@protoc_insertion_point(field_get:arangodb.RestartTaskInfo.task_name)
+  return task_name_.GetNoArena();
+}
+void RestartTaskInfo::set_task_name(const ::std::string& value) {
+  set_has_task_name();
+  task_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:arangodb.RestartTaskInfo.task_name)
+}
+#if LANG_CXX11
+void RestartTaskInfo::set_task_name(::std::string&& value) {
+  set_has_task_name();
+  task_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:arangodb.RestartTaskInfo.task_name)
+}
+#endif
+void RestartTaskInfo::set_task_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_task_name();
+  task_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:arangodb.RestartTaskInfo.task_name)
+}
+void RestartTaskInfo::set_task_name(const char* value, size_t size) {
+  set_has_task_name();
+  task_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:arangodb.RestartTaskInfo.task_name)
+}
+::std::string* RestartTaskInfo::mutable_task_name() {
+  set_has_task_name();
+  // @@protoc_insertion_point(field_mutable:arangodb.RestartTaskInfo.task_name)
+  return task_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* RestartTaskInfo::release_task_name() {
+  // @@protoc_insertion_point(field_release:arangodb.RestartTaskInfo.task_name)
+  clear_has_task_name();
+  return task_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void RestartTaskInfo::set_allocated_task_name(::std::string* task_name) {
+  if (task_name != NULL) {
+    set_has_task_name();
+  } else {
+    clear_has_task_name();
+  }
+  task_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), task_name);
+  // @@protoc_insertion_point(field_set_allocated:arangodb.RestartTaskInfo.task_name)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Target::kInstancesFieldNumber;
 const int Target::kMinimalResourcesFieldNumber;
 const int Target::kAdditionalResourcesFieldNumber;
 const int Target::kNumberPortsFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Target::Target()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.Target)
 }
-
-void Target::InitAsDefaultInstance() {
-}
-
 Target::Target(const Target& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0),
+      minimal_resources_(from.minimal_resources_),
+      additional_resources_(from.additional_resources_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&instances_, &from.instances_,
+    reinterpret_cast<char*>(&number_ports_) -
+    reinterpret_cast<char*>(&instances_) + sizeof(number_ports_));
   // @@protoc_insertion_point(copy_constructor:arangodb.Target)
 }
 
 void Target::SharedCtor() {
   _cached_size_ = 0;
-  instances_ = 0u;
-  number_ports_ = 0u;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  ::memset(&instances_, 0, reinterpret_cast<char*>(&number_ports_) -
+    reinterpret_cast<char*>(&instances_) + sizeof(number_ports_));
 }
 
 Target::~Target() {
@@ -1270,8 +1537,6 @@ Target::~Target() {
 }
 
 void Target::SharedDtor() {
-  if (this != default_instance_) {
-  }
 }
 
 void Target::SetCachedSize(int size) const {
@@ -1280,107 +1545,94 @@ void Target::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* Target::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Target_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const Target& Target::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-Target* Target::default_instance_ = NULL;
-
-Target* Target::New() const {
-  return new Target;
+Target* Target::New(::google::protobuf::Arena* arena) const {
+  Target* n = new Target;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void Target::Clear() {
-#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
-  &reinterpret_cast<Target*>(16)->f) - \
-   reinterpret_cast<char*>(16))
-
-#define ZR_(first, last) do {                              \
-    size_t f = OFFSET_OF_FIELD_(first);                    \
-    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
-    ::memset(&first, 0, n);                                \
-  } while (0)
-
-  ZR_(instances_, number_ports_);
-
-#undef OFFSET_OF_FIELD_
-#undef ZR_
-
+// @@protoc_insertion_point(message_clear_start:arangodb.Target)
   minimal_resources_.Clear();
   additional_resources_.Clear();
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_has_bits_[0 / 32] & 3u) {
+    ::memset(&instances_, 0, reinterpret_cast<char*>(&number_ports_) -
+      reinterpret_cast<char*>(&instances_) + sizeof(number_ports_));
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool Target::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.Target)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required uint32 instances = 1;
       case 1: {
-        if (tag == 8) {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u)) {
+          set_has_instances();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &instances_)));
-          set_has_instances();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_minimal_resources;
         break;
       }
 
       // repeated .mesos.Resource minimal_resources = 2;
       case 2: {
-        if (tag == 18) {
-         parse_minimal_resources:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_minimal_resources()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_minimal_resources;
-        if (input->ExpectTag(26)) goto parse_additional_resources;
         break;
       }
 
       // repeated .mesos.Resource additional_resources = 3;
       case 3: {
-        if (tag == 26) {
-         parse_additional_resources:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_additional_resources()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_additional_resources;
-        if (input->ExpectTag(32)) goto parse_number_ports;
         break;
       }
 
       // required uint32 number_ports = 4;
       case 4: {
-        if (tag == 32) {
-         parse_number_ports:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u)) {
+          set_has_number_ports();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &number_ports_)));
-          set_has_number_ports();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -1409,63 +1661,71 @@ failure:
 void Target::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.Target)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required uint32 instances = 1;
-  if (has_instances()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->instances(), output);
   }
 
   // repeated .mesos.Resource minimal_resources = 2;
-  for (int i = 0; i < this->minimal_resources_size(); i++) {
+  for (unsigned int i = 0, n = this->minimal_resources_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->minimal_resources(i), output);
   }
 
   // repeated .mesos.Resource additional_resources = 3;
-  for (int i = 0; i < this->additional_resources_size(); i++) {
+  for (unsigned int i = 0, n = this->additional_resources_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->additional_resources(i), output);
   }
 
   // required uint32 number_ports = 4;
-  if (has_number_ports()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->number_ports(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.Target)
 }
 
-::google::protobuf::uint8* Target::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* Target::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.Target)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required uint32 instances = 1;
-  if (has_instances()) {
+  if (cached_has_bits & 0x00000001u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->instances(), target);
   }
 
   // repeated .mesos.Resource minimal_resources = 2;
-  for (int i = 0; i < this->minimal_resources_size(); i++) {
+  for (unsigned int i = 0, n = this->minimal_resources_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->minimal_resources(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        2, this->minimal_resources(i), deterministic, target);
   }
 
   // repeated .mesos.Resource additional_resources = 3;
-  for (int i = 0; i < this->additional_resources_size(); i++) {
+  for (unsigned int i = 0, n = this->additional_resources_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->additional_resources(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        3, this->additional_resources(i), deterministic, target);
   }
 
   // required uint32 number_ports = 4;
-  if (has_number_ports()) {
+  if (cached_has_bits & 0x00000002u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->number_ports(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -1473,161 +1733,325 @@ void Target::SerializeWithCachedSizes(
   return target;
 }
 
-int Target::ByteSize() const {
-  int total_size = 0;
+size_t Target::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:arangodb.Target)
+  size_t total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_instances()) {
     // required uint32 instances = 1;
-    if (has_instances()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->instances());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->instances());
+  }
 
+  if (has_number_ports()) {
     // required uint32 number_ports = 4;
-    if (has_number_ports()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->number_ports());
-    }
-
-  }
-  // repeated .mesos.Resource minimal_resources = 2;
-  total_size += 1 * this->minimal_resources_size();
-  for (int i = 0; i < this->minimal_resources_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->minimal_resources(i));
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->number_ports());
   }
 
-  // repeated .mesos.Resource additional_resources = 3;
-  total_size += 1 * this->additional_resources_size();
-  for (int i = 0; i < this->additional_resources_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->additional_resources(i));
-  }
+  return total_size;
+}
+size_t Target::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.Target)
+  size_t total_size = 0;
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+    // required uint32 instances = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->instances());
+
+    // required uint32 number_ports = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->number_ports());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  // repeated .mesos.Resource minimal_resources = 2;
+  {
+    unsigned int count = this->minimal_resources_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->minimal_resources(i));
+    }
+  }
+
+  // repeated .mesos.Resource additional_resources = 3;
+  {
+    unsigned int count = this->additional_resources_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->additional_resources(i));
+    }
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void Target::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.Target)
+  GOOGLE_DCHECK_NE(&from, this);
   const Target* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Target*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const Target>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.Target)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.Target)
     MergeFrom(*source);
   }
 }
 
 void Target::MergeFrom(const Target& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.Target)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   minimal_resources_.MergeFrom(from.minimal_resources_);
   additional_resources_.MergeFrom(from.additional_resources_);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_instances()) {
-      set_instances(from.instances());
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      instances_ = from.instances_;
     }
-    if (from.has_number_ports()) {
-      set_number_ports(from.number_ports());
+    if (cached_has_bits & 0x00000002u) {
+      number_ports_ = from.number_ports_;
     }
+    _has_bits_[0] |= cached_has_bits;
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void Target::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.Target)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Target::CopyFrom(const Target& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.Target)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 bool Target::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000009) != 0x00000009) return false;
-
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
   if (!::google::protobuf::internal::AllAreInitialized(this->minimal_resources())) return false;
   if (!::google::protobuf::internal::AllAreInitialized(this->additional_resources())) return false;
   return true;
 }
 
 void Target::Swap(Target* other) {
-  if (other != this) {
-    std::swap(instances_, other->instances_);
-    minimal_resources_.Swap(&other->minimal_resources_);
-    additional_resources_.Swap(&other->additional_resources_);
-    std::swap(number_ports_, other->number_ports_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Target::InternalSwap(Target* other) {
+  minimal_resources_.InternalSwap(&other->minimal_resources_);
+  additional_resources_.InternalSwap(&other->additional_resources_);
+  std::swap(instances_, other->instances_);
+  std::swap(number_ports_, other->number_ports_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Target::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Target_descriptor_;
-  metadata.reflection = Target_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// Target
+
+// required uint32 instances = 1;
+bool Target::has_instances() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void Target::set_has_instances() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void Target::clear_has_instances() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void Target::clear_instances() {
+  instances_ = 0u;
+  clear_has_instances();
+}
+::google::protobuf::uint32 Target::instances() const {
+  // @@protoc_insertion_point(field_get:arangodb.Target.instances)
+  return instances_;
+}
+void Target::set_instances(::google::protobuf::uint32 value) {
+  set_has_instances();
+  instances_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.Target.instances)
+}
+
+// repeated .mesos.Resource minimal_resources = 2;
+int Target::minimal_resources_size() const {
+  return minimal_resources_.size();
+}
+void Target::clear_minimal_resources() {
+  minimal_resources_.Clear();
+}
+const ::mesos::Resource& Target::minimal_resources(int index) const {
+  // @@protoc_insertion_point(field_get:arangodb.Target.minimal_resources)
+  return minimal_resources_.Get(index);
+}
+::mesos::Resource* Target::mutable_minimal_resources(int index) {
+  // @@protoc_insertion_point(field_mutable:arangodb.Target.minimal_resources)
+  return minimal_resources_.Mutable(index);
+}
+::mesos::Resource* Target::add_minimal_resources() {
+  // @@protoc_insertion_point(field_add:arangodb.Target.minimal_resources)
+  return minimal_resources_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::mesos::Resource >*
+Target::mutable_minimal_resources() {
+  // @@protoc_insertion_point(field_mutable_list:arangodb.Target.minimal_resources)
+  return &minimal_resources_;
+}
+const ::google::protobuf::RepeatedPtrField< ::mesos::Resource >&
+Target::minimal_resources() const {
+  // @@protoc_insertion_point(field_list:arangodb.Target.minimal_resources)
+  return minimal_resources_;
+}
+
+// repeated .mesos.Resource additional_resources = 3;
+int Target::additional_resources_size() const {
+  return additional_resources_.size();
+}
+void Target::clear_additional_resources() {
+  additional_resources_.Clear();
+}
+const ::mesos::Resource& Target::additional_resources(int index) const {
+  // @@protoc_insertion_point(field_get:arangodb.Target.additional_resources)
+  return additional_resources_.Get(index);
+}
+::mesos::Resource* Target::mutable_additional_resources(int index) {
+  // @@protoc_insertion_point(field_mutable:arangodb.Target.additional_resources)
+  return additional_resources_.Mutable(index);
+}
+::mesos::Resource* Target::add_additional_resources() {
+  // @@protoc_insertion_point(field_add:arangodb.Target.additional_resources)
+  return additional_resources_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::mesos::Resource >*
+Target::mutable_additional_resources() {
+  // @@protoc_insertion_point(field_mutable_list:arangodb.Target.additional_resources)
+  return &additional_resources_;
+}
+const ::google::protobuf::RepeatedPtrField< ::mesos::Resource >&
+Target::additional_resources() const {
+  // @@protoc_insertion_point(field_list:arangodb.Target.additional_resources)
+  return additional_resources_;
+}
+
+// required uint32 number_ports = 4;
+bool Target::has_number_ports() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void Target::set_has_number_ports() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void Target::clear_has_number_ports() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void Target::clear_number_ports() {
+  number_ports_ = 0u;
+  clear_has_number_ports();
+}
+::google::protobuf::uint32 Target::number_ports() const {
+  // @@protoc_insertion_point(field_get:arangodb.Target.number_ports)
+  return number_ports_;
+}
+void Target::set_number_ports(::google::protobuf::uint32 value) {
+  set_has_number_ports();
+  number_ports_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.Target.number_ports)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Targets::kModeFieldNumber;
 const int Targets::kAgentsFieldNumber;
 const int Targets::kCoordinatorsFieldNumber;
 const int Targets::kDbserversFieldNumber;
 const int Targets::kSecondariesFieldNumber;
 const int Targets::kAsynchronousReplicationFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Targets::Targets()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.Targets)
 }
-
-void Targets::InitAsDefaultInstance() {
-  agents_ = const_cast< ::arangodb::Target*>(&::arangodb::Target::default_instance());
-  coordinators_ = const_cast< ::arangodb::Target*>(&::arangodb::Target::default_instance());
-  dbservers_ = const_cast< ::arangodb::Target*>(&::arangodb::Target::default_instance());
-  secondaries_ = const_cast< ::arangodb::Target*>(&::arangodb::Target::default_instance());
-}
-
 Targets::Targets(const Targets& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  mode_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_mode()) {
+    mode_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.mode_);
+  }
+  if (from.has_agents()) {
+    agents_ = new ::arangodb::Target(*from.agents_);
+  } else {
+    agents_ = NULL;
+  }
+  if (from.has_coordinators()) {
+    coordinators_ = new ::arangodb::Target(*from.coordinators_);
+  } else {
+    coordinators_ = NULL;
+  }
+  if (from.has_dbservers()) {
+    dbservers_ = new ::arangodb::Target(*from.dbservers_);
+  } else {
+    dbservers_ = NULL;
+  }
+  if (from.has_secondaries()) {
+    secondaries_ = new ::arangodb::Target(*from.secondaries_);
+  } else {
+    secondaries_ = NULL;
+  }
+  asynchronous_replication_ = from.asynchronous_replication_;
   // @@protoc_insertion_point(copy_constructor:arangodb.Targets)
 }
 
 void Targets::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
-  mode_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  agents_ = NULL;
-  coordinators_ = NULL;
-  dbservers_ = NULL;
-  secondaries_ = NULL;
-  asynchronous_replication_ = false;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mode_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&agents_, 0, reinterpret_cast<char*>(&asynchronous_replication_) -
+    reinterpret_cast<char*>(&agents_) + sizeof(asynchronous_replication_));
 }
 
 Targets::~Targets() {
@@ -1636,13 +2060,17 @@ Targets::~Targets() {
 }
 
 void Targets::SharedDtor() {
-  if (mode_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete mode_;
-  }
-  if (this != default_instance_) {
+  mode_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) {
     delete agents_;
+  }
+  if (this != internal_default_instance()) {
     delete coordinators_;
+  }
+  if (this != internal_default_instance()) {
     delete dbservers_;
+  }
+  if (this != internal_default_instance()) {
     delete secondaries_;
   }
 }
@@ -1653,136 +2081,137 @@ void Targets::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* Targets::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Targets_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const Targets& Targets::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-Targets* Targets::default_instance_ = NULL;
-
-Targets* Targets::New() const {
-  return new Targets;
+Targets* Targets::New(::google::protobuf::Arena* arena) const {
+  Targets* n = new Targets;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void Targets::Clear() {
-  if (_has_bits_[0 / 32] & 63) {
+// @@protoc_insertion_point(message_clear_start:arangodb.Targets)
+  if (_has_bits_[0 / 32] & 31u) {
     if (has_mode()) {
-      if (mode_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        mode_->clear();
-      }
+      GOOGLE_DCHECK(!mode_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*mode_.UnsafeRawStringPointer())->clear();
     }
     if (has_agents()) {
-      if (agents_ != NULL) agents_->::arangodb::Target::Clear();
+      GOOGLE_DCHECK(agents_ != NULL);
+      agents_->::arangodb::Target::Clear();
     }
     if (has_coordinators()) {
-      if (coordinators_ != NULL) coordinators_->::arangodb::Target::Clear();
+      GOOGLE_DCHECK(coordinators_ != NULL);
+      coordinators_->::arangodb::Target::Clear();
     }
     if (has_dbservers()) {
-      if (dbservers_ != NULL) dbservers_->::arangodb::Target::Clear();
+      GOOGLE_DCHECK(dbservers_ != NULL);
+      dbservers_->::arangodb::Target::Clear();
     }
     if (has_secondaries()) {
-      if (secondaries_ != NULL) secondaries_->::arangodb::Target::Clear();
+      GOOGLE_DCHECK(secondaries_ != NULL);
+      secondaries_->::arangodb::Target::Clear();
     }
-    asynchronous_replication_ = false;
   }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  asynchronous_replication_ = false;
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool Targets::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.Targets)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required string mode = 1;
       case 1: {
-        if (tag == 10) {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_mode()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->mode().data(), this->mode().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
-            "mode");
+            "arangodb.Targets.mode");
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_agents;
         break;
       }
 
       // required .arangodb.Target agents = 2;
       case 2: {
-        if (tag == 18) {
-         parse_agents:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_agents()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_coordinators;
         break;
       }
 
       // required .arangodb.Target coordinators = 3;
       case 3: {
-        if (tag == 26) {
-         parse_coordinators:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_coordinators()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(34)) goto parse_dbservers;
         break;
       }
 
       // required .arangodb.Target dbservers = 4;
       case 4: {
-        if (tag == 34) {
-         parse_dbservers:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_dbservers()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(42)) goto parse_secondaries;
         break;
       }
 
       // required .arangodb.Target secondaries = 5;
       case 5: {
-        if (tag == 42) {
-         parse_secondaries:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_secondaries()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(48)) goto parse_asynchronous_replication;
         break;
       }
 
       // optional bool asynchronous_replication = 6;
       case 6: {
-        if (tag == 48) {
-         parse_asynchronous_replication:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u)) {
+          set_has_asynchronous_replication();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
                  input, &asynchronous_replication_)));
-          set_has_asynchronous_replication();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -1811,100 +2240,108 @@ failure:
 void Targets::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.Targets)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required string mode = 1;
-  if (has_mode()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->mode().data(), this->mode().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "mode");
+      "arangodb.Targets.mode");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->mode(), output);
   }
 
   // required .arangodb.Target agents = 2;
-  if (has_agents()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->agents(), output);
+      2, *this->agents_, output);
   }
 
   // required .arangodb.Target coordinators = 3;
-  if (has_coordinators()) {
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->coordinators(), output);
+      3, *this->coordinators_, output);
   }
 
   // required .arangodb.Target dbservers = 4;
-  if (has_dbservers()) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->dbservers(), output);
+      4, *this->dbservers_, output);
   }
 
   // required .arangodb.Target secondaries = 5;
-  if (has_secondaries()) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->secondaries(), output);
+      5, *this->secondaries_, output);
   }
 
   // optional bool asynchronous_replication = 6;
-  if (has_asynchronous_replication()) {
+  if (cached_has_bits & 0x00000020u) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(6, this->asynchronous_replication(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.Targets)
 }
 
-::google::protobuf::uint8* Targets::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* Targets::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.Targets)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required string mode = 1;
-  if (has_mode()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->mode().data(), this->mode().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "mode");
+      "arangodb.Targets.mode");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->mode(), target);
   }
 
   // required .arangodb.Target agents = 2;
-  if (has_agents()) {
+  if (cached_has_bits & 0x00000002u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->agents(), target);
+      InternalWriteMessageNoVirtualToArray(
+        2, *this->agents_, deterministic, target);
   }
 
   // required .arangodb.Target coordinators = 3;
-  if (has_coordinators()) {
+  if (cached_has_bits & 0x00000004u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->coordinators(), target);
+      InternalWriteMessageNoVirtualToArray(
+        3, *this->coordinators_, deterministic, target);
   }
 
   // required .arangodb.Target dbservers = 4;
-  if (has_dbservers()) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        4, this->dbservers(), target);
+      InternalWriteMessageNoVirtualToArray(
+        4, *this->dbservers_, deterministic, target);
   }
 
   // required .arangodb.Target secondaries = 5;
-  if (has_secondaries()) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        5, this->secondaries(), target);
+      InternalWriteMessageNoVirtualToArray(
+        5, *this->secondaries_, deterministic, target);
   }
 
   // optional bool asynchronous_replication = 6;
-  if (has_asynchronous_replication()) {
+  if (cached_has_bits & 0x00000020u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(6, this->asynchronous_replication(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -1912,106 +2349,153 @@ void Targets::SerializeWithCachedSizes(
   return target;
 }
 
-int Targets::ByteSize() const {
-  int total_size = 0;
+size_t Targets::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:arangodb.Targets)
+  size_t total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_mode()) {
     // required string mode = 1;
-    if (has_mode()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->mode());
-    }
-
-    // required .arangodb.Target agents = 2;
-    if (has_agents()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->agents());
-    }
-
-    // required .arangodb.Target coordinators = 3;
-    if (has_coordinators()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->coordinators());
-    }
-
-    // required .arangodb.Target dbservers = 4;
-    if (has_dbservers()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->dbservers());
-    }
-
-    // required .arangodb.Target secondaries = 5;
-    if (has_secondaries()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->secondaries());
-    }
-
-    // optional bool asynchronous_replication = 6;
-    if (has_asynchronous_replication()) {
-      total_size += 1 + 1;
-    }
-
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->mode());
   }
-  if (!unknown_fields().empty()) {
+
+  if (has_agents()) {
+    // required .arangodb.Target agents = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->agents_);
+  }
+
+  if (has_coordinators()) {
+    // required .arangodb.Target coordinators = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->coordinators_);
+  }
+
+  if (has_dbservers()) {
+    // required .arangodb.Target dbservers = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->dbservers_);
+  }
+
+  if (has_secondaries()) {
+    // required .arangodb.Target secondaries = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->secondaries_);
+  }
+
+  return total_size;
+}
+size_t Targets::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.Targets)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+    // required string mode = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->mode());
+
+    // required .arangodb.Target agents = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->agents_);
+
+    // required .arangodb.Target coordinators = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->coordinators_);
+
+    // required .arangodb.Target dbservers = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->dbservers_);
+
+    // required .arangodb.Target secondaries = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->secondaries_);
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  // optional bool asynchronous_replication = 6;
+  if (has_asynchronous_replication()) {
+    total_size += 1 + 1;
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void Targets::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.Targets)
+  GOOGLE_DCHECK_NE(&from, this);
   const Targets* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Targets*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const Targets>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.Targets)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.Targets)
     MergeFrom(*source);
   }
 }
 
 void Targets::MergeFrom(const Targets& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_mode()) {
-      set_mode(from.mode());
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.Targets)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 63u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_mode();
+      mode_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.mode_);
     }
-    if (from.has_agents()) {
+    if (cached_has_bits & 0x00000002u) {
       mutable_agents()->::arangodb::Target::MergeFrom(from.agents());
     }
-    if (from.has_coordinators()) {
+    if (cached_has_bits & 0x00000004u) {
       mutable_coordinators()->::arangodb::Target::MergeFrom(from.coordinators());
     }
-    if (from.has_dbservers()) {
+    if (cached_has_bits & 0x00000008u) {
       mutable_dbservers()->::arangodb::Target::MergeFrom(from.dbservers());
     }
-    if (from.has_secondaries()) {
+    if (cached_has_bits & 0x00000010u) {
       mutable_secondaries()->::arangodb::Target::MergeFrom(from.secondaries());
     }
-    if (from.has_asynchronous_replication()) {
-      set_asynchronous_replication(from.asynchronous_replication());
+    if (cached_has_bits & 0x00000020u) {
+      asynchronous_replication_ = from.asynchronous_replication_;
     }
+    _has_bits_[0] |= cached_has_bits;
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void Targets::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.Targets)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Targets::CopyFrom(const Targets& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.Targets)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -2019,82 +2503,369 @@ void Targets::CopyFrom(const Targets& from) {
 
 bool Targets::IsInitialized() const {
   if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
-
   if (has_agents()) {
-    if (!this->agents().IsInitialized()) return false;
+    if (!this->agents_->IsInitialized()) return false;
   }
   if (has_coordinators()) {
-    if (!this->coordinators().IsInitialized()) return false;
+    if (!this->coordinators_->IsInitialized()) return false;
   }
   if (has_dbservers()) {
-    if (!this->dbservers().IsInitialized()) return false;
+    if (!this->dbservers_->IsInitialized()) return false;
   }
   if (has_secondaries()) {
-    if (!this->secondaries().IsInitialized()) return false;
+    if (!this->secondaries_->IsInitialized()) return false;
   }
   return true;
 }
 
 void Targets::Swap(Targets* other) {
-  if (other != this) {
-    std::swap(mode_, other->mode_);
-    std::swap(agents_, other->agents_);
-    std::swap(coordinators_, other->coordinators_);
-    std::swap(dbservers_, other->dbservers_);
-    std::swap(secondaries_, other->secondaries_);
-    std::swap(asynchronous_replication_, other->asynchronous_replication_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Targets::InternalSwap(Targets* other) {
+  mode_.Swap(&other->mode_);
+  std::swap(agents_, other->agents_);
+  std::swap(coordinators_, other->coordinators_);
+  std::swap(dbservers_, other->dbservers_);
+  std::swap(secondaries_, other->secondaries_);
+  std::swap(asynchronous_replication_, other->asynchronous_replication_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Targets::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Targets_descriptor_;
-  metadata.reflection = Targets_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// Targets
+
+// required string mode = 1;
+bool Targets::has_mode() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void Targets::set_has_mode() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void Targets::clear_has_mode() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void Targets::clear_mode() {
+  mode_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_mode();
+}
+const ::std::string& Targets::mode() const {
+  // @@protoc_insertion_point(field_get:arangodb.Targets.mode)
+  return mode_.GetNoArena();
+}
+void Targets::set_mode(const ::std::string& value) {
+  set_has_mode();
+  mode_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:arangodb.Targets.mode)
+}
+#if LANG_CXX11
+void Targets::set_mode(::std::string&& value) {
+  set_has_mode();
+  mode_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:arangodb.Targets.mode)
+}
+#endif
+void Targets::set_mode(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_mode();
+  mode_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:arangodb.Targets.mode)
+}
+void Targets::set_mode(const char* value, size_t size) {
+  set_has_mode();
+  mode_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:arangodb.Targets.mode)
+}
+::std::string* Targets::mutable_mode() {
+  set_has_mode();
+  // @@protoc_insertion_point(field_mutable:arangodb.Targets.mode)
+  return mode_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* Targets::release_mode() {
+  // @@protoc_insertion_point(field_release:arangodb.Targets.mode)
+  clear_has_mode();
+  return mode_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void Targets::set_allocated_mode(::std::string* mode) {
+  if (mode != NULL) {
+    set_has_mode();
+  } else {
+    clear_has_mode();
+  }
+  mode_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mode);
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Targets.mode)
+}
+
+// required .arangodb.Target agents = 2;
+bool Targets::has_agents() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void Targets::set_has_agents() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void Targets::clear_has_agents() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void Targets::clear_agents() {
+  if (agents_ != NULL) agents_->::arangodb::Target::Clear();
+  clear_has_agents();
+}
+const ::arangodb::Target& Targets::agents() const {
+  // @@protoc_insertion_point(field_get:arangodb.Targets.agents)
+  return agents_ != NULL ? *agents_
+                         : *::arangodb::Target::internal_default_instance();
+}
+::arangodb::Target* Targets::mutable_agents() {
+  set_has_agents();
+  if (agents_ == NULL) {
+    agents_ = new ::arangodb::Target;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Targets.agents)
+  return agents_;
+}
+::arangodb::Target* Targets::release_agents() {
+  // @@protoc_insertion_point(field_release:arangodb.Targets.agents)
+  clear_has_agents();
+  ::arangodb::Target* temp = agents_;
+  agents_ = NULL;
+  return temp;
+}
+void Targets::set_allocated_agents(::arangodb::Target* agents) {
+  delete agents_;
+  agents_ = agents;
+  if (agents) {
+    set_has_agents();
+  } else {
+    clear_has_agents();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Targets.agents)
+}
+
+// required .arangodb.Target coordinators = 3;
+bool Targets::has_coordinators() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void Targets::set_has_coordinators() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void Targets::clear_has_coordinators() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void Targets::clear_coordinators() {
+  if (coordinators_ != NULL) coordinators_->::arangodb::Target::Clear();
+  clear_has_coordinators();
+}
+const ::arangodb::Target& Targets::coordinators() const {
+  // @@protoc_insertion_point(field_get:arangodb.Targets.coordinators)
+  return coordinators_ != NULL ? *coordinators_
+                         : *::arangodb::Target::internal_default_instance();
+}
+::arangodb::Target* Targets::mutable_coordinators() {
+  set_has_coordinators();
+  if (coordinators_ == NULL) {
+    coordinators_ = new ::arangodb::Target;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Targets.coordinators)
+  return coordinators_;
+}
+::arangodb::Target* Targets::release_coordinators() {
+  // @@protoc_insertion_point(field_release:arangodb.Targets.coordinators)
+  clear_has_coordinators();
+  ::arangodb::Target* temp = coordinators_;
+  coordinators_ = NULL;
+  return temp;
+}
+void Targets::set_allocated_coordinators(::arangodb::Target* coordinators) {
+  delete coordinators_;
+  coordinators_ = coordinators;
+  if (coordinators) {
+    set_has_coordinators();
+  } else {
+    clear_has_coordinators();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Targets.coordinators)
+}
+
+// required .arangodb.Target dbservers = 4;
+bool Targets::has_dbservers() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void Targets::set_has_dbservers() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void Targets::clear_has_dbservers() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void Targets::clear_dbservers() {
+  if (dbservers_ != NULL) dbservers_->::arangodb::Target::Clear();
+  clear_has_dbservers();
+}
+const ::arangodb::Target& Targets::dbservers() const {
+  // @@protoc_insertion_point(field_get:arangodb.Targets.dbservers)
+  return dbservers_ != NULL ? *dbservers_
+                         : *::arangodb::Target::internal_default_instance();
+}
+::arangodb::Target* Targets::mutable_dbservers() {
+  set_has_dbservers();
+  if (dbservers_ == NULL) {
+    dbservers_ = new ::arangodb::Target;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Targets.dbservers)
+  return dbservers_;
+}
+::arangodb::Target* Targets::release_dbservers() {
+  // @@protoc_insertion_point(field_release:arangodb.Targets.dbservers)
+  clear_has_dbservers();
+  ::arangodb::Target* temp = dbservers_;
+  dbservers_ = NULL;
+  return temp;
+}
+void Targets::set_allocated_dbservers(::arangodb::Target* dbservers) {
+  delete dbservers_;
+  dbservers_ = dbservers;
+  if (dbservers) {
+    set_has_dbservers();
+  } else {
+    clear_has_dbservers();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Targets.dbservers)
+}
+
+// required .arangodb.Target secondaries = 5;
+bool Targets::has_secondaries() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void Targets::set_has_secondaries() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void Targets::clear_has_secondaries() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void Targets::clear_secondaries() {
+  if (secondaries_ != NULL) secondaries_->::arangodb::Target::Clear();
+  clear_has_secondaries();
+}
+const ::arangodb::Target& Targets::secondaries() const {
+  // @@protoc_insertion_point(field_get:arangodb.Targets.secondaries)
+  return secondaries_ != NULL ? *secondaries_
+                         : *::arangodb::Target::internal_default_instance();
+}
+::arangodb::Target* Targets::mutable_secondaries() {
+  set_has_secondaries();
+  if (secondaries_ == NULL) {
+    secondaries_ = new ::arangodb::Target;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Targets.secondaries)
+  return secondaries_;
+}
+::arangodb::Target* Targets::release_secondaries() {
+  // @@protoc_insertion_point(field_release:arangodb.Targets.secondaries)
+  clear_has_secondaries();
+  ::arangodb::Target* temp = secondaries_;
+  secondaries_ = NULL;
+  return temp;
+}
+void Targets::set_allocated_secondaries(::arangodb::Target* secondaries) {
+  delete secondaries_;
+  secondaries_ = secondaries;
+  if (secondaries) {
+    set_has_secondaries();
+  } else {
+    clear_has_secondaries();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Targets.secondaries)
+}
+
+// optional bool asynchronous_replication = 6;
+bool Targets::has_asynchronous_replication() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void Targets::set_has_asynchronous_replication() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void Targets::clear_has_asynchronous_replication() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void Targets::clear_asynchronous_replication() {
+  asynchronous_replication_ = false;
+  clear_has_asynchronous_replication();
+}
+bool Targets::asynchronous_replication() const {
+  // @@protoc_insertion_point(field_get:arangodb.Targets.asynchronous_replication)
+  return asynchronous_replication_;
+}
+void Targets::set_asynchronous_replication(bool value) {
+  set_has_asynchronous_replication();
+  asynchronous_replication_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.Targets.asynchronous_replication)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int TaskPlan::kStateFieldNumber;
 const int TaskPlan::kPersistenceIdFieldNumber;
 const int TaskPlan::kTimestampFieldNumber;
 const int TaskPlan::kNameFieldNumber;
 const int TaskPlan::kSyncPartnerFieldNumber;
 const int TaskPlan::kServerIdFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TaskPlan::TaskPlan()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.TaskPlan)
 }
-
-void TaskPlan::InitAsDefaultInstance() {
-}
-
 TaskPlan::TaskPlan(const TaskPlan& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  persistence_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_persistence_id()) {
+    persistence_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.persistence_id_);
+  }
+  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_name()) {
+    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+  }
+  sync_partner_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sync_partner()) {
+    sync_partner_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sync_partner_);
+  }
+  server_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_server_id()) {
+    server_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.server_id_);
+  }
+  ::memcpy(&timestamp_, &from.timestamp_,
+    reinterpret_cast<char*>(&state_) -
+    reinterpret_cast<char*>(&timestamp_) + sizeof(state_));
   // @@protoc_insertion_point(copy_constructor:arangodb.TaskPlan)
 }
 
 void TaskPlan::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
-  state_ = 1;
-  persistence_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  persistence_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sync_partner_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  server_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   timestamp_ = 0;
-  name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  sync_partner_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  server_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  state_ = 1;
 }
 
 TaskPlan::~TaskPlan() {
@@ -2103,20 +2874,10 @@ TaskPlan::~TaskPlan() {
 }
 
 void TaskPlan::SharedDtor() {
-  if (persistence_id_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete persistence_id_;
-  }
-  if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete name_;
-  }
-  if (sync_partner_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete sync_partner_;
-  }
-  if (server_id_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete server_id_;
-  }
-  if (this != default_instance_) {
-  }
+  persistence_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sync_partner_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  server_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void TaskPlan::SetCachedSize(int size) const {
@@ -2125,63 +2886,65 @@ void TaskPlan::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* TaskPlan::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return TaskPlan_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const TaskPlan& TaskPlan::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-TaskPlan* TaskPlan::default_instance_ = NULL;
-
-TaskPlan* TaskPlan::New() const {
-  return new TaskPlan;
+TaskPlan* TaskPlan::New(::google::protobuf::Arena* arena) const {
+  TaskPlan* n = new TaskPlan;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void TaskPlan::Clear() {
-  if (_has_bits_[0 / 32] & 63) {
-    state_ = 1;
+// @@protoc_insertion_point(message_clear_start:arangodb.TaskPlan)
+  if (_has_bits_[0 / 32] & 15u) {
     if (has_persistence_id()) {
-      if (persistence_id_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        persistence_id_->clear();
-      }
+      GOOGLE_DCHECK(!persistence_id_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*persistence_id_.UnsafeRawStringPointer())->clear();
     }
-    timestamp_ = 0;
     if (has_name()) {
-      if (name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        name_->clear();
-      }
+      GOOGLE_DCHECK(!name_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*name_.UnsafeRawStringPointer())->clear();
     }
     if (has_sync_partner()) {
-      if (sync_partner_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        sync_partner_->clear();
-      }
+      GOOGLE_DCHECK(!sync_partner_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sync_partner_.UnsafeRawStringPointer())->clear();
     }
     if (has_server_id()) {
-      if (server_id_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        server_id_->clear();
-      }
+      GOOGLE_DCHECK(!server_id_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*server_id_.UnsafeRawStringPointer())->clear();
     }
   }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_has_bits_[0 / 32] & 48u) {
+    timestamp_ = 0;
+    state_ = 1;
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool TaskPlan::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.TaskPlan)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required .arangodb.TaskPlanState state = 1 [default = TASK_STATE_NEW];
       case 1: {
-        if (tag == 8) {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -2194,90 +2957,84 @@ bool TaskPlan::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_persistence_id;
         break;
       }
 
       // optional string persistence_id = 2;
       case 2: {
-        if (tag == 18) {
-         parse_persistence_id:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_persistence_id()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->persistence_id().data(), this->persistence_id().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
-            "persistence_id");
+            "arangodb.TaskPlan.persistence_id");
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(25)) goto parse_timestamp;
         break;
       }
 
       // optional double timestamp = 3;
       case 3: {
-        if (tag == 25) {
-         parse_timestamp:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(25u)) {
+          set_has_timestamp();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &timestamp_)));
-          set_has_timestamp();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(34)) goto parse_name;
         break;
       }
 
       // required string name = 4;
       case 4: {
-        if (tag == 34) {
-         parse_name:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->name().data(), this->name().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
-            "name");
+            "arangodb.TaskPlan.name");
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(42)) goto parse_sync_partner;
         break;
       }
 
       // optional string sync_partner = 5;
       case 5: {
-        if (tag == 42) {
-         parse_sync_partner:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_sync_partner()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->sync_partner().data(), this->sync_partner().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
-            "sync_partner");
+            "arangodb.TaskPlan.sync_partner");
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(50)) goto parse_server_id;
         break;
       }
 
       // optional string server_id = 6;
       case 6: {
-        if (tag == 50) {
-         parse_server_id:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_server_id()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->server_id().data(), this->server_id().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
-            "server_id");
+            "arangodb.TaskPlan.server_id");
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -2306,123 +3063,131 @@ failure:
 void TaskPlan::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.TaskPlan)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required .arangodb.TaskPlanState state = 1 [default = TASK_STATE_NEW];
-  if (has_state()) {
+  if (cached_has_bits & 0x00000020u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->state(), output);
   }
 
   // optional string persistence_id = 2;
-  if (has_persistence_id()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->persistence_id().data(), this->persistence_id().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "persistence_id");
+      "arangodb.TaskPlan.persistence_id");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->persistence_id(), output);
   }
 
   // optional double timestamp = 3;
-  if (has_timestamp()) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteDouble(3, this->timestamp(), output);
   }
 
   // required string name = 4;
-  if (has_name()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->name().data(), this->name().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "name");
+      "arangodb.TaskPlan.name");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->name(), output);
   }
 
   // optional string sync_partner = 5;
-  if (has_sync_partner()) {
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->sync_partner().data(), this->sync_partner().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "sync_partner");
+      "arangodb.TaskPlan.sync_partner");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->sync_partner(), output);
   }
 
   // optional string server_id = 6;
-  if (has_server_id()) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->server_id().data(), this->server_id().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "server_id");
+      "arangodb.TaskPlan.server_id");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->server_id(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.TaskPlan)
 }
 
-::google::protobuf::uint8* TaskPlan::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* TaskPlan::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.TaskPlan)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required .arangodb.TaskPlanState state = 1 [default = TASK_STATE_NEW];
-  if (has_state()) {
+  if (cached_has_bits & 0x00000020u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->state(), target);
   }
 
   // optional string persistence_id = 2;
-  if (has_persistence_id()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->persistence_id().data(), this->persistence_id().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "persistence_id");
+      "arangodb.TaskPlan.persistence_id");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->persistence_id(), target);
   }
 
   // optional double timestamp = 3;
-  if (has_timestamp()) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(3, this->timestamp(), target);
   }
 
   // required string name = 4;
-  if (has_name()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->name().data(), this->name().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "name");
+      "arangodb.TaskPlan.name");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->name(), target);
   }
 
   // optional string sync_partner = 5;
-  if (has_sync_partner()) {
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->sync_partner().data(), this->sync_partner().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "sync_partner");
+      "arangodb.TaskPlan.sync_partner");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->sync_partner(), target);
   }
 
   // optional string server_id = 6;
-  if (has_server_id()) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->server_id().data(), this->server_id().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "server_id");
+      "arangodb.TaskPlan.server_id");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->server_id(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -2430,35 +3195,55 @@ void TaskPlan::SerializeWithCachedSizes(
   return target;
 }
 
-int TaskPlan::ByteSize() const {
-  int total_size = 0;
+size_t TaskPlan::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:arangodb.TaskPlan)
+  size_t total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .arangodb.TaskPlanState state = 1 [default = TASK_STATE_NEW];
-    if (has_state()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->state());
-    }
-
-    // optional string persistence_id = 2;
-    if (has_persistence_id()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->persistence_id());
-    }
-
-    // optional double timestamp = 3;
-    if (has_timestamp()) {
-      total_size += 1 + 8;
-    }
-
+  if (has_name()) {
     // required string name = 4;
-    if (has_name()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->name());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->name());
+  }
 
+  if (has_state()) {
+    // required .arangodb.TaskPlanState state = 1 [default = TASK_STATE_NEW];
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->state());
+  }
+
+  return total_size;
+}
+size_t TaskPlan::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.TaskPlan)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x00000022) ^ 0x00000022) == 0) {  // All required fields are present.
+    // required string name = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->name());
+
+    // required .arangodb.TaskPlanState state = 1 [default = TASK_STATE_NEW];
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->state());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  // optional string persistence_id = 2;
+  if (has_persistence_id()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->persistence_id());
+  }
+
+  if (_has_bits_[0 / 32] & 28u) {
     // optional string sync_partner = 5;
     if (has_sync_partner()) {
       total_size += 1 +
@@ -2473,121 +3258,441 @@ int TaskPlan::ByteSize() const {
           this->server_id());
     }
 
+    // optional double timestamp = 3;
+    if (has_timestamp()) {
+      total_size += 1 + 8;
+    }
+
   }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void TaskPlan::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.TaskPlan)
+  GOOGLE_DCHECK_NE(&from, this);
   const TaskPlan* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const TaskPlan*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const TaskPlan>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.TaskPlan)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.TaskPlan)
     MergeFrom(*source);
   }
 }
 
 void TaskPlan::MergeFrom(const TaskPlan& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_state()) {
-      set_state(from.state());
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.TaskPlan)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 63u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_persistence_id();
+      persistence_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.persistence_id_);
     }
-    if (from.has_persistence_id()) {
-      set_persistence_id(from.persistence_id());
+    if (cached_has_bits & 0x00000002u) {
+      set_has_name();
+      name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
     }
-    if (from.has_timestamp()) {
-      set_timestamp(from.timestamp());
+    if (cached_has_bits & 0x00000004u) {
+      set_has_sync_partner();
+      sync_partner_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sync_partner_);
     }
-    if (from.has_name()) {
-      set_name(from.name());
+    if (cached_has_bits & 0x00000008u) {
+      set_has_server_id();
+      server_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.server_id_);
     }
-    if (from.has_sync_partner()) {
-      set_sync_partner(from.sync_partner());
+    if (cached_has_bits & 0x00000010u) {
+      timestamp_ = from.timestamp_;
     }
-    if (from.has_server_id()) {
-      set_server_id(from.server_id());
+    if (cached_has_bits & 0x00000020u) {
+      state_ = from.state_;
     }
+    _has_bits_[0] |= cached_has_bits;
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void TaskPlan::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.TaskPlan)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void TaskPlan::CopyFrom(const TaskPlan& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.TaskPlan)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 bool TaskPlan::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000009) != 0x00000009) return false;
-
+  if ((_has_bits_[0] & 0x00000022) != 0x00000022) return false;
   return true;
 }
 
 void TaskPlan::Swap(TaskPlan* other) {
-  if (other != this) {
-    std::swap(state_, other->state_);
-    std::swap(persistence_id_, other->persistence_id_);
-    std::swap(timestamp_, other->timestamp_);
-    std::swap(name_, other->name_);
-    std::swap(sync_partner_, other->sync_partner_);
-    std::swap(server_id_, other->server_id_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void TaskPlan::InternalSwap(TaskPlan* other) {
+  persistence_id_.Swap(&other->persistence_id_);
+  name_.Swap(&other->name_);
+  sync_partner_.Swap(&other->sync_partner_);
+  server_id_.Swap(&other->server_id_);
+  std::swap(timestamp_, other->timestamp_);
+  std::swap(state_, other->state_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata TaskPlan::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = TaskPlan_descriptor_;
-  metadata.reflection = TaskPlan_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// TaskPlan
+
+// required .arangodb.TaskPlanState state = 1 [default = TASK_STATE_NEW];
+bool TaskPlan::has_state() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void TaskPlan::set_has_state() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void TaskPlan::clear_has_state() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void TaskPlan::clear_state() {
+  state_ = 1;
+  clear_has_state();
+}
+::arangodb::TaskPlanState TaskPlan::state() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskPlan.state)
+  return static_cast< ::arangodb::TaskPlanState >(state_);
+}
+void TaskPlan::set_state(::arangodb::TaskPlanState value) {
+  assert(::arangodb::TaskPlanState_IsValid(value));
+  set_has_state();
+  state_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.TaskPlan.state)
+}
+
+// optional string persistence_id = 2;
+bool TaskPlan::has_persistence_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void TaskPlan::set_has_persistence_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void TaskPlan::clear_has_persistence_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void TaskPlan::clear_persistence_id() {
+  persistence_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_persistence_id();
+}
+const ::std::string& TaskPlan::persistence_id() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskPlan.persistence_id)
+  return persistence_id_.GetNoArena();
+}
+void TaskPlan::set_persistence_id(const ::std::string& value) {
+  set_has_persistence_id();
+  persistence_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:arangodb.TaskPlan.persistence_id)
+}
+#if LANG_CXX11
+void TaskPlan::set_persistence_id(::std::string&& value) {
+  set_has_persistence_id();
+  persistence_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:arangodb.TaskPlan.persistence_id)
+}
+#endif
+void TaskPlan::set_persistence_id(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_persistence_id();
+  persistence_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:arangodb.TaskPlan.persistence_id)
+}
+void TaskPlan::set_persistence_id(const char* value, size_t size) {
+  set_has_persistence_id();
+  persistence_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:arangodb.TaskPlan.persistence_id)
+}
+::std::string* TaskPlan::mutable_persistence_id() {
+  set_has_persistence_id();
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskPlan.persistence_id)
+  return persistence_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* TaskPlan::release_persistence_id() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskPlan.persistence_id)
+  clear_has_persistence_id();
+  return persistence_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void TaskPlan::set_allocated_persistence_id(::std::string* persistence_id) {
+  if (persistence_id != NULL) {
+    set_has_persistence_id();
+  } else {
+    clear_has_persistence_id();
+  }
+  persistence_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), persistence_id);
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskPlan.persistence_id)
+}
+
+// optional double timestamp = 3;
+bool TaskPlan::has_timestamp() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void TaskPlan::set_has_timestamp() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void TaskPlan::clear_has_timestamp() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void TaskPlan::clear_timestamp() {
+  timestamp_ = 0;
+  clear_has_timestamp();
+}
+double TaskPlan::timestamp() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskPlan.timestamp)
+  return timestamp_;
+}
+void TaskPlan::set_timestamp(double value) {
+  set_has_timestamp();
+  timestamp_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.TaskPlan.timestamp)
+}
+
+// required string name = 4;
+bool TaskPlan::has_name() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void TaskPlan::set_has_name() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void TaskPlan::clear_has_name() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void TaskPlan::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_name();
+}
+const ::std::string& TaskPlan::name() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskPlan.name)
+  return name_.GetNoArena();
+}
+void TaskPlan::set_name(const ::std::string& value) {
+  set_has_name();
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:arangodb.TaskPlan.name)
+}
+#if LANG_CXX11
+void TaskPlan::set_name(::std::string&& value) {
+  set_has_name();
+  name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:arangodb.TaskPlan.name)
+}
+#endif
+void TaskPlan::set_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_name();
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:arangodb.TaskPlan.name)
+}
+void TaskPlan::set_name(const char* value, size_t size) {
+  set_has_name();
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:arangodb.TaskPlan.name)
+}
+::std::string* TaskPlan::mutable_name() {
+  set_has_name();
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskPlan.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* TaskPlan::release_name() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskPlan.name)
+  clear_has_name();
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void TaskPlan::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    set_has_name();
+  } else {
+    clear_has_name();
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskPlan.name)
+}
+
+// optional string sync_partner = 5;
+bool TaskPlan::has_sync_partner() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void TaskPlan::set_has_sync_partner() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void TaskPlan::clear_has_sync_partner() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void TaskPlan::clear_sync_partner() {
+  sync_partner_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_sync_partner();
+}
+const ::std::string& TaskPlan::sync_partner() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskPlan.sync_partner)
+  return sync_partner_.GetNoArena();
+}
+void TaskPlan::set_sync_partner(const ::std::string& value) {
+  set_has_sync_partner();
+  sync_partner_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:arangodb.TaskPlan.sync_partner)
+}
+#if LANG_CXX11
+void TaskPlan::set_sync_partner(::std::string&& value) {
+  set_has_sync_partner();
+  sync_partner_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:arangodb.TaskPlan.sync_partner)
+}
+#endif
+void TaskPlan::set_sync_partner(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_sync_partner();
+  sync_partner_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:arangodb.TaskPlan.sync_partner)
+}
+void TaskPlan::set_sync_partner(const char* value, size_t size) {
+  set_has_sync_partner();
+  sync_partner_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:arangodb.TaskPlan.sync_partner)
+}
+::std::string* TaskPlan::mutable_sync_partner() {
+  set_has_sync_partner();
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskPlan.sync_partner)
+  return sync_partner_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* TaskPlan::release_sync_partner() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskPlan.sync_partner)
+  clear_has_sync_partner();
+  return sync_partner_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void TaskPlan::set_allocated_sync_partner(::std::string* sync_partner) {
+  if (sync_partner != NULL) {
+    set_has_sync_partner();
+  } else {
+    clear_has_sync_partner();
+  }
+  sync_partner_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), sync_partner);
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskPlan.sync_partner)
+}
+
+// optional string server_id = 6;
+bool TaskPlan::has_server_id() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void TaskPlan::set_has_server_id() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void TaskPlan::clear_has_server_id() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void TaskPlan::clear_server_id() {
+  server_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_server_id();
+}
+const ::std::string& TaskPlan::server_id() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskPlan.server_id)
+  return server_id_.GetNoArena();
+}
+void TaskPlan::set_server_id(const ::std::string& value) {
+  set_has_server_id();
+  server_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:arangodb.TaskPlan.server_id)
+}
+#if LANG_CXX11
+void TaskPlan::set_server_id(::std::string&& value) {
+  set_has_server_id();
+  server_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:arangodb.TaskPlan.server_id)
+}
+#endif
+void TaskPlan::set_server_id(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_server_id();
+  server_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:arangodb.TaskPlan.server_id)
+}
+void TaskPlan::set_server_id(const char* value, size_t size) {
+  set_has_server_id();
+  server_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:arangodb.TaskPlan.server_id)
+}
+::std::string* TaskPlan::mutable_server_id() {
+  set_has_server_id();
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskPlan.server_id)
+  return server_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* TaskPlan::release_server_id() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskPlan.server_id)
+  clear_has_server_id();
+  return server_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void TaskPlan::set_allocated_server_id(::std::string* server_id) {
+  if (server_id != NULL) {
+    set_has_server_id();
+  } else {
+    clear_has_server_id();
+  }
+  server_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), server_id);
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskPlan.server_id)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int TasksPlan::kEntriesFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TasksPlan::TasksPlan()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.TasksPlan)
 }
-
-void TasksPlan::InitAsDefaultInstance() {
-}
-
 TasksPlan::TasksPlan(const TasksPlan& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0),
+      entries_(from.entries_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:arangodb.TasksPlan)
 }
 
 void TasksPlan::SharedCtor() {
   _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 TasksPlan::~TasksPlan() {
@@ -2596,8 +3701,6 @@ TasksPlan::~TasksPlan() {
 }
 
 void TasksPlan::SharedDtor() {
-  if (this != default_instance_) {
-  }
 }
 
 void TasksPlan::SetCachedSize(int size) const {
@@ -2606,48 +3709,49 @@ void TasksPlan::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* TasksPlan::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return TasksPlan_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const TasksPlan& TasksPlan::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-TasksPlan* TasksPlan::default_instance_ = NULL;
-
-TasksPlan* TasksPlan::New() const {
-  return new TasksPlan;
+TasksPlan* TasksPlan::New(::google::protobuf::Arena* arena) const {
+  TasksPlan* n = new TasksPlan;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void TasksPlan::Clear() {
+// @@protoc_insertion_point(message_clear_start:arangodb.TasksPlan)
   entries_.Clear();
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool TasksPlan::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.TasksPlan)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .arangodb.TaskPlan entries = 1;
       case 1: {
-        if (tag == 10) {
-         parse_entries:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_entries()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_entries;
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -2676,30 +3780,36 @@ failure:
 void TasksPlan::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.TasksPlan)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   // repeated .arangodb.TaskPlan entries = 1;
-  for (int i = 0; i < this->entries_size(); i++) {
+  for (unsigned int i = 0, n = this->entries_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->entries(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.TasksPlan)
 }
 
-::google::protobuf::uint8* TasksPlan::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* TasksPlan::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.TasksPlan)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   // repeated .arangodb.TaskPlan entries = 1;
-  for (int i = 0; i < this->entries_size(); i++) {
+  for (unsigned int i = 0, n = this->entries_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->entries(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->entries(i), deterministic, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -2707,118 +3817,178 @@ void TasksPlan::SerializeWithCachedSizes(
   return target;
 }
 
-int TasksPlan::ByteSize() const {
-  int total_size = 0;
+size_t TasksPlan::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.TasksPlan)
+  size_t total_size = 0;
 
-  // repeated .arangodb.TaskPlan entries = 1;
-  total_size += 1 * this->entries_size();
-  for (int i = 0; i < this->entries_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->entries(i));
-  }
-
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  // repeated .arangodb.TaskPlan entries = 1;
+  {
+    unsigned int count = this->entries_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->entries(i));
+    }
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void TasksPlan::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.TasksPlan)
+  GOOGLE_DCHECK_NE(&from, this);
   const TasksPlan* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const TasksPlan*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const TasksPlan>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.TasksPlan)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.TasksPlan)
     MergeFrom(*source);
   }
 }
 
 void TasksPlan::MergeFrom(const TasksPlan& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.TasksPlan)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   entries_.MergeFrom(from.entries_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void TasksPlan::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.TasksPlan)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void TasksPlan::CopyFrom(const TasksPlan& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.TasksPlan)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 bool TasksPlan::IsInitialized() const {
-
   if (!::google::protobuf::internal::AllAreInitialized(this->entries())) return false;
   return true;
 }
 
 void TasksPlan::Swap(TasksPlan* other) {
-  if (other != this) {
-    entries_.Swap(&other->entries_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void TasksPlan::InternalSwap(TasksPlan* other) {
+  entries_.InternalSwap(&other->entries_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata TasksPlan::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = TasksPlan_descriptor_;
-  metadata.reflection = TasksPlan_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// TasksPlan
+
+// repeated .arangodb.TaskPlan entries = 1;
+int TasksPlan::entries_size() const {
+  return entries_.size();
+}
+void TasksPlan::clear_entries() {
+  entries_.Clear();
+}
+const ::arangodb::TaskPlan& TasksPlan::entries(int index) const {
+  // @@protoc_insertion_point(field_get:arangodb.TasksPlan.entries)
+  return entries_.Get(index);
+}
+::arangodb::TaskPlan* TasksPlan::mutable_entries(int index) {
+  // @@protoc_insertion_point(field_mutable:arangodb.TasksPlan.entries)
+  return entries_.Mutable(index);
+}
+::arangodb::TaskPlan* TasksPlan::add_entries() {
+  // @@protoc_insertion_point(field_add:arangodb.TasksPlan.entries)
+  return entries_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::arangodb::TaskPlan >*
+TasksPlan::mutable_entries() {
+  // @@protoc_insertion_point(field_mutable_list:arangodb.TasksPlan.entries)
+  return &entries_;
+}
+const ::google::protobuf::RepeatedPtrField< ::arangodb::TaskPlan >&
+TasksPlan::entries() const {
+  // @@protoc_insertion_point(field_list:arangodb.TasksPlan.entries)
+  return entries_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Plan::kAgentsFieldNumber;
 const int Plan::kCoordinatorsFieldNumber;
 const int Plan::kDbserversFieldNumber;
 const int Plan::kSecondariesFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Plan::Plan()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.Plan)
 }
-
-void Plan::InitAsDefaultInstance() {
-  agents_ = const_cast< ::arangodb::TasksPlan*>(&::arangodb::TasksPlan::default_instance());
-  coordinators_ = const_cast< ::arangodb::TasksPlan*>(&::arangodb::TasksPlan::default_instance());
-  dbservers_ = const_cast< ::arangodb::TasksPlan*>(&::arangodb::TasksPlan::default_instance());
-  secondaries_ = const_cast< ::arangodb::TasksPlan*>(&::arangodb::TasksPlan::default_instance());
-}
-
 Plan::Plan(const Plan& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from.has_agents()) {
+    agents_ = new ::arangodb::TasksPlan(*from.agents_);
+  } else {
+    agents_ = NULL;
+  }
+  if (from.has_coordinators()) {
+    coordinators_ = new ::arangodb::TasksPlan(*from.coordinators_);
+  } else {
+    coordinators_ = NULL;
+  }
+  if (from.has_dbservers()) {
+    dbservers_ = new ::arangodb::TasksPlan(*from.dbservers_);
+  } else {
+    dbservers_ = NULL;
+  }
+  if (from.has_secondaries()) {
+    secondaries_ = new ::arangodb::TasksPlan(*from.secondaries_);
+  } else {
+    secondaries_ = NULL;
+  }
   // @@protoc_insertion_point(copy_constructor:arangodb.Plan)
 }
 
 void Plan::SharedCtor() {
   _cached_size_ = 0;
-  agents_ = NULL;
-  coordinators_ = NULL;
-  dbservers_ = NULL;
-  secondaries_ = NULL;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  ::memset(&agents_, 0, reinterpret_cast<char*>(&secondaries_) -
+    reinterpret_cast<char*>(&agents_) + sizeof(secondaries_));
 }
 
 Plan::~Plan() {
@@ -2827,10 +3997,16 @@ Plan::~Plan() {
 }
 
 void Plan::SharedDtor() {
-  if (this != default_instance_) {
+  if (this != internal_default_instance()) {
     delete agents_;
+  }
+  if (this != internal_default_instance()) {
     delete coordinators_;
+  }
+  if (this != internal_default_instance()) {
     delete dbservers_;
+  }
+  if (this != internal_default_instance()) {
     delete secondaries_;
   }
 }
@@ -2841,98 +4017,102 @@ void Plan::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* Plan::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Plan_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const Plan& Plan::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-Plan* Plan::default_instance_ = NULL;
-
-Plan* Plan::New() const {
-  return new Plan;
+Plan* Plan::New(::google::protobuf::Arena* arena) const {
+  Plan* n = new Plan;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void Plan::Clear() {
-  if (_has_bits_[0 / 32] & 15) {
+// @@protoc_insertion_point(message_clear_start:arangodb.Plan)
+  if (_has_bits_[0 / 32] & 15u) {
     if (has_agents()) {
-      if (agents_ != NULL) agents_->::arangodb::TasksPlan::Clear();
+      GOOGLE_DCHECK(agents_ != NULL);
+      agents_->::arangodb::TasksPlan::Clear();
     }
     if (has_coordinators()) {
-      if (coordinators_ != NULL) coordinators_->::arangodb::TasksPlan::Clear();
+      GOOGLE_DCHECK(coordinators_ != NULL);
+      coordinators_->::arangodb::TasksPlan::Clear();
     }
     if (has_dbservers()) {
-      if (dbservers_ != NULL) dbservers_->::arangodb::TasksPlan::Clear();
+      GOOGLE_DCHECK(dbservers_ != NULL);
+      dbservers_->::arangodb::TasksPlan::Clear();
     }
     if (has_secondaries()) {
-      if (secondaries_ != NULL) secondaries_->::arangodb::TasksPlan::Clear();
+      GOOGLE_DCHECK(secondaries_ != NULL);
+      secondaries_->::arangodb::TasksPlan::Clear();
     }
   }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool Plan::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.Plan)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required .arangodb.TasksPlan agents = 1;
       case 1: {
-        if (tag == 10) {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_agents()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_coordinators;
         break;
       }
 
       // required .arangodb.TasksPlan coordinators = 2;
       case 2: {
-        if (tag == 18) {
-         parse_coordinators:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_coordinators()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_dbservers;
         break;
       }
 
       // required .arangodb.TasksPlan dbservers = 3;
       case 3: {
-        if (tag == 26) {
-         parse_dbservers:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_dbservers()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(34)) goto parse_secondaries;
         break;
       }
 
       // required .arangodb.TasksPlan secondaries = 4;
       case 4: {
-        if (tag == 34) {
-         parse_secondaries:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_secondaries()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -2961,69 +4141,77 @@ failure:
 void Plan::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.Plan)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required .arangodb.TasksPlan agents = 1;
-  if (has_agents()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->agents(), output);
+      1, *this->agents_, output);
   }
 
   // required .arangodb.TasksPlan coordinators = 2;
-  if (has_coordinators()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->coordinators(), output);
+      2, *this->coordinators_, output);
   }
 
   // required .arangodb.TasksPlan dbservers = 3;
-  if (has_dbservers()) {
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->dbservers(), output);
+      3, *this->dbservers_, output);
   }
 
   // required .arangodb.TasksPlan secondaries = 4;
-  if (has_secondaries()) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->secondaries(), output);
+      4, *this->secondaries_, output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.Plan)
 }
 
-::google::protobuf::uint8* Plan::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* Plan::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.Plan)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required .arangodb.TasksPlan agents = 1;
-  if (has_agents()) {
+  if (cached_has_bits & 0x00000001u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->agents(), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, *this->agents_, deterministic, target);
   }
 
   // required .arangodb.TasksPlan coordinators = 2;
-  if (has_coordinators()) {
+  if (cached_has_bits & 0x00000002u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->coordinators(), target);
+      InternalWriteMessageNoVirtualToArray(
+        2, *this->coordinators_, deterministic, target);
   }
 
   // required .arangodb.TasksPlan dbservers = 3;
-  if (has_dbservers()) {
+  if (cached_has_bits & 0x00000004u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->dbservers(), target);
+      InternalWriteMessageNoVirtualToArray(
+        3, *this->dbservers_, deterministic, target);
   }
 
   // required .arangodb.TasksPlan secondaries = 4;
-  if (has_secondaries()) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        4, this->secondaries(), target);
+      InternalWriteMessageNoVirtualToArray(
+        4, *this->secondaries_, deterministic, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -3031,88 +4219,128 @@ void Plan::SerializeWithCachedSizes(
   return target;
 }
 
-int Plan::ByteSize() const {
-  int total_size = 0;
+size_t Plan::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:arangodb.Plan)
+  size_t total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_agents()) {
     // required .arangodb.TasksPlan agents = 1;
-    if (has_agents()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->agents());
-    }
-
-    // required .arangodb.TasksPlan coordinators = 2;
-    if (has_coordinators()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->coordinators());
-    }
-
-    // required .arangodb.TasksPlan dbservers = 3;
-    if (has_dbservers()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->dbservers());
-    }
-
-    // required .arangodb.TasksPlan secondaries = 4;
-    if (has_secondaries()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->secondaries());
-    }
-
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->agents_);
   }
-  if (!unknown_fields().empty()) {
+
+  if (has_coordinators()) {
+    // required .arangodb.TasksPlan coordinators = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->coordinators_);
+  }
+
+  if (has_dbservers()) {
+    // required .arangodb.TasksPlan dbservers = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->dbservers_);
+  }
+
+  if (has_secondaries()) {
+    // required .arangodb.TasksPlan secondaries = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->secondaries_);
+  }
+
+  return total_size;
+}
+size_t Plan::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.Plan)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
+    // required .arangodb.TasksPlan agents = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->agents_);
+
+    // required .arangodb.TasksPlan coordinators = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->coordinators_);
+
+    // required .arangodb.TasksPlan dbservers = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->dbservers_);
+
+    // required .arangodb.TasksPlan secondaries = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->secondaries_);
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void Plan::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.Plan)
+  GOOGLE_DCHECK_NE(&from, this);
   const Plan* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Plan*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const Plan>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.Plan)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.Plan)
     MergeFrom(*source);
   }
 }
 
 void Plan::MergeFrom(const Plan& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_agents()) {
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.Plan)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 15u) {
+    if (cached_has_bits & 0x00000001u) {
       mutable_agents()->::arangodb::TasksPlan::MergeFrom(from.agents());
     }
-    if (from.has_coordinators()) {
+    if (cached_has_bits & 0x00000002u) {
       mutable_coordinators()->::arangodb::TasksPlan::MergeFrom(from.coordinators());
     }
-    if (from.has_dbservers()) {
+    if (cached_has_bits & 0x00000004u) {
       mutable_dbservers()->::arangodb::TasksPlan::MergeFrom(from.dbservers());
     }
-    if (from.has_secondaries()) {
+    if (cached_has_bits & 0x00000008u) {
       mutable_secondaries()->::arangodb::TasksPlan::MergeFrom(from.secondaries());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void Plan::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.Plan)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Plan::CopyFrom(const Plan& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.Plan)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -3120,46 +4348,228 @@ void Plan::CopyFrom(const Plan& from) {
 
 bool Plan::IsInitialized() const {
   if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
-
   if (has_agents()) {
-    if (!this->agents().IsInitialized()) return false;
+    if (!this->agents_->IsInitialized()) return false;
   }
   if (has_coordinators()) {
-    if (!this->coordinators().IsInitialized()) return false;
+    if (!this->coordinators_->IsInitialized()) return false;
   }
   if (has_dbservers()) {
-    if (!this->dbservers().IsInitialized()) return false;
+    if (!this->dbservers_->IsInitialized()) return false;
   }
   if (has_secondaries()) {
-    if (!this->secondaries().IsInitialized()) return false;
+    if (!this->secondaries_->IsInitialized()) return false;
   }
   return true;
 }
 
 void Plan::Swap(Plan* other) {
-  if (other != this) {
-    std::swap(agents_, other->agents_);
-    std::swap(coordinators_, other->coordinators_);
-    std::swap(dbservers_, other->dbservers_);
-    std::swap(secondaries_, other->secondaries_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Plan::InternalSwap(Plan* other) {
+  std::swap(agents_, other->agents_);
+  std::swap(coordinators_, other->coordinators_);
+  std::swap(dbservers_, other->dbservers_);
+  std::swap(secondaries_, other->secondaries_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Plan::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Plan_descriptor_;
-  metadata.reflection = Plan_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// Plan
+
+// required .arangodb.TasksPlan agents = 1;
+bool Plan::has_agents() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void Plan::set_has_agents() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void Plan::clear_has_agents() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void Plan::clear_agents() {
+  if (agents_ != NULL) agents_->::arangodb::TasksPlan::Clear();
+  clear_has_agents();
+}
+const ::arangodb::TasksPlan& Plan::agents() const {
+  // @@protoc_insertion_point(field_get:arangodb.Plan.agents)
+  return agents_ != NULL ? *agents_
+                         : *::arangodb::TasksPlan::internal_default_instance();
+}
+::arangodb::TasksPlan* Plan::mutable_agents() {
+  set_has_agents();
+  if (agents_ == NULL) {
+    agents_ = new ::arangodb::TasksPlan;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Plan.agents)
+  return agents_;
+}
+::arangodb::TasksPlan* Plan::release_agents() {
+  // @@protoc_insertion_point(field_release:arangodb.Plan.agents)
+  clear_has_agents();
+  ::arangodb::TasksPlan* temp = agents_;
+  agents_ = NULL;
+  return temp;
+}
+void Plan::set_allocated_agents(::arangodb::TasksPlan* agents) {
+  delete agents_;
+  agents_ = agents;
+  if (agents) {
+    set_has_agents();
+  } else {
+    clear_has_agents();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Plan.agents)
+}
+
+// required .arangodb.TasksPlan coordinators = 2;
+bool Plan::has_coordinators() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void Plan::set_has_coordinators() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void Plan::clear_has_coordinators() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void Plan::clear_coordinators() {
+  if (coordinators_ != NULL) coordinators_->::arangodb::TasksPlan::Clear();
+  clear_has_coordinators();
+}
+const ::arangodb::TasksPlan& Plan::coordinators() const {
+  // @@protoc_insertion_point(field_get:arangodb.Plan.coordinators)
+  return coordinators_ != NULL ? *coordinators_
+                         : *::arangodb::TasksPlan::internal_default_instance();
+}
+::arangodb::TasksPlan* Plan::mutable_coordinators() {
+  set_has_coordinators();
+  if (coordinators_ == NULL) {
+    coordinators_ = new ::arangodb::TasksPlan;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Plan.coordinators)
+  return coordinators_;
+}
+::arangodb::TasksPlan* Plan::release_coordinators() {
+  // @@protoc_insertion_point(field_release:arangodb.Plan.coordinators)
+  clear_has_coordinators();
+  ::arangodb::TasksPlan* temp = coordinators_;
+  coordinators_ = NULL;
+  return temp;
+}
+void Plan::set_allocated_coordinators(::arangodb::TasksPlan* coordinators) {
+  delete coordinators_;
+  coordinators_ = coordinators;
+  if (coordinators) {
+    set_has_coordinators();
+  } else {
+    clear_has_coordinators();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Plan.coordinators)
+}
+
+// required .arangodb.TasksPlan dbservers = 3;
+bool Plan::has_dbservers() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void Plan::set_has_dbservers() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void Plan::clear_has_dbservers() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void Plan::clear_dbservers() {
+  if (dbservers_ != NULL) dbservers_->::arangodb::TasksPlan::Clear();
+  clear_has_dbservers();
+}
+const ::arangodb::TasksPlan& Plan::dbservers() const {
+  // @@protoc_insertion_point(field_get:arangodb.Plan.dbservers)
+  return dbservers_ != NULL ? *dbservers_
+                         : *::arangodb::TasksPlan::internal_default_instance();
+}
+::arangodb::TasksPlan* Plan::mutable_dbservers() {
+  set_has_dbservers();
+  if (dbservers_ == NULL) {
+    dbservers_ = new ::arangodb::TasksPlan;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Plan.dbservers)
+  return dbservers_;
+}
+::arangodb::TasksPlan* Plan::release_dbservers() {
+  // @@protoc_insertion_point(field_release:arangodb.Plan.dbservers)
+  clear_has_dbservers();
+  ::arangodb::TasksPlan* temp = dbservers_;
+  dbservers_ = NULL;
+  return temp;
+}
+void Plan::set_allocated_dbservers(::arangodb::TasksPlan* dbservers) {
+  delete dbservers_;
+  dbservers_ = dbservers;
+  if (dbservers) {
+    set_has_dbservers();
+  } else {
+    clear_has_dbservers();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Plan.dbservers)
+}
+
+// required .arangodb.TasksPlan secondaries = 4;
+bool Plan::has_secondaries() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void Plan::set_has_secondaries() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void Plan::clear_has_secondaries() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void Plan::clear_secondaries() {
+  if (secondaries_ != NULL) secondaries_->::arangodb::TasksPlan::Clear();
+  clear_has_secondaries();
+}
+const ::arangodb::TasksPlan& Plan::secondaries() const {
+  // @@protoc_insertion_point(field_get:arangodb.Plan.secondaries)
+  return secondaries_ != NULL ? *secondaries_
+                         : *::arangodb::TasksPlan::internal_default_instance();
+}
+::arangodb::TasksPlan* Plan::mutable_secondaries() {
+  set_has_secondaries();
+  if (secondaries_ == NULL) {
+    secondaries_ = new ::arangodb::TasksPlan;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Plan.secondaries)
+  return secondaries_;
+}
+::arangodb::TasksPlan* Plan::release_secondaries() {
+  // @@protoc_insertion_point(field_release:arangodb.Plan.secondaries)
+  clear_has_secondaries();
+  ::arangodb::TasksPlan* temp = secondaries_;
+  secondaries_ = NULL;
+  return temp;
+}
+void Plan::set_allocated_secondaries(::arangodb::TasksPlan* secondaries) {
+  delete secondaries_;
+  secondaries_ = secondaries;
+  if (secondaries) {
+    set_has_secondaries();
+  } else {
+    clear_has_secondaries();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Plan.secondaries)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int TaskCurrent::kSlaveIdFieldNumber;
 const int TaskCurrent::kOfferIdFieldNumber;
 const int TaskCurrent::kResourcesFieldNumber;
@@ -3169,38 +4579,59 @@ const int TaskCurrent::kContainerPathFieldNumber;
 const int TaskCurrent::kTaskInfoFieldNumber;
 const int TaskCurrent::kStartTimeFieldNumber;
 const int TaskCurrent::kKillTimeFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TaskCurrent::TaskCurrent()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.TaskCurrent)
 }
-
-void TaskCurrent::InitAsDefaultInstance() {
-  slave_id_ = const_cast< ::mesos::SlaveID*>(&::mesos::SlaveID::default_instance());
-  offer_id_ = const_cast< ::mesos::OfferID*>(&::mesos::OfferID::default_instance());
-  task_info_ = const_cast< ::mesos::TaskInfo*>(&::mesos::TaskInfo::default_instance());
-}
-
 TaskCurrent::TaskCurrent(const TaskCurrent& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0),
+      resources_(from.resources_),
+      ports_(from.ports_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  hostname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_hostname()) {
+    hostname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.hostname_);
+  }
+  container_path_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_container_path()) {
+    container_path_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.container_path_);
+  }
+  if (from.has_slave_id()) {
+    slave_id_ = new ::mesos::SlaveID(*from.slave_id_);
+  } else {
+    slave_id_ = NULL;
+  }
+  if (from.has_offer_id()) {
+    offer_id_ = new ::mesos::OfferID(*from.offer_id_);
+  } else {
+    offer_id_ = NULL;
+  }
+  if (from.has_task_info()) {
+    task_info_ = new ::mesos::TaskInfo(*from.task_info_);
+  } else {
+    task_info_ = NULL;
+  }
+  ::memcpy(&start_time_, &from.start_time_,
+    reinterpret_cast<char*>(&kill_time_) -
+    reinterpret_cast<char*>(&start_time_) + sizeof(kill_time_));
   // @@protoc_insertion_point(copy_constructor:arangodb.TaskCurrent)
 }
 
 void TaskCurrent::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
-  slave_id_ = NULL;
-  offer_id_ = NULL;
-  hostname_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  container_path_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  task_info_ = NULL;
-  start_time_ = 0;
-  kill_time_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  hostname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  container_path_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&slave_id_, 0, reinterpret_cast<char*>(&kill_time_) -
+    reinterpret_cast<char*>(&slave_id_) + sizeof(kill_time_));
 }
 
 TaskCurrent::~TaskCurrent() {
@@ -3209,15 +4640,15 @@ TaskCurrent::~TaskCurrent() {
 }
 
 void TaskCurrent::SharedDtor() {
-  if (hostname_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete hostname_;
-  }
-  if (container_path_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete container_path_;
-  }
-  if (this != default_instance_) {
+  hostname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  container_path_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) {
     delete slave_id_;
+  }
+  if (this != internal_default_instance()) {
     delete offer_id_;
+  }
+  if (this != internal_default_instance()) {
     delete task_info_;
   }
 }
@@ -3228,193 +4659,190 @@ void TaskCurrent::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* TaskCurrent::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return TaskCurrent_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const TaskCurrent& TaskCurrent::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-TaskCurrent* TaskCurrent::default_instance_ = NULL;
-
-TaskCurrent* TaskCurrent::New() const {
-  return new TaskCurrent;
+TaskCurrent* TaskCurrent::New(::google::protobuf::Arena* arena) const {
+  TaskCurrent* n = new TaskCurrent;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void TaskCurrent::Clear() {
-  if (_has_bits_[0 / 32] & 243) {
-    if (has_slave_id()) {
-      if (slave_id_ != NULL) slave_id_->::mesos::SlaveID::Clear();
-    }
-    if (has_offer_id()) {
-      if (offer_id_ != NULL) offer_id_->::mesos::OfferID::Clear();
-    }
-    if (has_hostname()) {
-      if (hostname_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        hostname_->clear();
-      }
-    }
-    if (has_container_path()) {
-      if (container_path_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        container_path_->clear();
-      }
-    }
-    if (has_task_info()) {
-      if (task_info_ != NULL) task_info_->::mesos::TaskInfo::Clear();
-    }
-    start_time_ = 0;
-  }
-  kill_time_ = 0;
+// @@protoc_insertion_point(message_clear_start:arangodb.TaskCurrent)
   resources_.Clear();
   ports_.Clear();
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_has_bits_[0 / 32] & 31u) {
+    if (has_hostname()) {
+      GOOGLE_DCHECK(!hostname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*hostname_.UnsafeRawStringPointer())->clear();
+    }
+    if (has_container_path()) {
+      GOOGLE_DCHECK(!container_path_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*container_path_.UnsafeRawStringPointer())->clear();
+    }
+    if (has_slave_id()) {
+      GOOGLE_DCHECK(slave_id_ != NULL);
+      slave_id_->::mesos::SlaveID::Clear();
+    }
+    if (has_offer_id()) {
+      GOOGLE_DCHECK(offer_id_ != NULL);
+      offer_id_->::mesos::OfferID::Clear();
+    }
+    if (has_task_info()) {
+      GOOGLE_DCHECK(task_info_ != NULL);
+      task_info_->::mesos::TaskInfo::Clear();
+    }
+  }
+  if (_has_bits_[0 / 32] & 96u) {
+    ::memset(&start_time_, 0, reinterpret_cast<char*>(&kill_time_) -
+      reinterpret_cast<char*>(&start_time_) + sizeof(kill_time_));
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool TaskCurrent::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.TaskCurrent)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // optional .mesos.SlaveID slave_id = 1;
       case 1: {
-        if (tag == 10) {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_slave_id()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_offer_id;
         break;
       }
 
       // optional .mesos.OfferID offer_id = 2;
       case 2: {
-        if (tag == 18) {
-         parse_offer_id:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_offer_id()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_resources;
         break;
       }
 
       // repeated .mesos.Resource resources = 3;
       case 3: {
-        if (tag == 26) {
-         parse_resources:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_resources()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_resources;
-        if (input->ExpectTag(32)) goto parse_ports;
         break;
       }
 
       // repeated uint32 ports = 4;
       case 4: {
-        if (tag == 32) {
-         parse_ports:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 1, 32, input, this->mutable_ports())));
-        } else if (tag == 34) {
+                 1, 32u, input, this->mutable_ports())));
+        } else if (static_cast< ::google::protobuf::uint8>(tag) ==
+                   static_cast< ::google::protobuf::uint8>(34u)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_ports())));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(32)) goto parse_ports;
-        if (input->ExpectTag(42)) goto parse_hostname;
         break;
       }
 
       // optional string hostname = 5;
       case 5: {
-        if (tag == 42) {
-         parse_hostname:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_hostname()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->hostname().data(), this->hostname().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
-            "hostname");
+            "arangodb.TaskCurrent.hostname");
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(50)) goto parse_container_path;
         break;
       }
 
       // optional string container_path = 6;
       case 6: {
-        if (tag == 50) {
-         parse_container_path:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_container_path()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->container_path().data(), this->container_path().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
-            "container_path");
+            "arangodb.TaskCurrent.container_path");
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(58)) goto parse_task_info;
         break;
       }
 
       // optional .mesos.TaskInfo task_info = 7;
       case 7: {
-        if (tag == 58) {
-         parse_task_info:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_task_info()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(65)) goto parse_start_time;
         break;
       }
 
       // optional double start_time = 8;
       case 8: {
-        if (tag == 65) {
-         parse_start_time:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(65u)) {
+          set_has_start_time();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &start_time_)));
-          set_has_start_time();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(73)) goto parse_kill_time;
         break;
       }
 
       // optional double kill_time = 9;
       case 9: {
-        if (tag == 73) {
-         parse_kill_time:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(73u)) {
+          set_has_kill_time();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &kill_time_)));
-          set_has_kill_time();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -3443,143 +4871,149 @@ failure:
 void TaskCurrent::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.TaskCurrent)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // optional .mesos.SlaveID slave_id = 1;
-  if (has_slave_id()) {
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->slave_id(), output);
+      1, *this->slave_id_, output);
   }
 
   // optional .mesos.OfferID offer_id = 2;
-  if (has_offer_id()) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->offer_id(), output);
+      2, *this->offer_id_, output);
   }
 
   // repeated .mesos.Resource resources = 3;
-  for (int i = 0; i < this->resources_size(); i++) {
+  for (unsigned int i = 0, n = this->resources_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->resources(i), output);
   }
 
   // repeated uint32 ports = 4;
-  for (int i = 0; i < this->ports_size(); i++) {
+  for (int i = 0, n = this->ports_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       4, this->ports(i), output);
   }
 
   // optional string hostname = 5;
-  if (has_hostname()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->hostname().data(), this->hostname().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "hostname");
+      "arangodb.TaskCurrent.hostname");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->hostname(), output);
   }
 
   // optional string container_path = 6;
-  if (has_container_path()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->container_path().data(), this->container_path().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "container_path");
+      "arangodb.TaskCurrent.container_path");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->container_path(), output);
   }
 
   // optional .mesos.TaskInfo task_info = 7;
-  if (has_task_info()) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, this->task_info(), output);
+      7, *this->task_info_, output);
   }
 
   // optional double start_time = 8;
-  if (has_start_time()) {
+  if (cached_has_bits & 0x00000020u) {
     ::google::protobuf::internal::WireFormatLite::WriteDouble(8, this->start_time(), output);
   }
 
   // optional double kill_time = 9;
-  if (has_kill_time()) {
+  if (cached_has_bits & 0x00000040u) {
     ::google::protobuf::internal::WireFormatLite::WriteDouble(9, this->kill_time(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.TaskCurrent)
 }
 
-::google::protobuf::uint8* TaskCurrent::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* TaskCurrent::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.TaskCurrent)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // optional .mesos.SlaveID slave_id = 1;
-  if (has_slave_id()) {
+  if (cached_has_bits & 0x00000004u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->slave_id(), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, *this->slave_id_, deterministic, target);
   }
 
   // optional .mesos.OfferID offer_id = 2;
-  if (has_offer_id()) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->offer_id(), target);
+      InternalWriteMessageNoVirtualToArray(
+        2, *this->offer_id_, deterministic, target);
   }
 
   // repeated .mesos.Resource resources = 3;
-  for (int i = 0; i < this->resources_size(); i++) {
+  for (unsigned int i = 0, n = this->resources_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->resources(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        3, this->resources(i), deterministic, target);
   }
 
   // repeated uint32 ports = 4;
-  for (int i = 0; i < this->ports_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32ToArray(4, this->ports(i), target);
-  }
+  target = ::google::protobuf::internal::WireFormatLite::
+    WriteUInt32ToArray(4, this->ports_, target);
 
   // optional string hostname = 5;
-  if (has_hostname()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->hostname().data(), this->hostname().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "hostname");
+      "arangodb.TaskCurrent.hostname");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->hostname(), target);
   }
 
   // optional string container_path = 6;
-  if (has_container_path()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->container_path().data(), this->container_path().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "container_path");
+      "arangodb.TaskCurrent.container_path");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->container_path(), target);
   }
 
   // optional .mesos.TaskInfo task_info = 7;
-  if (has_task_info()) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        7, this->task_info(), target);
+      InternalWriteMessageNoVirtualToArray(
+        7, *this->task_info_, deterministic, target);
   }
 
   // optional double start_time = 8;
-  if (has_start_time()) {
+  if (cached_has_bits & 0x00000020u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(8, this->start_time(), target);
   }
 
   // optional double kill_time = 9;
-  if (has_kill_time()) {
+  if (cached_has_bits & 0x00000040u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(9, this->kill_time(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -3587,24 +5021,36 @@ void TaskCurrent::SerializeWithCachedSizes(
   return target;
 }
 
-int TaskCurrent::ByteSize() const {
-  int total_size = 0;
+size_t TaskCurrent::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.TaskCurrent)
+  size_t total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional .mesos.SlaveID slave_id = 1;
-    if (has_slave_id()) {
-      total_size += 1 +
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  // repeated .mesos.Resource resources = 3;
+  {
+    unsigned int count = this->resources_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->slave_id());
+          this->resources(i));
     }
+  }
 
-    // optional .mesos.OfferID offer_id = 2;
-    if (has_offer_id()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->offer_id());
-    }
+  // repeated uint32 ports = 4;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      UInt32Size(this->ports_);
+    total_size += 1 *
+                  ::google::protobuf::internal::FromIntSize(this->ports_size());
+    total_size += data_size;
+  }
 
+  if (_has_bits_[0 / 32] & 127u) {
     // optional string hostname = 5;
     if (has_hostname()) {
       total_size += 1 +
@@ -3619,11 +5065,25 @@ int TaskCurrent::ByteSize() const {
           this->container_path());
     }
 
+    // optional .mesos.SlaveID slave_id = 1;
+    if (has_slave_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->slave_id_);
+    }
+
+    // optional .mesos.OfferID offer_id = 2;
+    if (has_offer_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->offer_id_);
+    }
+
     // optional .mesos.TaskInfo task_info = 7;
     if (has_task_info()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->task_info());
+          *this->task_info_);
     }
 
     // optional double start_time = 8;
@@ -3631,165 +5091,524 @@ int TaskCurrent::ByteSize() const {
       total_size += 1 + 8;
     }
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // optional double kill_time = 9;
     if (has_kill_time()) {
       total_size += 1 + 8;
     }
 
   }
-  // repeated .mesos.Resource resources = 3;
-  total_size += 1 * this->resources_size();
-  for (int i = 0; i < this->resources_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->resources(i));
-  }
-
-  // repeated uint32 ports = 4;
-  {
-    int data_size = 0;
-    for (int i = 0; i < this->ports_size(); i++) {
-      data_size += ::google::protobuf::internal::WireFormatLite::
-        UInt32Size(this->ports(i));
-    }
-    total_size += 1 * this->ports_size() + data_size;
-  }
-
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void TaskCurrent::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.TaskCurrent)
+  GOOGLE_DCHECK_NE(&from, this);
   const TaskCurrent* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const TaskCurrent*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const TaskCurrent>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.TaskCurrent)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.TaskCurrent)
     MergeFrom(*source);
   }
 }
 
 void TaskCurrent::MergeFrom(const TaskCurrent& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.TaskCurrent)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   resources_.MergeFrom(from.resources_);
   ports_.MergeFrom(from.ports_);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_slave_id()) {
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 127u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_hostname();
+      hostname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.hostname_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      set_has_container_path();
+      container_path_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.container_path_);
+    }
+    if (cached_has_bits & 0x00000004u) {
       mutable_slave_id()->::mesos::SlaveID::MergeFrom(from.slave_id());
     }
-    if (from.has_offer_id()) {
+    if (cached_has_bits & 0x00000008u) {
       mutable_offer_id()->::mesos::OfferID::MergeFrom(from.offer_id());
     }
-    if (from.has_hostname()) {
-      set_hostname(from.hostname());
-    }
-    if (from.has_container_path()) {
-      set_container_path(from.container_path());
-    }
-    if (from.has_task_info()) {
+    if (cached_has_bits & 0x00000010u) {
       mutable_task_info()->::mesos::TaskInfo::MergeFrom(from.task_info());
     }
-    if (from.has_start_time()) {
-      set_start_time(from.start_time());
+    if (cached_has_bits & 0x00000020u) {
+      start_time_ = from.start_time_;
     }
-  }
-  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    if (from.has_kill_time()) {
-      set_kill_time(from.kill_time());
+    if (cached_has_bits & 0x00000040u) {
+      kill_time_ = from.kill_time_;
     }
+    _has_bits_[0] |= cached_has_bits;
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void TaskCurrent::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.TaskCurrent)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void TaskCurrent::CopyFrom(const TaskCurrent& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.TaskCurrent)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 bool TaskCurrent::IsInitialized() const {
-
+  if (!::google::protobuf::internal::AllAreInitialized(this->resources())) return false;
   if (has_slave_id()) {
-    if (!this->slave_id().IsInitialized()) return false;
+    if (!this->slave_id_->IsInitialized()) return false;
   }
   if (has_offer_id()) {
-    if (!this->offer_id().IsInitialized()) return false;
+    if (!this->offer_id_->IsInitialized()) return false;
   }
-  if (!::google::protobuf::internal::AllAreInitialized(this->resources())) return false;
   if (has_task_info()) {
-    if (!this->task_info().IsInitialized()) return false;
+    if (!this->task_info_->IsInitialized()) return false;
   }
   return true;
 }
 
 void TaskCurrent::Swap(TaskCurrent* other) {
-  if (other != this) {
-    std::swap(slave_id_, other->slave_id_);
-    std::swap(offer_id_, other->offer_id_);
-    resources_.Swap(&other->resources_);
-    ports_.Swap(&other->ports_);
-    std::swap(hostname_, other->hostname_);
-    std::swap(container_path_, other->container_path_);
-    std::swap(task_info_, other->task_info_);
-    std::swap(start_time_, other->start_time_);
-    std::swap(kill_time_, other->kill_time_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void TaskCurrent::InternalSwap(TaskCurrent* other) {
+  resources_.InternalSwap(&other->resources_);
+  ports_.InternalSwap(&other->ports_);
+  hostname_.Swap(&other->hostname_);
+  container_path_.Swap(&other->container_path_);
+  std::swap(slave_id_, other->slave_id_);
+  std::swap(offer_id_, other->offer_id_);
+  std::swap(task_info_, other->task_info_);
+  std::swap(start_time_, other->start_time_);
+  std::swap(kill_time_, other->kill_time_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata TaskCurrent::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = TaskCurrent_descriptor_;
-  metadata.reflection = TaskCurrent_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// TaskCurrent
+
+// optional .mesos.SlaveID slave_id = 1;
+bool TaskCurrent::has_slave_id() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void TaskCurrent::set_has_slave_id() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void TaskCurrent::clear_has_slave_id() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void TaskCurrent::clear_slave_id() {
+  if (slave_id_ != NULL) slave_id_->::mesos::SlaveID::Clear();
+  clear_has_slave_id();
+}
+const ::mesos::SlaveID& TaskCurrent::slave_id() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.slave_id)
+  return slave_id_ != NULL ? *slave_id_
+                         : *::mesos::SlaveID::internal_default_instance();
+}
+::mesos::SlaveID* TaskCurrent::mutable_slave_id() {
+  set_has_slave_id();
+  if (slave_id_ == NULL) {
+    slave_id_ = new ::mesos::SlaveID;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskCurrent.slave_id)
+  return slave_id_;
+}
+::mesos::SlaveID* TaskCurrent::release_slave_id() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskCurrent.slave_id)
+  clear_has_slave_id();
+  ::mesos::SlaveID* temp = slave_id_;
+  slave_id_ = NULL;
+  return temp;
+}
+void TaskCurrent::set_allocated_slave_id(::mesos::SlaveID* slave_id) {
+  delete slave_id_;
+  slave_id_ = slave_id;
+  if (slave_id) {
+    set_has_slave_id();
+  } else {
+    clear_has_slave_id();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskCurrent.slave_id)
+}
+
+// optional .mesos.OfferID offer_id = 2;
+bool TaskCurrent::has_offer_id() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void TaskCurrent::set_has_offer_id() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void TaskCurrent::clear_has_offer_id() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void TaskCurrent::clear_offer_id() {
+  if (offer_id_ != NULL) offer_id_->::mesos::OfferID::Clear();
+  clear_has_offer_id();
+}
+const ::mesos::OfferID& TaskCurrent::offer_id() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.offer_id)
+  return offer_id_ != NULL ? *offer_id_
+                         : *::mesos::OfferID::internal_default_instance();
+}
+::mesos::OfferID* TaskCurrent::mutable_offer_id() {
+  set_has_offer_id();
+  if (offer_id_ == NULL) {
+    offer_id_ = new ::mesos::OfferID;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskCurrent.offer_id)
+  return offer_id_;
+}
+::mesos::OfferID* TaskCurrent::release_offer_id() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskCurrent.offer_id)
+  clear_has_offer_id();
+  ::mesos::OfferID* temp = offer_id_;
+  offer_id_ = NULL;
+  return temp;
+}
+void TaskCurrent::set_allocated_offer_id(::mesos::OfferID* offer_id) {
+  delete offer_id_;
+  offer_id_ = offer_id;
+  if (offer_id) {
+    set_has_offer_id();
+  } else {
+    clear_has_offer_id();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskCurrent.offer_id)
+}
+
+// repeated .mesos.Resource resources = 3;
+int TaskCurrent::resources_size() const {
+  return resources_.size();
+}
+void TaskCurrent::clear_resources() {
+  resources_.Clear();
+}
+const ::mesos::Resource& TaskCurrent::resources(int index) const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.resources)
+  return resources_.Get(index);
+}
+::mesos::Resource* TaskCurrent::mutable_resources(int index) {
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskCurrent.resources)
+  return resources_.Mutable(index);
+}
+::mesos::Resource* TaskCurrent::add_resources() {
+  // @@protoc_insertion_point(field_add:arangodb.TaskCurrent.resources)
+  return resources_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::mesos::Resource >*
+TaskCurrent::mutable_resources() {
+  // @@protoc_insertion_point(field_mutable_list:arangodb.TaskCurrent.resources)
+  return &resources_;
+}
+const ::google::protobuf::RepeatedPtrField< ::mesos::Resource >&
+TaskCurrent::resources() const {
+  // @@protoc_insertion_point(field_list:arangodb.TaskCurrent.resources)
+  return resources_;
+}
+
+// repeated uint32 ports = 4;
+int TaskCurrent::ports_size() const {
+  return ports_.size();
+}
+void TaskCurrent::clear_ports() {
+  ports_.Clear();
+}
+::google::protobuf::uint32 TaskCurrent::ports(int index) const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.ports)
+  return ports_.Get(index);
+}
+void TaskCurrent::set_ports(int index, ::google::protobuf::uint32 value) {
+  ports_.Set(index, value);
+  // @@protoc_insertion_point(field_set:arangodb.TaskCurrent.ports)
+}
+void TaskCurrent::add_ports(::google::protobuf::uint32 value) {
+  ports_.Add(value);
+  // @@protoc_insertion_point(field_add:arangodb.TaskCurrent.ports)
+}
+const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+TaskCurrent::ports() const {
+  // @@protoc_insertion_point(field_list:arangodb.TaskCurrent.ports)
+  return ports_;
+}
+::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+TaskCurrent::mutable_ports() {
+  // @@protoc_insertion_point(field_mutable_list:arangodb.TaskCurrent.ports)
+  return &ports_;
+}
+
+// optional string hostname = 5;
+bool TaskCurrent::has_hostname() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void TaskCurrent::set_has_hostname() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void TaskCurrent::clear_has_hostname() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void TaskCurrent::clear_hostname() {
+  hostname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_hostname();
+}
+const ::std::string& TaskCurrent::hostname() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.hostname)
+  return hostname_.GetNoArena();
+}
+void TaskCurrent::set_hostname(const ::std::string& value) {
+  set_has_hostname();
+  hostname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:arangodb.TaskCurrent.hostname)
+}
+#if LANG_CXX11
+void TaskCurrent::set_hostname(::std::string&& value) {
+  set_has_hostname();
+  hostname_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:arangodb.TaskCurrent.hostname)
+}
+#endif
+void TaskCurrent::set_hostname(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_hostname();
+  hostname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:arangodb.TaskCurrent.hostname)
+}
+void TaskCurrent::set_hostname(const char* value, size_t size) {
+  set_has_hostname();
+  hostname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:arangodb.TaskCurrent.hostname)
+}
+::std::string* TaskCurrent::mutable_hostname() {
+  set_has_hostname();
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskCurrent.hostname)
+  return hostname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* TaskCurrent::release_hostname() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskCurrent.hostname)
+  clear_has_hostname();
+  return hostname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void TaskCurrent::set_allocated_hostname(::std::string* hostname) {
+  if (hostname != NULL) {
+    set_has_hostname();
+  } else {
+    clear_has_hostname();
+  }
+  hostname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), hostname);
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskCurrent.hostname)
+}
+
+// optional string container_path = 6;
+bool TaskCurrent::has_container_path() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void TaskCurrent::set_has_container_path() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void TaskCurrent::clear_has_container_path() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void TaskCurrent::clear_container_path() {
+  container_path_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_container_path();
+}
+const ::std::string& TaskCurrent::container_path() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.container_path)
+  return container_path_.GetNoArena();
+}
+void TaskCurrent::set_container_path(const ::std::string& value) {
+  set_has_container_path();
+  container_path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:arangodb.TaskCurrent.container_path)
+}
+#if LANG_CXX11
+void TaskCurrent::set_container_path(::std::string&& value) {
+  set_has_container_path();
+  container_path_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:arangodb.TaskCurrent.container_path)
+}
+#endif
+void TaskCurrent::set_container_path(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_container_path();
+  container_path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:arangodb.TaskCurrent.container_path)
+}
+void TaskCurrent::set_container_path(const char* value, size_t size) {
+  set_has_container_path();
+  container_path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:arangodb.TaskCurrent.container_path)
+}
+::std::string* TaskCurrent::mutable_container_path() {
+  set_has_container_path();
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskCurrent.container_path)
+  return container_path_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* TaskCurrent::release_container_path() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskCurrent.container_path)
+  clear_has_container_path();
+  return container_path_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void TaskCurrent::set_allocated_container_path(::std::string* container_path) {
+  if (container_path != NULL) {
+    set_has_container_path();
+  } else {
+    clear_has_container_path();
+  }
+  container_path_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), container_path);
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskCurrent.container_path)
+}
+
+// optional .mesos.TaskInfo task_info = 7;
+bool TaskCurrent::has_task_info() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void TaskCurrent::set_has_task_info() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void TaskCurrent::clear_has_task_info() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void TaskCurrent::clear_task_info() {
+  if (task_info_ != NULL) task_info_->::mesos::TaskInfo::Clear();
+  clear_has_task_info();
+}
+const ::mesos::TaskInfo& TaskCurrent::task_info() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.task_info)
+  return task_info_ != NULL ? *task_info_
+                         : *::mesos::TaskInfo::internal_default_instance();
+}
+::mesos::TaskInfo* TaskCurrent::mutable_task_info() {
+  set_has_task_info();
+  if (task_info_ == NULL) {
+    task_info_ = new ::mesos::TaskInfo;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.TaskCurrent.task_info)
+  return task_info_;
+}
+::mesos::TaskInfo* TaskCurrent::release_task_info() {
+  // @@protoc_insertion_point(field_release:arangodb.TaskCurrent.task_info)
+  clear_has_task_info();
+  ::mesos::TaskInfo* temp = task_info_;
+  task_info_ = NULL;
+  return temp;
+}
+void TaskCurrent::set_allocated_task_info(::mesos::TaskInfo* task_info) {
+  delete task_info_;
+  task_info_ = task_info;
+  if (task_info) {
+    set_has_task_info();
+  } else {
+    clear_has_task_info();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.TaskCurrent.task_info)
+}
+
+// optional double start_time = 8;
+bool TaskCurrent::has_start_time() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void TaskCurrent::set_has_start_time() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void TaskCurrent::clear_has_start_time() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void TaskCurrent::clear_start_time() {
+  start_time_ = 0;
+  clear_has_start_time();
+}
+double TaskCurrent::start_time() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.start_time)
+  return start_time_;
+}
+void TaskCurrent::set_start_time(double value) {
+  set_has_start_time();
+  start_time_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.TaskCurrent.start_time)
+}
+
+// optional double kill_time = 9;
+bool TaskCurrent::has_kill_time() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+void TaskCurrent::set_has_kill_time() {
+  _has_bits_[0] |= 0x00000040u;
+}
+void TaskCurrent::clear_has_kill_time() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+void TaskCurrent::clear_kill_time() {
+  kill_time_ = 0;
+  clear_has_kill_time();
+}
+double TaskCurrent::kill_time() const {
+  // @@protoc_insertion_point(field_get:arangodb.TaskCurrent.kill_time)
+  return kill_time_;
+}
+void TaskCurrent::set_kill_time(double value) {
+  set_has_kill_time();
+  kill_time_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.TaskCurrent.kill_time)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int TasksCurrent::kEntriesFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TasksCurrent::TasksCurrent()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.TasksCurrent)
 }
-
-void TasksCurrent::InitAsDefaultInstance() {
-}
-
 TasksCurrent::TasksCurrent(const TasksCurrent& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0),
+      entries_(from.entries_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:arangodb.TasksCurrent)
 }
 
 void TasksCurrent::SharedCtor() {
   _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 TasksCurrent::~TasksCurrent() {
@@ -3798,8 +5617,6 @@ TasksCurrent::~TasksCurrent() {
 }
 
 void TasksCurrent::SharedDtor() {
-  if (this != default_instance_) {
-  }
 }
 
 void TasksCurrent::SetCachedSize(int size) const {
@@ -3808,48 +5625,49 @@ void TasksCurrent::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* TasksCurrent::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return TasksCurrent_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const TasksCurrent& TasksCurrent::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-TasksCurrent* TasksCurrent::default_instance_ = NULL;
-
-TasksCurrent* TasksCurrent::New() const {
-  return new TasksCurrent;
+TasksCurrent* TasksCurrent::New(::google::protobuf::Arena* arena) const {
+  TasksCurrent* n = new TasksCurrent;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void TasksCurrent::Clear() {
+// @@protoc_insertion_point(message_clear_start:arangodb.TasksCurrent)
   entries_.Clear();
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool TasksCurrent::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.TasksCurrent)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .arangodb.TaskCurrent entries = 1;
       case 1: {
-        if (tag == 10) {
-         parse_entries:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_entries()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_entries;
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -3878,30 +5696,36 @@ failure:
 void TasksCurrent::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.TasksCurrent)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   // repeated .arangodb.TaskCurrent entries = 1;
-  for (int i = 0; i < this->entries_size(); i++) {
+  for (unsigned int i = 0, n = this->entries_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->entries(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.TasksCurrent)
 }
 
-::google::protobuf::uint8* TasksCurrent::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* TasksCurrent::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.TasksCurrent)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   // repeated .arangodb.TaskCurrent entries = 1;
-  for (int i = 0; i < this->entries_size(); i++) {
+  for (unsigned int i = 0, n = this->entries_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->entries(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->entries(i), deterministic, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -3909,120 +5733,180 @@ void TasksCurrent::SerializeWithCachedSizes(
   return target;
 }
 
-int TasksCurrent::ByteSize() const {
-  int total_size = 0;
+size_t TasksCurrent::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.TasksCurrent)
+  size_t total_size = 0;
 
-  // repeated .arangodb.TaskCurrent entries = 1;
-  total_size += 1 * this->entries_size();
-  for (int i = 0; i < this->entries_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->entries(i));
-  }
-
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  // repeated .arangodb.TaskCurrent entries = 1;
+  {
+    unsigned int count = this->entries_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->entries(i));
+    }
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void TasksCurrent::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.TasksCurrent)
+  GOOGLE_DCHECK_NE(&from, this);
   const TasksCurrent* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const TasksCurrent*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const TasksCurrent>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.TasksCurrent)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.TasksCurrent)
     MergeFrom(*source);
   }
 }
 
 void TasksCurrent::MergeFrom(const TasksCurrent& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.TasksCurrent)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
   entries_.MergeFrom(from.entries_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void TasksCurrent::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.TasksCurrent)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void TasksCurrent::CopyFrom(const TasksCurrent& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.TasksCurrent)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 bool TasksCurrent::IsInitialized() const {
-
   if (!::google::protobuf::internal::AllAreInitialized(this->entries())) return false;
   return true;
 }
 
 void TasksCurrent::Swap(TasksCurrent* other) {
-  if (other != this) {
-    entries_.Swap(&other->entries_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void TasksCurrent::InternalSwap(TasksCurrent* other) {
+  entries_.InternalSwap(&other->entries_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata TasksCurrent::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = TasksCurrent_descriptor_;
-  metadata.reflection = TasksCurrent_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// TasksCurrent
+
+// repeated .arangodb.TaskCurrent entries = 1;
+int TasksCurrent::entries_size() const {
+  return entries_.size();
+}
+void TasksCurrent::clear_entries() {
+  entries_.Clear();
+}
+const ::arangodb::TaskCurrent& TasksCurrent::entries(int index) const {
+  // @@protoc_insertion_point(field_get:arangodb.TasksCurrent.entries)
+  return entries_.Get(index);
+}
+::arangodb::TaskCurrent* TasksCurrent::mutable_entries(int index) {
+  // @@protoc_insertion_point(field_mutable:arangodb.TasksCurrent.entries)
+  return entries_.Mutable(index);
+}
+::arangodb::TaskCurrent* TasksCurrent::add_entries() {
+  // @@protoc_insertion_point(field_add:arangodb.TasksCurrent.entries)
+  return entries_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::arangodb::TaskCurrent >*
+TasksCurrent::mutable_entries() {
+  // @@protoc_insertion_point(field_mutable_list:arangodb.TasksCurrent.entries)
+  return &entries_;
+}
+const ::google::protobuf::RepeatedPtrField< ::arangodb::TaskCurrent >&
+TasksCurrent::entries() const {
+  // @@protoc_insertion_point(field_list:arangodb.TasksCurrent.entries)
+  return entries_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Current::kAgentsFieldNumber;
 const int Current::kCoordinatorsFieldNumber;
 const int Current::kDbserversFieldNumber;
 const int Current::kSecondariesFieldNumber;
 const int Current::kClusterCompleteFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Current::Current()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.Current)
 }
-
-void Current::InitAsDefaultInstance() {
-  agents_ = const_cast< ::arangodb::TasksCurrent*>(&::arangodb::TasksCurrent::default_instance());
-  coordinators_ = const_cast< ::arangodb::TasksCurrent*>(&::arangodb::TasksCurrent::default_instance());
-  dbservers_ = const_cast< ::arangodb::TasksCurrent*>(&::arangodb::TasksCurrent::default_instance());
-  secondaries_ = const_cast< ::arangodb::TasksCurrent*>(&::arangodb::TasksCurrent::default_instance());
-}
-
 Current::Current(const Current& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from.has_agents()) {
+    agents_ = new ::arangodb::TasksCurrent(*from.agents_);
+  } else {
+    agents_ = NULL;
+  }
+  if (from.has_coordinators()) {
+    coordinators_ = new ::arangodb::TasksCurrent(*from.coordinators_);
+  } else {
+    coordinators_ = NULL;
+  }
+  if (from.has_dbservers()) {
+    dbservers_ = new ::arangodb::TasksCurrent(*from.dbservers_);
+  } else {
+    dbservers_ = NULL;
+  }
+  if (from.has_secondaries()) {
+    secondaries_ = new ::arangodb::TasksCurrent(*from.secondaries_);
+  } else {
+    secondaries_ = NULL;
+  }
+  cluster_complete_ = from.cluster_complete_;
   // @@protoc_insertion_point(copy_constructor:arangodb.Current)
 }
 
 void Current::SharedCtor() {
   _cached_size_ = 0;
-  agents_ = NULL;
-  coordinators_ = NULL;
-  dbservers_ = NULL;
-  secondaries_ = NULL;
-  cluster_complete_ = false;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  ::memset(&agents_, 0, reinterpret_cast<char*>(&cluster_complete_) -
+    reinterpret_cast<char*>(&agents_) + sizeof(cluster_complete_));
 }
 
 Current::~Current() {
@@ -4031,10 +5915,16 @@ Current::~Current() {
 }
 
 void Current::SharedDtor() {
-  if (this != default_instance_) {
+  if (this != internal_default_instance()) {
     delete agents_;
+  }
+  if (this != internal_default_instance()) {
     delete coordinators_;
+  }
+  if (this != internal_default_instance()) {
     delete dbservers_;
+  }
+  if (this != internal_default_instance()) {
     delete secondaries_;
   }
 }
@@ -4045,114 +5935,117 @@ void Current::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* Current::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Current_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const Current& Current::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-Current* Current::default_instance_ = NULL;
-
-Current* Current::New() const {
-  return new Current;
+Current* Current::New(::google::protobuf::Arena* arena) const {
+  Current* n = new Current;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void Current::Clear() {
-  if (_has_bits_[0 / 32] & 31) {
+// @@protoc_insertion_point(message_clear_start:arangodb.Current)
+  if (_has_bits_[0 / 32] & 15u) {
     if (has_agents()) {
-      if (agents_ != NULL) agents_->::arangodb::TasksCurrent::Clear();
+      GOOGLE_DCHECK(agents_ != NULL);
+      agents_->::arangodb::TasksCurrent::Clear();
     }
     if (has_coordinators()) {
-      if (coordinators_ != NULL) coordinators_->::arangodb::TasksCurrent::Clear();
+      GOOGLE_DCHECK(coordinators_ != NULL);
+      coordinators_->::arangodb::TasksCurrent::Clear();
     }
     if (has_dbservers()) {
-      if (dbservers_ != NULL) dbservers_->::arangodb::TasksCurrent::Clear();
+      GOOGLE_DCHECK(dbservers_ != NULL);
+      dbservers_->::arangodb::TasksCurrent::Clear();
     }
     if (has_secondaries()) {
-      if (secondaries_ != NULL) secondaries_->::arangodb::TasksCurrent::Clear();
+      GOOGLE_DCHECK(secondaries_ != NULL);
+      secondaries_->::arangodb::TasksCurrent::Clear();
     }
-    cluster_complete_ = false;
   }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  cluster_complete_ = false;
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool Current::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.Current)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required .arangodb.TasksCurrent agents = 1;
       case 1: {
-        if (tag == 10) {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_agents()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_coordinators;
         break;
       }
 
       // required .arangodb.TasksCurrent coordinators = 2;
       case 2: {
-        if (tag == 18) {
-         parse_coordinators:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_coordinators()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_dbservers;
         break;
       }
 
       // required .arangodb.TasksCurrent dbservers = 3;
       case 3: {
-        if (tag == 26) {
-         parse_dbservers:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_dbservers()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(34)) goto parse_secondaries;
         break;
       }
 
       // required .arangodb.TasksCurrent secondaries = 4;
       case 4: {
-        if (tag == 34) {
-         parse_secondaries:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_secondaries()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(40)) goto parse_cluster_complete;
         break;
       }
 
       // required bool cluster_complete = 5;
       case 5: {
-        if (tag == 40) {
-         parse_cluster_complete:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u)) {
+          set_has_cluster_complete();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
                  input, &cluster_complete_)));
-          set_has_cluster_complete();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -4181,79 +6074,87 @@ failure:
 void Current::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.Current)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required .arangodb.TasksCurrent agents = 1;
-  if (has_agents()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->agents(), output);
+      1, *this->agents_, output);
   }
 
   // required .arangodb.TasksCurrent coordinators = 2;
-  if (has_coordinators()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->coordinators(), output);
+      2, *this->coordinators_, output);
   }
 
   // required .arangodb.TasksCurrent dbservers = 3;
-  if (has_dbservers()) {
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->dbservers(), output);
+      3, *this->dbservers_, output);
   }
 
   // required .arangodb.TasksCurrent secondaries = 4;
-  if (has_secondaries()) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->secondaries(), output);
+      4, *this->secondaries_, output);
   }
 
   // required bool cluster_complete = 5;
-  if (has_cluster_complete()) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(5, this->cluster_complete(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.Current)
 }
 
-::google::protobuf::uint8* Current::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* Current::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.Current)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // required .arangodb.TasksCurrent agents = 1;
-  if (has_agents()) {
+  if (cached_has_bits & 0x00000001u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->agents(), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, *this->agents_, deterministic, target);
   }
 
   // required .arangodb.TasksCurrent coordinators = 2;
-  if (has_coordinators()) {
+  if (cached_has_bits & 0x00000002u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->coordinators(), target);
+      InternalWriteMessageNoVirtualToArray(
+        2, *this->coordinators_, deterministic, target);
   }
 
   // required .arangodb.TasksCurrent dbservers = 3;
-  if (has_dbservers()) {
+  if (cached_has_bits & 0x00000004u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->dbservers(), target);
+      InternalWriteMessageNoVirtualToArray(
+        3, *this->dbservers_, deterministic, target);
   }
 
   // required .arangodb.TasksCurrent secondaries = 4;
-  if (has_secondaries()) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        4, this->secondaries(), target);
+      InternalWriteMessageNoVirtualToArray(
+        4, *this->secondaries_, deterministic, target);
   }
 
   // required bool cluster_complete = 5;
-  if (has_cluster_complete()) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(5, this->cluster_complete(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -4261,96 +6162,140 @@ void Current::SerializeWithCachedSizes(
   return target;
 }
 
-int Current::ByteSize() const {
-  int total_size = 0;
+size_t Current::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:arangodb.Current)
+  size_t total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_agents()) {
     // required .arangodb.TasksCurrent agents = 1;
-    if (has_agents()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->agents());
-    }
-
-    // required .arangodb.TasksCurrent coordinators = 2;
-    if (has_coordinators()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->coordinators());
-    }
-
-    // required .arangodb.TasksCurrent dbservers = 3;
-    if (has_dbservers()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->dbservers());
-    }
-
-    // required .arangodb.TasksCurrent secondaries = 4;
-    if (has_secondaries()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->secondaries());
-    }
-
-    // required bool cluster_complete = 5;
-    if (has_cluster_complete()) {
-      total_size += 1 + 1;
-    }
-
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->agents_);
   }
-  if (!unknown_fields().empty()) {
+
+  if (has_coordinators()) {
+    // required .arangodb.TasksCurrent coordinators = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->coordinators_);
+  }
+
+  if (has_dbservers()) {
+    // required .arangodb.TasksCurrent dbservers = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->dbservers_);
+  }
+
+  if (has_secondaries()) {
+    // required .arangodb.TasksCurrent secondaries = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->secondaries_);
+  }
+
+  if (has_cluster_complete()) {
+    // required bool cluster_complete = 5;
+    total_size += 1 + 1;
+  }
+
+  return total_size;
+}
+size_t Current::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.Current)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+    // required .arangodb.TasksCurrent agents = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->agents_);
+
+    // required .arangodb.TasksCurrent coordinators = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->coordinators_);
+
+    // required .arangodb.TasksCurrent dbservers = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->dbservers_);
+
+    // required .arangodb.TasksCurrent secondaries = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->secondaries_);
+
+    // required bool cluster_complete = 5;
+    total_size += 1 + 1;
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void Current::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.Current)
+  GOOGLE_DCHECK_NE(&from, this);
   const Current* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Current*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const Current>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.Current)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.Current)
     MergeFrom(*source);
   }
 }
 
 void Current::MergeFrom(const Current& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_agents()) {
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.Current)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 31u) {
+    if (cached_has_bits & 0x00000001u) {
       mutable_agents()->::arangodb::TasksCurrent::MergeFrom(from.agents());
     }
-    if (from.has_coordinators()) {
+    if (cached_has_bits & 0x00000002u) {
       mutable_coordinators()->::arangodb::TasksCurrent::MergeFrom(from.coordinators());
     }
-    if (from.has_dbservers()) {
+    if (cached_has_bits & 0x00000004u) {
       mutable_dbservers()->::arangodb::TasksCurrent::MergeFrom(from.dbservers());
     }
-    if (from.has_secondaries()) {
+    if (cached_has_bits & 0x00000008u) {
       mutable_secondaries()->::arangodb::TasksCurrent::MergeFrom(from.secondaries());
     }
-    if (from.has_cluster_complete()) {
-      set_cluster_complete(from.cluster_complete());
+    if (cached_has_bits & 0x00000010u) {
+      cluster_complete_ = from.cluster_complete_;
     }
+    _has_bits_[0] |= cached_has_bits;
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void Current::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.Current)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Current::CopyFrom(const Current& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.Current)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -4358,83 +6303,306 @@ void Current::CopyFrom(const Current& from) {
 
 bool Current::IsInitialized() const {
   if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
-
   if (has_agents()) {
-    if (!this->agents().IsInitialized()) return false;
+    if (!this->agents_->IsInitialized()) return false;
   }
   if (has_coordinators()) {
-    if (!this->coordinators().IsInitialized()) return false;
+    if (!this->coordinators_->IsInitialized()) return false;
   }
   if (has_dbservers()) {
-    if (!this->dbservers().IsInitialized()) return false;
+    if (!this->dbservers_->IsInitialized()) return false;
   }
   if (has_secondaries()) {
-    if (!this->secondaries().IsInitialized()) return false;
+    if (!this->secondaries_->IsInitialized()) return false;
   }
   return true;
 }
 
 void Current::Swap(Current* other) {
-  if (other != this) {
-    std::swap(agents_, other->agents_);
-    std::swap(coordinators_, other->coordinators_);
-    std::swap(dbservers_, other->dbservers_);
-    std::swap(secondaries_, other->secondaries_);
-    std::swap(cluster_complete_, other->cluster_complete_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Current::InternalSwap(Current* other) {
+  std::swap(agents_, other->agents_);
+  std::swap(coordinators_, other->coordinators_);
+  std::swap(dbservers_, other->dbservers_);
+  std::swap(secondaries_, other->secondaries_);
+  std::swap(cluster_complete_, other->cluster_complete_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Current::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Current_descriptor_;
-  metadata.reflection = Current_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// Current
+
+// required .arangodb.TasksCurrent agents = 1;
+bool Current::has_agents() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void Current::set_has_agents() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void Current::clear_has_agents() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void Current::clear_agents() {
+  if (agents_ != NULL) agents_->::arangodb::TasksCurrent::Clear();
+  clear_has_agents();
+}
+const ::arangodb::TasksCurrent& Current::agents() const {
+  // @@protoc_insertion_point(field_get:arangodb.Current.agents)
+  return agents_ != NULL ? *agents_
+                         : *::arangodb::TasksCurrent::internal_default_instance();
+}
+::arangodb::TasksCurrent* Current::mutable_agents() {
+  set_has_agents();
+  if (agents_ == NULL) {
+    agents_ = new ::arangodb::TasksCurrent;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Current.agents)
+  return agents_;
+}
+::arangodb::TasksCurrent* Current::release_agents() {
+  // @@protoc_insertion_point(field_release:arangodb.Current.agents)
+  clear_has_agents();
+  ::arangodb::TasksCurrent* temp = agents_;
+  agents_ = NULL;
+  return temp;
+}
+void Current::set_allocated_agents(::arangodb::TasksCurrent* agents) {
+  delete agents_;
+  agents_ = agents;
+  if (agents) {
+    set_has_agents();
+  } else {
+    clear_has_agents();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Current.agents)
+}
+
+// required .arangodb.TasksCurrent coordinators = 2;
+bool Current::has_coordinators() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void Current::set_has_coordinators() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void Current::clear_has_coordinators() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void Current::clear_coordinators() {
+  if (coordinators_ != NULL) coordinators_->::arangodb::TasksCurrent::Clear();
+  clear_has_coordinators();
+}
+const ::arangodb::TasksCurrent& Current::coordinators() const {
+  // @@protoc_insertion_point(field_get:arangodb.Current.coordinators)
+  return coordinators_ != NULL ? *coordinators_
+                         : *::arangodb::TasksCurrent::internal_default_instance();
+}
+::arangodb::TasksCurrent* Current::mutable_coordinators() {
+  set_has_coordinators();
+  if (coordinators_ == NULL) {
+    coordinators_ = new ::arangodb::TasksCurrent;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Current.coordinators)
+  return coordinators_;
+}
+::arangodb::TasksCurrent* Current::release_coordinators() {
+  // @@protoc_insertion_point(field_release:arangodb.Current.coordinators)
+  clear_has_coordinators();
+  ::arangodb::TasksCurrent* temp = coordinators_;
+  coordinators_ = NULL;
+  return temp;
+}
+void Current::set_allocated_coordinators(::arangodb::TasksCurrent* coordinators) {
+  delete coordinators_;
+  coordinators_ = coordinators;
+  if (coordinators) {
+    set_has_coordinators();
+  } else {
+    clear_has_coordinators();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Current.coordinators)
+}
+
+// required .arangodb.TasksCurrent dbservers = 3;
+bool Current::has_dbservers() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void Current::set_has_dbservers() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void Current::clear_has_dbservers() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void Current::clear_dbservers() {
+  if (dbservers_ != NULL) dbservers_->::arangodb::TasksCurrent::Clear();
+  clear_has_dbservers();
+}
+const ::arangodb::TasksCurrent& Current::dbservers() const {
+  // @@protoc_insertion_point(field_get:arangodb.Current.dbservers)
+  return dbservers_ != NULL ? *dbservers_
+                         : *::arangodb::TasksCurrent::internal_default_instance();
+}
+::arangodb::TasksCurrent* Current::mutable_dbservers() {
+  set_has_dbservers();
+  if (dbservers_ == NULL) {
+    dbservers_ = new ::arangodb::TasksCurrent;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Current.dbservers)
+  return dbservers_;
+}
+::arangodb::TasksCurrent* Current::release_dbservers() {
+  // @@protoc_insertion_point(field_release:arangodb.Current.dbservers)
+  clear_has_dbservers();
+  ::arangodb::TasksCurrent* temp = dbservers_;
+  dbservers_ = NULL;
+  return temp;
+}
+void Current::set_allocated_dbservers(::arangodb::TasksCurrent* dbservers) {
+  delete dbservers_;
+  dbservers_ = dbservers;
+  if (dbservers) {
+    set_has_dbservers();
+  } else {
+    clear_has_dbservers();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Current.dbservers)
+}
+
+// required .arangodb.TasksCurrent secondaries = 4;
+bool Current::has_secondaries() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void Current::set_has_secondaries() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void Current::clear_has_secondaries() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void Current::clear_secondaries() {
+  if (secondaries_ != NULL) secondaries_->::arangodb::TasksCurrent::Clear();
+  clear_has_secondaries();
+}
+const ::arangodb::TasksCurrent& Current::secondaries() const {
+  // @@protoc_insertion_point(field_get:arangodb.Current.secondaries)
+  return secondaries_ != NULL ? *secondaries_
+                         : *::arangodb::TasksCurrent::internal_default_instance();
+}
+::arangodb::TasksCurrent* Current::mutable_secondaries() {
+  set_has_secondaries();
+  if (secondaries_ == NULL) {
+    secondaries_ = new ::arangodb::TasksCurrent;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.Current.secondaries)
+  return secondaries_;
+}
+::arangodb::TasksCurrent* Current::release_secondaries() {
+  // @@protoc_insertion_point(field_release:arangodb.Current.secondaries)
+  clear_has_secondaries();
+  ::arangodb::TasksCurrent* temp = secondaries_;
+  secondaries_ = NULL;
+  return temp;
+}
+void Current::set_allocated_secondaries(::arangodb::TasksCurrent* secondaries) {
+  delete secondaries_;
+  secondaries_ = secondaries;
+  if (secondaries) {
+    set_has_secondaries();
+  } else {
+    clear_has_secondaries();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.Current.secondaries)
+}
+
+// required bool cluster_complete = 5;
+bool Current::has_cluster_complete() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void Current::set_has_cluster_complete() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void Current::clear_has_cluster_complete() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void Current::clear_cluster_complete() {
+  cluster_complete_ = false;
+  clear_has_cluster_complete();
+}
+bool Current::cluster_complete() const {
+  // @@protoc_insertion_point(field_get:arangodb.Current.cluster_complete)
+  return cluster_complete_;
+}
+void Current::set_cluster_complete(bool value) {
+  set_has_cluster_complete();
+  cluster_complete_ = value;
+  // @@protoc_insertion_point(field_set:arangodb.Current.cluster_complete)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int State::kFrameworkIdFieldNumber;
 const int State::kTargetsFieldNumber;
 const int State::kPlanFieldNumber;
 const int State::kCurrentFieldNumber;
 const int State::kRestartFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 State::State()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_arangodb_2eproto::InitDefaults();
+  }
   SharedCtor();
   // @@protoc_insertion_point(constructor:arangodb.State)
 }
-
-void State::InitAsDefaultInstance() {
-  framework_id_ = const_cast< ::mesos::FrameworkID*>(&::mesos::FrameworkID::default_instance());
-  targets_ = const_cast< ::arangodb::Targets*>(&::arangodb::Targets::default_instance());
-  plan_ = const_cast< ::arangodb::Plan*>(&::arangodb::Plan::default_instance());
-  current_ = const_cast< ::arangodb::Current*>(&::arangodb::Current::default_instance());
-  restart_ = const_cast< ::arangodb::Restart*>(&::arangodb::Restart::default_instance());
-}
-
 State::State(const State& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from.has_framework_id()) {
+    framework_id_ = new ::mesos::FrameworkID(*from.framework_id_);
+  } else {
+    framework_id_ = NULL;
+  }
+  if (from.has_targets()) {
+    targets_ = new ::arangodb::Targets(*from.targets_);
+  } else {
+    targets_ = NULL;
+  }
+  if (from.has_plan()) {
+    plan_ = new ::arangodb::Plan(*from.plan_);
+  } else {
+    plan_ = NULL;
+  }
+  if (from.has_current()) {
+    current_ = new ::arangodb::Current(*from.current_);
+  } else {
+    current_ = NULL;
+  }
+  if (from.has_restart()) {
+    restart_ = new ::arangodb::Restart(*from.restart_);
+  } else {
+    restart_ = NULL;
+  }
   // @@protoc_insertion_point(copy_constructor:arangodb.State)
 }
 
 void State::SharedCtor() {
   _cached_size_ = 0;
-  framework_id_ = NULL;
-  targets_ = NULL;
-  plan_ = NULL;
-  current_ = NULL;
-  restart_ = NULL;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  ::memset(&framework_id_, 0, reinterpret_cast<char*>(&restart_) -
+    reinterpret_cast<char*>(&framework_id_) + sizeof(restart_));
 }
 
 State::~State() {
@@ -4443,11 +6611,19 @@ State::~State() {
 }
 
 void State::SharedDtor() {
-  if (this != default_instance_) {
+  if (this != internal_default_instance()) {
     delete framework_id_;
+  }
+  if (this != internal_default_instance()) {
     delete targets_;
+  }
+  if (this != internal_default_instance()) {
     delete plan_;
+  }
+  if (this != internal_default_instance()) {
     delete current_;
+  }
+  if (this != internal_default_instance()) {
     delete restart_;
   }
 }
@@ -4458,114 +6634,118 @@ void State::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
 const ::google::protobuf::Descriptor* State::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return State_descriptor_;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
 const State& State::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_arangodb_2eproto();
-  return *default_instance_;
+  protobuf_arangodb_2eproto::InitDefaults();
+  return *internal_default_instance();
 }
 
-State* State::default_instance_ = NULL;
-
-State* State::New() const {
-  return new State;
+State* State::New(::google::protobuf::Arena* arena) const {
+  State* n = new State;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void State::Clear() {
-  if (_has_bits_[0 / 32] & 31) {
+// @@protoc_insertion_point(message_clear_start:arangodb.State)
+  if (_has_bits_[0 / 32] & 31u) {
     if (has_framework_id()) {
-      if (framework_id_ != NULL) framework_id_->::mesos::FrameworkID::Clear();
+      GOOGLE_DCHECK(framework_id_ != NULL);
+      framework_id_->::mesos::FrameworkID::Clear();
     }
     if (has_targets()) {
-      if (targets_ != NULL) targets_->::arangodb::Targets::Clear();
+      GOOGLE_DCHECK(targets_ != NULL);
+      targets_->::arangodb::Targets::Clear();
     }
     if (has_plan()) {
-      if (plan_ != NULL) plan_->::arangodb::Plan::Clear();
+      GOOGLE_DCHECK(plan_ != NULL);
+      plan_->::arangodb::Plan::Clear();
     }
     if (has_current()) {
-      if (current_ != NULL) current_->::arangodb::Current::Clear();
+      GOOGLE_DCHECK(current_ != NULL);
+      current_->::arangodb::Current::Clear();
     }
     if (has_restart()) {
-      if (restart_ != NULL) restart_->::arangodb::Restart::Clear();
+      GOOGLE_DCHECK(restart_ != NULL);
+      restart_->::arangodb::Restart::Clear();
     }
   }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
 }
 
 bool State::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:arangodb.State)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // optional .mesos.FrameworkID framework_id = 1;
       case 1: {
-        if (tag == 10) {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_framework_id()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_targets;
         break;
       }
 
       // required .arangodb.Targets targets = 2;
       case 2: {
-        if (tag == 18) {
-         parse_targets:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_targets()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_plan;
         break;
       }
 
       // required .arangodb.Plan plan = 3;
       case 3: {
-        if (tag == 26) {
-         parse_plan:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_plan()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(34)) goto parse_current;
         break;
       }
 
       // required .arangodb.Current current = 4;
       case 4: {
-        if (tag == 34) {
-         parse_current:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_current()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(42)) goto parse_restart;
         break;
       }
 
       // optional .arangodb.Restart restart = 5;
       case 5: {
-        if (tag == 42) {
-         parse_restart:
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_restart()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
@@ -4594,82 +6774,90 @@ failure:
 void State::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:arangodb.State)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // optional .mesos.FrameworkID framework_id = 1;
-  if (has_framework_id()) {
+  if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->framework_id(), output);
+      1, *this->framework_id_, output);
   }
 
   // required .arangodb.Targets targets = 2;
-  if (has_targets()) {
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->targets(), output);
+      2, *this->targets_, output);
   }
 
   // required .arangodb.Plan plan = 3;
-  if (has_plan()) {
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->plan(), output);
+      3, *this->plan_, output);
   }
 
   // required .arangodb.Current current = 4;
-  if (has_current()) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->current(), output);
+      4, *this->current_, output);
   }
 
   // optional .arangodb.Restart restart = 5;
-  if (has_restart()) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->restart(), output);
+      5, *this->restart_, output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:arangodb.State)
 }
 
-::google::protobuf::uint8* State::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* State::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:arangodb.State)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
   // optional .mesos.FrameworkID framework_id = 1;
-  if (has_framework_id()) {
+  if (cached_has_bits & 0x00000001u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->framework_id(), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, *this->framework_id_, deterministic, target);
   }
 
   // required .arangodb.Targets targets = 2;
-  if (has_targets()) {
+  if (cached_has_bits & 0x00000002u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->targets(), target);
+      InternalWriteMessageNoVirtualToArray(
+        2, *this->targets_, deterministic, target);
   }
 
   // required .arangodb.Plan plan = 3;
-  if (has_plan()) {
+  if (cached_has_bits & 0x00000004u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->plan(), target);
+      InternalWriteMessageNoVirtualToArray(
+        3, *this->plan_, deterministic, target);
   }
 
   // required .arangodb.Current current = 4;
-  if (has_current()) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        4, this->current(), target);
+      InternalWriteMessageNoVirtualToArray(
+        4, *this->current_, deterministic, target);
   }
 
   // optional .arangodb.Restart restart = 5;
-  if (has_restart()) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        5, this->restart(), target);
+      InternalWriteMessageNoVirtualToArray(
+        5, *this->restart_, deterministic, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
@@ -4677,98 +6865,133 @@ void State::SerializeWithCachedSizes(
   return target;
 }
 
-int State::ByteSize() const {
-  int total_size = 0;
+size_t State::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:arangodb.State)
+  size_t total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional .mesos.FrameworkID framework_id = 1;
-    if (has_framework_id()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->framework_id());
-    }
-
+  if (has_targets()) {
     // required .arangodb.Targets targets = 2;
-    if (has_targets()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->targets());
-    }
-
-    // required .arangodb.Plan plan = 3;
-    if (has_plan()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->plan());
-    }
-
-    // required .arangodb.Current current = 4;
-    if (has_current()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->current());
-    }
-
-    // optional .arangodb.Restart restart = 5;
-    if (has_restart()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->restart());
-    }
-
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->targets_);
   }
-  if (!unknown_fields().empty()) {
+
+  if (has_plan()) {
+    // required .arangodb.Plan plan = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->plan_);
+  }
+
+  if (has_current()) {
+    // required .arangodb.Current current = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->current_);
+  }
+
+  return total_size;
+}
+size_t State::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:arangodb.State)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
+  if (((_has_bits_[0] & 0x0000000e) ^ 0x0000000e) == 0) {  // All required fields are present.
+    // required .arangodb.Targets targets = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->targets_);
+
+    // required .arangodb.Plan plan = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->plan_);
+
+    // required .arangodb.Current current = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->current_);
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  // optional .mesos.FrameworkID framework_id = 1;
+  if (has_framework_id()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->framework_id_);
+  }
+
+  // optional .arangodb.Restart restart = 5;
+  if (has_restart()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->restart_);
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
+  _cached_size_ = cached_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
 void State::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(generalized_merge_from_start:arangodb.State)
+  GOOGLE_DCHECK_NE(&from, this);
   const State* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const State*>(
-      &from);
+      ::google::protobuf::internal::DynamicCastToGenerated<const State>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:arangodb.State)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:arangodb.State)
     MergeFrom(*source);
   }
 }
 
 void State::MergeFrom(const State& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_framework_id()) {
+// @@protoc_insertion_point(class_specific_merge_from_start:arangodb.State)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 31u) {
+    if (cached_has_bits & 0x00000001u) {
       mutable_framework_id()->::mesos::FrameworkID::MergeFrom(from.framework_id());
     }
-    if (from.has_targets()) {
+    if (cached_has_bits & 0x00000002u) {
       mutable_targets()->::arangodb::Targets::MergeFrom(from.targets());
     }
-    if (from.has_plan()) {
+    if (cached_has_bits & 0x00000004u) {
       mutable_plan()->::arangodb::Plan::MergeFrom(from.plan());
     }
-    if (from.has_current()) {
+    if (cached_has_bits & 0x00000008u) {
       mutable_current()->::arangodb::Current::MergeFrom(from.current());
     }
-    if (from.has_restart()) {
+    if (cached_has_bits & 0x00000010u) {
       mutable_restart()->::arangodb::Restart::MergeFrom(from.restart());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
 void State::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:arangodb.State)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void State::CopyFrom(const State& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:arangodb.State)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -4776,46 +6999,273 @@ void State::CopyFrom(const State& from) {
 
 bool State::IsInitialized() const {
   if ((_has_bits_[0] & 0x0000000e) != 0x0000000e) return false;
-
   if (has_framework_id()) {
-    if (!this->framework_id().IsInitialized()) return false;
+    if (!this->framework_id_->IsInitialized()) return false;
   }
   if (has_targets()) {
-    if (!this->targets().IsInitialized()) return false;
+    if (!this->targets_->IsInitialized()) return false;
   }
   if (has_plan()) {
-    if (!this->plan().IsInitialized()) return false;
+    if (!this->plan_->IsInitialized()) return false;
   }
   if (has_current()) {
-    if (!this->current().IsInitialized()) return false;
+    if (!this->current_->IsInitialized()) return false;
   }
   if (has_restart()) {
-    if (!this->restart().IsInitialized()) return false;
+    if (!this->restart_->IsInitialized()) return false;
   }
   return true;
 }
 
 void State::Swap(State* other) {
-  if (other != this) {
-    std::swap(framework_id_, other->framework_id_);
-    std::swap(targets_, other->targets_);
-    std::swap(plan_, other->plan_);
-    std::swap(current_, other->current_);
-    std::swap(restart_, other->restart_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void State::InternalSwap(State* other) {
+  std::swap(framework_id_, other->framework_id_);
+  std::swap(targets_, other->targets_);
+  std::swap(plan_, other->plan_);
+  std::swap(current_, other->current_);
+  std::swap(restart_, other->restart_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata State::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = State_descriptor_;
-  metadata.reflection = State_reflection_;
-  return metadata;
+  protobuf_arangodb_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_arangodb_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// State
+
+// optional .mesos.FrameworkID framework_id = 1;
+bool State::has_framework_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void State::set_has_framework_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void State::clear_has_framework_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void State::clear_framework_id() {
+  if (framework_id_ != NULL) framework_id_->::mesos::FrameworkID::Clear();
+  clear_has_framework_id();
+}
+const ::mesos::FrameworkID& State::framework_id() const {
+  // @@protoc_insertion_point(field_get:arangodb.State.framework_id)
+  return framework_id_ != NULL ? *framework_id_
+                         : *::mesos::FrameworkID::internal_default_instance();
+}
+::mesos::FrameworkID* State::mutable_framework_id() {
+  set_has_framework_id();
+  if (framework_id_ == NULL) {
+    framework_id_ = new ::mesos::FrameworkID;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.State.framework_id)
+  return framework_id_;
+}
+::mesos::FrameworkID* State::release_framework_id() {
+  // @@protoc_insertion_point(field_release:arangodb.State.framework_id)
+  clear_has_framework_id();
+  ::mesos::FrameworkID* temp = framework_id_;
+  framework_id_ = NULL;
+  return temp;
+}
+void State::set_allocated_framework_id(::mesos::FrameworkID* framework_id) {
+  delete framework_id_;
+  framework_id_ = framework_id;
+  if (framework_id) {
+    set_has_framework_id();
+  } else {
+    clear_has_framework_id();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.State.framework_id)
+}
+
+// required .arangodb.Targets targets = 2;
+bool State::has_targets() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void State::set_has_targets() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void State::clear_has_targets() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void State::clear_targets() {
+  if (targets_ != NULL) targets_->::arangodb::Targets::Clear();
+  clear_has_targets();
+}
+const ::arangodb::Targets& State::targets() const {
+  // @@protoc_insertion_point(field_get:arangodb.State.targets)
+  return targets_ != NULL ? *targets_
+                         : *::arangodb::Targets::internal_default_instance();
+}
+::arangodb::Targets* State::mutable_targets() {
+  set_has_targets();
+  if (targets_ == NULL) {
+    targets_ = new ::arangodb::Targets;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.State.targets)
+  return targets_;
+}
+::arangodb::Targets* State::release_targets() {
+  // @@protoc_insertion_point(field_release:arangodb.State.targets)
+  clear_has_targets();
+  ::arangodb::Targets* temp = targets_;
+  targets_ = NULL;
+  return temp;
+}
+void State::set_allocated_targets(::arangodb::Targets* targets) {
+  delete targets_;
+  targets_ = targets;
+  if (targets) {
+    set_has_targets();
+  } else {
+    clear_has_targets();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.State.targets)
+}
+
+// required .arangodb.Plan plan = 3;
+bool State::has_plan() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void State::set_has_plan() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void State::clear_has_plan() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void State::clear_plan() {
+  if (plan_ != NULL) plan_->::arangodb::Plan::Clear();
+  clear_has_plan();
+}
+const ::arangodb::Plan& State::plan() const {
+  // @@protoc_insertion_point(field_get:arangodb.State.plan)
+  return plan_ != NULL ? *plan_
+                         : *::arangodb::Plan::internal_default_instance();
+}
+::arangodb::Plan* State::mutable_plan() {
+  set_has_plan();
+  if (plan_ == NULL) {
+    plan_ = new ::arangodb::Plan;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.State.plan)
+  return plan_;
+}
+::arangodb::Plan* State::release_plan() {
+  // @@protoc_insertion_point(field_release:arangodb.State.plan)
+  clear_has_plan();
+  ::arangodb::Plan* temp = plan_;
+  plan_ = NULL;
+  return temp;
+}
+void State::set_allocated_plan(::arangodb::Plan* plan) {
+  delete plan_;
+  plan_ = plan;
+  if (plan) {
+    set_has_plan();
+  } else {
+    clear_has_plan();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.State.plan)
+}
+
+// required .arangodb.Current current = 4;
+bool State::has_current() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void State::set_has_current() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void State::clear_has_current() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void State::clear_current() {
+  if (current_ != NULL) current_->::arangodb::Current::Clear();
+  clear_has_current();
+}
+const ::arangodb::Current& State::current() const {
+  // @@protoc_insertion_point(field_get:arangodb.State.current)
+  return current_ != NULL ? *current_
+                         : *::arangodb::Current::internal_default_instance();
+}
+::arangodb::Current* State::mutable_current() {
+  set_has_current();
+  if (current_ == NULL) {
+    current_ = new ::arangodb::Current;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.State.current)
+  return current_;
+}
+::arangodb::Current* State::release_current() {
+  // @@protoc_insertion_point(field_release:arangodb.State.current)
+  clear_has_current();
+  ::arangodb::Current* temp = current_;
+  current_ = NULL;
+  return temp;
+}
+void State::set_allocated_current(::arangodb::Current* current) {
+  delete current_;
+  current_ = current;
+  if (current) {
+    set_has_current();
+  } else {
+    clear_has_current();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.State.current)
+}
+
+// optional .arangodb.Restart restart = 5;
+bool State::has_restart() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void State::set_has_restart() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void State::clear_has_restart() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void State::clear_restart() {
+  if (restart_ != NULL) restart_->::arangodb::Restart::Clear();
+  clear_has_restart();
+}
+const ::arangodb::Restart& State::restart() const {
+  // @@protoc_insertion_point(field_get:arangodb.State.restart)
+  return restart_ != NULL ? *restart_
+                         : *::arangodb::Restart::internal_default_instance();
+}
+::arangodb::Restart* State::mutable_restart() {
+  set_has_restart();
+  if (restart_ == NULL) {
+    restart_ = new ::arangodb::Restart;
+  }
+  // @@protoc_insertion_point(field_mutable:arangodb.State.restart)
+  return restart_;
+}
+::arangodb::Restart* State::release_restart() {
+  // @@protoc_insertion_point(field_release:arangodb.State.restart)
+  clear_has_restart();
+  ::arangodb::Restart* temp = restart_;
+  restart_ = NULL;
+  return temp;
+}
+void State::set_allocated_restart(::arangodb::Restart* restart) {
+  delete restart_;
+  restart_ = restart;
+  if (restart) {
+    set_has_restart();
+  } else {
+    clear_has_restart();
+  }
+  // @@protoc_insertion_point(field_set_allocated:arangodb.State.restart)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // @@protoc_insertion_point(namespace_scope)
 

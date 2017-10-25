@@ -73,8 +73,8 @@ include_directories(
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.8/src/c/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.8/src/c/generated
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/protobuf-2.6.1/src
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/protobuf-2.6.1/src/
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/3rdparty/protobuf-3.3.0/src
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/protobuf-3.3.0/src/
   ${MESOS_FOUND_SOURCE_PATH}/build/src
   ${MESOS_FOUND_SOURCE_PATH}/build/include
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/picojson-1.3.0/
@@ -90,14 +90,14 @@ target_link_libraries(
 
 find_file(MESOS_LIB_LEVELDB
   libleveldb.a
-  PATHS ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/leveldb ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/leveldb-1.4
+  PATHS ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/leveldb ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/leveldb-1.19/out-static
 )
 
 set(LIBS
   ${MESOS_FOUND_SOURCE_PATH}/build/src/.libs/libmesos_no_3rdparty.a
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libprocess/.libs/libprocess.a
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/glog-0.3.3/.libs/libglog.a
-  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty//protobuf-2.6.1/src/.libs/libprotobuf.a
+  ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty//protobuf-3.3.0/src/.libs/libprotobuf.a
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/zookeeper-3.4.8/src/c/.libs/libzookeeper_mt.a
   ${MESOS_LIB_LEVELDB}
   ${MESOS_FOUND_SOURCE_PATH}/build/3rdparty/libev-4.22/.libs/libev.a
@@ -124,6 +124,6 @@ target_link_libraries(
 
 add_custom_command(
   OUTPUT ${CMAKE_SOURCE_DIR}/src/arangodb.pb.cc ${CMAKE_SOURCE_DIR}/src/arangodb.pb.h
-  COMMAND ${CMAKE_BINARY_DIR}/mesos/build/3rdparty/protobuf-2.6.1/src/protoc -I${CMAKE_SOURCE_DIR}/src -I${CMAKE_BINARY_DIR}/mesos/include --cpp_out=${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/arangodb.proto
+  COMMAND ${CMAKE_BINARY_DIR}/mesos/build/3rdparty/protobuf-3.3.0/src/protoc -I${CMAKE_SOURCE_DIR}/src -I${CMAKE_BINARY_DIR}/mesos/include --cpp_out=${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/arangodb.proto
   DEPENDS ${CMAKE_SOURCE_DIR}/src/arangodb.proto
 )

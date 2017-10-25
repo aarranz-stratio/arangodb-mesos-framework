@@ -92,15 +92,24 @@ static bool isSuitableOffer (Target const& target,
   // Always flatten the minimal resources with our role, because find is 
   // flexible:
   mesos::Resources minimum = target.minimal_resources();
-  minimum = minimum.flatten(Global::role()).get();
+
+  //  minimum = minimum.flatten(Global::role()).get();
+
+  LOG(INFO) 
+    << "XXXDEBUG isSuitableOffer: "
+    << "offer " << offer.id().value() << " does not have " 
+    << target.number_ports() << " ports"
+    << "\noffer: " << offerString;
+
 
   Option<mesos::Resources> found = offered.find(minimum);
+  
   if (! found.isSome()) {
     pbjson::pb2json(&offer, offerString);
      
     LOG(INFO) 
     << "DEBUG isSuitableOffer: "
-    << "offer " << offer.id().value() << " does not have " 
+    << "offer " << offer.id().value() << " does not have "
     << "minimal resource requirements " << minimum
     << "\noffer: " << offerString;
 
@@ -125,7 +134,9 @@ static bool isSuitableReservedOffer (mesos::Offer const& offer,
   mesos::Resources offered = offer.resources();
   mesos::Resources reserved = offered.reserved(Global::role());
   mesos::Resources required = target.minimal_resources();
-  required = required.flatten(Global::role()).get();
+  
+  LOG(INFO) << "XXX required: " << required;
+  /// required = required.flatten(Global::role()).get();
 
   LOG(INFO) << "Reserved: " << reserved;
   LOG(INFO) << "Target: " << required;
@@ -282,15 +293,23 @@ static mesos::Resources resourcesForRequestReservation (
   // when we ignore roles. We now have to reserve that part of the 
   // resources with role "*" that is necessary to have all of the minimal
   // resources with our role.
-  minimum = minimum.flatten(Global::role()).get();
+  LOG(INFO) 
+    << "XXXDEBUG resourcesForRequestReservation: "
+    << "minimum " << minimum;
+  // minimum = minimum.flatten(Global::role()).get();
   mesos::Resources roleSpecificPart 
       = arangodb::intersectResources(offered, minimum);
   mesos::Resources defaultPart = minimum - roleSpecificPart;
-  defaultPart = defaultPart.flatten(Global::role(), Global::createReservation()).get();
+  LOG(INFO) 
+    << "XXXDEBUG resourcesForRequestReservation: " << " defaultPart " <<  defaultPart << " Role: " <<  Global::role(); ///  <<  "createReservation: " << Global::createReservation();
+  // defaultPart = defaultPart.flatten(Global::role(), Global::createReservation()).get();
 
   // Now add a port reservation:
   mesos::Resources ports = findFreePorts(offer, 1);
-  ports = ports.flatten(Global::role(), Global::createReservation()).get();
+  LOG(INFO) 
+    << "XXXDEBUG resourcesForRequestReservation: "
+    << "ports " << ports;
+// ports = ports.flatten(Global::role(), Global::createReservation()).get();
   defaultPart += ports;
 
   // TODO(fc) check if we could use additional resources
@@ -322,7 +341,10 @@ static mesos::Resources suitablePersistent (string const& name,
   offered = filterNotIsDisk(offered);
 
   mesos::Resources minimum = target.minimal_resources();
-  minimum = minimum.flatten(Global::role()).get();
+  LOG(INFO) 
+    << "XXXDEBUG suitablePersistent: " << " minimum " <<  minimum;
+
+  // minimum = minimum.flatten(Global::role()).get();
   mesos::Resources minimumDisk = filterIsDisk(minimum);
   minimum = filterNotIsDisk(minimum);
 
