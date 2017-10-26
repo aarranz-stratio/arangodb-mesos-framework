@@ -4,6 +4,9 @@ include(FindPackageHandleStandardArgs)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
+
+set (CMAKE_CXX_FLAGS "-fPIC -fno-omit-frame-pointer ${CMAKE_CXX_FLAGS}")
+
 if (CMAKE_VERSION VERSION_LESS "3.1")
   if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
     set (CMAKE_CXX_FLAGS "--std=c++11 ${CMAKE_CXX_FLAGS}")

@@ -77,8 +77,9 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(agency, 0);
       }
       else {
+        mesos::Resources res = Caretaker::oldFlatten(x.get());   // always flatten to role "*"
         // mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-        mesos::Resources res = x.get();   // always flatten to role "*"
+        // mesos::Resources res = x.get();   // always flatten to role "*"
         LOG(INFO) << "XXX 1 DEBUG CaretakerCluster: " << " res " <<  res;
 
         auto m = agency->mutable_minimal_resources();
@@ -102,8 +103,9 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(coordinator, 1);
       }
       else {
+        mesos::Resources res = Caretaker::oldFlatten(x.get());    // always flatten to role "*"
         // mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-        mesos::Resources res = x.get();   // always flatten to role "*"
+        // mesos::Resources res = x.get();   // always flatten to role "*"
         LOG(INFO) << "XXX 2 DEBUG CaretakerCluster: " << " res " <<  res;
         auto m = coordinator->mutable_minimal_resources();
         m->CopyFrom(res);
@@ -126,8 +128,9 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(dbserver, 1);
       }
       else {
+        mesos::Resources res = Caretaker::oldFlatten(x.get());    // always flatten to role "*"
         // mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-        mesos::Resources res = x.get();   // always flatten to role "*"
+        // mesos::Resources res = x.get();   // always flatten to role "*"
         LOG(INFO) << "XXX 3 DEBUG CaretakerCluster: " << " res " <<  res;
         auto m = dbserver->mutable_minimal_resources();
         m->CopyFrom(res);
@@ -150,8 +153,9 @@ CaretakerCluster::CaretakerCluster () {
         setStandardMinimum(secondary, 1);
       }
       else {
+        mesos::Resources res = Caretaker::oldFlatten(x.get());    // always flatten to role "*"
         // mesos::Resources res = x.get().flatten();   // always flatten to role "*"
-        mesos::Resources res = x.get();   // always flatten to role "*"
+        // mesos::Resources res = x.get();   // always flatten to role "*"
         LOG(INFO) << "XXX 4 DEBUG CaretakerCluster: " << " res " <<  res;
         auto m = secondary->mutable_minimal_resources();
         m->CopyFrom(res);
@@ -622,7 +626,7 @@ void CaretakerCluster::checkOffer (const mesos::Offer& offer) {
 
   // Nobody wanted this offer, see whether there is a persistent disk
   // in there and destroy it:
-  mesos::Resources offered = offer.resources();
+  mesos::Resources offered = mesos::Resources(offer.resources()).toUnreserved();
   mesos::Resources offeredDisk = filterIsDisk(offered);
   mesos::Resources toDestroy;
   for (const mesos::Resource& res : offeredDisk) {

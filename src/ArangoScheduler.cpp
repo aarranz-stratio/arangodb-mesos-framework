@@ -251,7 +251,7 @@ mesos::TaskInfo ArangoScheduler::startInstance (
 
   mesos::SlaveID const& slaveId = info.slave_id();
   mesos::OfferID const& offerId = info.offer_id();
-  mesos::Resources const& resources = info.resources();
+  mesos::Resources const& resources = mesos::Resources(info.resources()).toUnreserved();
   string const& offerStr = offerId.value();
 
   LOG(INFO)
@@ -457,7 +457,7 @@ void ArangoScheduler::resourceOffers (mesos::SchedulerDriver* driver,
 #if 0
     LOG(INFO)
     << "DEBUG offer received " << offer.id().value()
-    << " with " << offer.resources();
+    << " with " << mesos::Resources(offer.resources()).toUnreserved();
 #endif
 
     if (Global::ignoreOffers() & 1) {

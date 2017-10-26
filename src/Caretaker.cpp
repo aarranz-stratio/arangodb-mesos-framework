@@ -90,31 +90,49 @@ static bool isSuitableOffer (Target const& target,
   }
 
   // Never need to flatten the offered resources, since we use find:
-  mesos::Resources offered = offer.resources();
+  mesos::Resources offered = Resources(offer.resources()).toUnreserved();
 
   // Always flatten the minimal resources with our role, because find is 
   // flexible:
+  pbjson::pb2json(&target, offerString);
+  LOG(INFO) 
+    << "SEARCH isSuitableOffer: has: " 
+    << "\ntarget: " << offerString;
   mesos::Resources minimum = target.minimal_resources();
+  minimum.allocate(Global::role());
 
   //  minimum = minimum.flatten(Global::role()).get();
-
+  // minimum = Caretaker::oldFlattenWithRole(minimum);
+  
+  pbjson::pb2json(&offer, offerString);
   LOG(INFO) 
-    << "XXXDEBUG isSuitableOffer: "
-    << "offer " << offer.id().value() << " does not have " 
-    << target.number_ports() << " ports"
+    << "XXXYYYDEBUG isSuitableOffer: "
+    << "offer " << offer.id().value() << " has: " 
     << "\noffer: " << offerString;
 
 
-  Option<mesos::Resources> found = offered.find(minimum);
-  
-  if (! found.isSome()) {
+  bool found = offered.contains(minimum);
+  Option<mesos::Resources> ffound = offered.find(minimum);
+
+  if (! found) {
     pbjson::pb2json(&offer, offerString);
      
     LOG(INFO) 
-    << "DEBUG isSuitableOffer: "
+    << "DEBUG isSuitableOffer: yyyyyyyyyyyy"
     << "offer " << offer.id().value() << " does not have "
     << "minimal resource requirements " << minimum
-    << "\noffer: " << offerString;
+    << "\n offer: " << offerString;
+    LOG(INFO) 
+    << "DEBUG isSuitableOffer: yyyyyyyyyyyy11"
+    << "\n offerFlat: " << Resources(offer.resources()).toUnreserved();
+    LOG(INFO) 
+    << "DEBUG isSuitableOffer: yyyyyyyyyyyy12"
+    << "\n issome: " << ffound.isSome();
+    /*    
+    LOG(INFO) 
+    << "DEBUG isSuitableOffer: yyyyyyyyyyyy13"
+         << "\n find: " << ffound.get().toUnreserved();
+    */
 
     return false;
   }
@@ -129,17 +147,18 @@ static bool isSuitableReservedOffer (mesos::Offer const& offer,
                                      Target const& target,
                                      mesos::Resources& toMakePersistent) {
   // mop: this will check the ports
+  LOG(INFO) << "HULLO offer1!";
   if (!isSuitableOffer(target, offer)) {
     return false;
   }
 
   // mop: now we check our reserved resources (role dependent)
-  mesos::Resources offered = offer.resources();
+  mesos::Resources offered = Resources(offer.resources()).toUnreserved();
   mesos::Resources reserved = offered.reserved(Global::role());
   mesos::Resources required = target.minimal_resources();
-  
+  required = Caretaker::oldFlattenWithRole(required);
   LOG(INFO) << "XXX required: " << required;
-  /// required = required.flatten(Global::role()).get();
+
 
   LOG(INFO) << "Reserved: " << reserved;
   LOG(INFO) << "Target: " << required;
@@ -185,12 +204,18 @@ static void findFreePortsFromRange (mesos::Resources& result,
         onePort.set_role(Global::role());
         if (isDynRes[rangeChoice]) {
           onePort.mutable_reservation()->CopyFrom(Global::createReservation());
+          onePort.set_role(Global::role());
         }
       }
+      LOG(INFO) << "findFreePortsFromRange " << onePort;
       result += onePort;
+      LOG(INFO) << "findFreePortsFromRange 1";
       found++;
+      LOG(INFO) << "findFreePortsFromRange 2";
     }
+    LOG(INFO) << "findFreePortsFromRange 3";
   }
+  LOG(INFO) << "findFreePortsFromRange 4";
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -250,7 +275,7 @@ static mesos::Resources findFreePorts (const mesos::Offer& offer, size_t len) {
 
 static mesos::Resources resourcesForStartEphemeral (mesos::Offer const& offer,
                                                     Target const& target) {
-  mesos::Resources offered = offer.resources();
+  mesos::Resources offered = Resources(offer.resources()).toUnreserved();
   mesos::Resources minimum = target.minimal_resources();
   
   // We know that the minimal resources fit into the offered resources,
@@ -289,13 +314,15 @@ static mesos::Resources resourcesForStartEphemeral (mesos::Offer const& offer,
 static mesos::Resources resourcesForRequestReservation (
                                     mesos::Offer const& offer,
                                     Target const& target) {
-  mesos::Resources offered = offer.resources();
+  mesos::Resources offered = Resources(offer.resources()).toUnreserved();
   mesos::Resources minimum = target.minimal_resources();
   
   // We know that the minimal resources fit into the offered resources,
   // when we ignore roles. We now have to reserve that part of the 
   // resources with role "*" that is necessary to have all of the minimal
   // resources with our role.
+  // minimum = Caretaker::oldFlattenWithRole(minimum);
+  
   LOG(INFO) 
     << "XXXDEBUG resourcesForRequestReservation: "
     << "minimum " << minimum;
@@ -303,12 +330,14 @@ static mesos::Resources resourcesForRequestReservation (
   mesos::Resources roleSpecificPart 
       = arangodb::intersectResources(offered, minimum);
   mesos::Resources defaultPart = minimum - roleSpecificPart;
+  // defaultPart = Caretaker::oldFlattenWithPrincipal(defaultPart);
   LOG(INFO) 
     << "XXXDEBUG resourcesForRequestReservation: " << " defaultPart " <<  defaultPart << " Role: " <<  Global::role(); ///  <<  "createReservation: " << Global::createReservation();
   // defaultPart = defaultPart.flatten(Global::role(), Global::createReservation()).get();
 
   // Now add a port reservation:
   mesos::Resources ports = findFreePorts(offer, 1);
+  /// ports = Caretaker::oldFlattenWithPrincipal(ports);
   LOG(INFO) 
     << "XXXDEBUG resourcesForRequestReservation: "
     << "ports " << ports;
@@ -339,7 +368,7 @@ static mesos::Resources suitablePersistent (string const& name,
   // For logging:
   std::string offerString;
 
-  mesos::Resources offered = offer.resources();
+  mesos::Resources offered = Resources(offer.resources()).toUnreserved();
   mesos::Resources offeredDisk = filterIsDisk(offered);
   offered = filterNotIsDisk(offered);
 
@@ -347,6 +376,7 @@ static mesos::Resources suitablePersistent (string const& name,
   LOG(INFO) 
     << "XXXDEBUG suitablePersistent: " << " minimum " <<  minimum;
 
+  minimum = Caretaker::oldFlattenWithRole(minimum);
   // minimum = minimum.flatten(Global::role()).get();
   mesos::Resources minimumDisk = filterIsDisk(minimum);
   minimum = filterNotIsDisk(minimum);
@@ -356,7 +386,7 @@ static mesos::Resources suitablePersistent (string const& name,
     pbjson::pb2json(&offer, offerString);
     LOG(INFO) 
     << "DEBUG suitablePersistent(" << name << "): "
-    << "offer " << offer.id().value() << " [" << offer.resources()
+    << "offer " << offer.id().value() << " [" << Resources(offer.resources()).toUnreserved()
     << "] does not have minimal resource requirements "
     << minimum
     << "\noffer: " << offerString;
@@ -399,7 +429,7 @@ static mesos::Resources suitablePersistent (string const& name,
     pbjson::pb2json(&offer, offerString);
     LOG(INFO) 
     << "DEBUG suitablePersistent(" << name << "): "
-    << "offer " << offer.id().value() << " [" << offer.resources()
+    << "offer " << offer.id().value() << " [" << Resources(offer.resources()).toUnreserved()
     << "] does not have enough persistent disk resources "
     << minimumDisk
     << "\noffer: " << offerString;
@@ -729,7 +759,7 @@ static void startArangoDBTask (ArangoState::Lease& lease,
   }
 
   // volume
-  mesos::Resources res = info.resources();
+  mesos::Resources res = Resources(info.resources()).toUnreserved();
   res = arangodb::filterIsDisk(res);
   const mesos::Resource& disk = *(res.begin());
   if (disk.has_disk() && disk.disk().has_volume()) {
@@ -776,7 +806,7 @@ static bool requestPersistent (string const& upper,
                                TaskType taskType,
                                int pos) {
   mesos::Resources resources;
-
+  LOG(INFO) << "HULLO reserved offer!";
   if (! isSuitableReservedOffer(offer, target, resources)) {
     return notInterested(offer, doDecline, __FUNCTION__);
   }
@@ -1106,6 +1136,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
                                    mesos::Offer const& offer,
                                    bool doDecline,
                                    TaskType taskType) {
+  LOG(INFO) << "Aloa aaaaaaaaa willi";
   string upper = name;
   for (auto& c : upper) { 
     c = toupper(c);
@@ -1143,7 +1174,9 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
   
   std::string offerPersistenceId;
   {
-    mesos::Resources res = offer.resources();
+    LOG(INFO) << "Aloa hoiiii willi1";
+    mesos::Resources res = Resources(offer.resources()).toUnreserved();
+    LOG(INFO) << "Aloa hoiiii willi2";
     res = arangodb::filterIsDisk(res);
     const mesos::Resource& disk = *(res.begin());
     if (disk.has_disk()
@@ -1179,6 +1212,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
             LOG(INFO) << "Ignoring offer because of 0x4 flag.";
             return notInterested(offer, doDecline, __FUNCTION__);
           }
+          LOG(INFO) << "Aloa hoiiii willi   3";
           return requestPersistent(upper, offer, target, task, taskCur, 
                                    doDecline, taskType, i);
 
@@ -1197,10 +1231,12 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
             return notInterested(offer, doDecline, __FUNCTION__);
           }
           if (taskType == TaskType::COORDINATOR) {
+            LOG(INFO) << "Aloa hoiiii willi   4";
             return requestRestartEphemeral(lease, upper, offer, target, task,
                                            taskCur, taskType, i);
           }
           else {
+            LOG(INFO) << "Aloa hoiiii willi   5";
             return requestRestartPersistent(lease, upper, offer, target, task, 
                                             taskCur, doDecline, taskType, i);
           }
@@ -1209,8 +1245,10 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
           // mop: there was some special logic here that tried to cover an unknown edge case
           // removed as it completely spammed the logfile and makes one look into a completely
           // wrong direction
+            LOG(INFO) << "Aloa hoiiii willi   6";
           return notInterested(offer, doDecline, __FUNCTION__);
         default:
+            LOG(INFO) << "Aloa hoiiii willi  7";
           return notInterested(offer, doDecline, __FUNCTION__);
       }
     }
@@ -1228,6 +1266,7 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
   // ...........................................................................
   // check whether the offer is suitable:
   // ...........................................................................
+  LOG(INFO) << "HULLO offer2!" << name;
   if (! isSuitableOffer(target, offer)) {
     return notInterested(offer, doDecline, __FUNCTION__);
   }
@@ -1631,6 +1670,37 @@ void Caretaker::restart() {
   while (Global::state().lease().state().has_restart()) {
     usleep(20000);
   }
+}
+
+
+// old mesos versions had a flatten() method...compat methods
+mesos::Resources Caretaker::oldFlatten(mesos::Resources const& resources) {
+  return resources.toUnreserved();
+}
+
+mesos::Resources Caretaker::oldFlattenWithRole(mesos::Resources & resources) {
+  mesos::Resource::ReservationInfo reservation;
+  /// reservation.set_type(mesos::Resource::ReservationInfo::DYNAMIC);
+  reservation.set_role(Global::role());
+
+  //mesos::Resource::AllocationInfo allocation;
+  //allocation.set_allocated_role(Global::role().get());
+  resources.pushReservation(reservation);
+  resources.allocate(Global::role());
+  return Resources(resources).toUnreserved();
+}
+
+mesos::Resources Caretaker::oldFlattenWithPrincipal(mesos::Resources const& resources) {
+  mesos::Resource::ReservationInfo reservation;
+  //reservation.set_type(mesos::Resource::ReservationInfo::DYNAMIC);
+  reservation.set_role(Global::role());
+  reservation.set_principal(Global::principal());
+
+  /// todo:
+  //Option<mesos::Error> errorOption = resources.validate(reservation);
+  // LOG(INFO) << "oldFlattenWithPrincipal " << errorOption.get();
+
+  return Resources(resources.pushReservation(reservation)).toUnreserved();
 }
 
 // -----------------------------------------------------------------------------

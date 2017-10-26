@@ -436,12 +436,289 @@ public:
   string zk;
 };
 
+#ifdef unix
+#undef unix
+#endif
+#include "pbjson.hpp"
+
 int main (int argc, char** argv) {
 
   // ...........................................................................
   // command line options
   // ...........................................................................
+#if 0
+  std::string myOffer = R"EOF( 
+{
+  "offer": {
+    "id": {
+      "value": "0b905d78-05a2-4a21-a99d-1d562c316c6e-O5568"
+    },
+    "framework_id": {
+      "value": "0b905d78-05a2-4a21-a99d-1d562c316c6e-0031"
+    },
+    "slave_id": {
+      "value": "0b905d78-05a2-4a21-a99d-1d562c316c6e-S3"
+    },
+    "hostname": "10.0.3.18",
+    "url": {
+      "scheme": "http",
+      "address": {
+        "hostname": "10.0.3.18",
+        "ip": "10.0.3.18",
+        "port": 5051
+      },
+      "path": "/slave(1)",
+      "query": []
+    },
+    "resources": [
+      {
+        "name": "ports",
+        "type": 1,
+        "ranges": {
+          "range": [
+            {
+              "begin": 1025,
+              "end": 2180
+            },
+            {
+              "begin": 2182,
+              "end": 3887
+            },
+            {
+              "begin": 3889,
+              "end": 5049
+            },
+            {
+              "begin": 5052,
+              "end": 8079
+            },
+            {
+              "begin": 8082,
+              "end": 8180
+            },
+            {
+              "begin": 8182,
+              "end": 29407
+            },
+            {
+              "begin": 29411,
+              "end": 32000
+            }
+          ]
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      },
+      {
+        "name": "disk",
+        "type": 0,
+        "scalar": {
+          "value": 35566
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      },
+      {
+        "name": "cpus",
+        "type": 0,
+        "scalar": {
+          "value": 3.75
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      },
+      {
+        "name": "mem",
+        "type": 0,
+        "scalar": {
+          "value": 13509
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      }
+    ],
+    "attributes": [],
+    "executor_ids": [],
+    "allocation_info": {
+      "role": "arangodb3"
+    }
+  }
+}
+)EOF";
+#if 0
+  std::string myOfferResource = R"EOF( 
+[
+      {
+        "name": "ports",
+        "type": "RANGES",
+        "ranges": {
+          "range": [
+            {
+              "begin": 1025,
+              "end": 2180
+            },
+            {
+              "begin": 2182,
+              "end": 3887
+            },
+            {
+              "begin": 3889,
+              "end": 5049
+            },
+            {
+              "begin": 5052,
+              "end": 8079
+            },
+            {
+              "begin": 8082,
+              "end": 8180
+            },
+            {
+              "begin": 8182,
+              "end": 29407
+            },
+            {
+              "begin": 29411,
+              "end": 32000
+            }
+          ]
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      },
+      {
+        "name": "disk",
+        "type": "SCALAR",
+        "scalar": {
+          "value": 35566
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      },
+      {
+        "name": "cpus",
+        "type": "SCALAR",
+        "scalar": {
+          "value": 3.75
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      },
+      {
+        "name": "mem",
+        "type": "SCALAR",
+        "scalar": {
+          "value": 13509
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      }
+    ]
+)EOF";
 
+  std::string myMinimumResource = R"EOF( 
+[
+      {
+        "name": "disk",
+        "type": "SCALAR",
+        "scalar": {
+          "value": 2048
+        }
+      },
+      {
+        "name": "cpus",
+        "type": "SCALAR",
+        "scalar": {
+          "value": 0.25
+        }
+      },
+      {
+        "name": "mem",
+        "type": "SCALAR",
+        "scalar": {
+          "value": 2048
+        }
+      }
+    ]
+)EOF";
+
+#endif
+    std::string myOfferResource = R"EOF( 
+[
+      {
+        "name": "mem",
+        "type": "SCALAR",
+        "scalar": {
+          "value": 13509
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        },
+        "reservations": []
+      }
+    ]
+)EOF";
+
+  std::string myMinimumResource = R"EOF( 
+[
+      {
+        "name": "mem",
+        "type": "SCALAR",
+        "scalar": {
+          "value": 2048
+        },
+        "allocation_info": {
+          "role": "arangodb3"
+        }
+      }
+    ]
+)EOF";
+
+  
+  // std::cout << myOffer;
+
+
+  mesos::Offer offer;
+
+  mesos::Resources myresource;
+  auto foo = myresource.parse(myOfferResource, "arangodb3").get();
+  std::cout << foo <<std::endl;
+
+  auto bar = myresource.parse(myMinimumResource, "arangodb3").get();
+  std::cout << bar <<std::endl;
+
+  foo.contains(bar);
+
+  //  auto res = offer.add_resources();
+
+
+  
+  return 1;
+
+
+
+#endif
+
+
+
+
+  
   // parse the command line flags
   Flags flags;
 
@@ -654,6 +931,8 @@ int main (int argc, char** argv) {
     flags.failoverTimeout = 0.0;
   }
 
+  auto cap = framework.add_capabilities();
+  cap->set_type(mesos::FrameworkInfo::Capability::RESERVATION_REFINEMENT);
   LOG(INFO) << "failover timeout: " << flags.failoverTimeout;
   
   {

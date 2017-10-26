@@ -12,7 +12,11 @@ RUN apt-get install -y zlib1g-dev cmake
 
 RUN git clone --single-branch --branch 1.4.0 https://github.com/apache/mesos.git
 
+# add scripts to install the compiler toolchain
+ADD ./ /patches
+
 RUN cd mesos && \
+  patch -p1 < /patches/fix_mesos_client.diff && \
   ./bootstrap && \
   mkdir -p build && \
   cd build && \
