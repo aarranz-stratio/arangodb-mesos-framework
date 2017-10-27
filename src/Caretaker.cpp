@@ -156,7 +156,7 @@ static bool isSuitableReservedOffer (mesos::Offer const& offer,
   mesos::Resources offered = Resources(offer.resources()).toUnreserved();
   mesos::Resources reserved = offered.reserved(Global::role());
   mesos::Resources required = target.minimal_resources();
-  required = Caretaker::oldFlattenWithRole(required);
+  /// required = Caretaker::oldFlattenWithRole(required);
   LOG(INFO) << "XXX required: " << required;
 
 
@@ -327,10 +327,10 @@ static mesos::Resources resourcesForRequestReservation (
     << "XXXDEBUG resourcesForRequestReservation: "
     << "minimum " << minimum;
   // minimum = minimum.flatten(Global::role()).get();
-  mesos::Resources roleSpecificPart 
-      = arangodb::intersectResources(offered, minimum);
+  mesos::Resources roleSpecificPart = arangodb::intersectResources(offered, minimum);
   mesos::Resources defaultPart = minimum - roleSpecificPart;
   // defaultPart = Caretaker::oldFlattenWithPrincipal(defaultPart);
+  
   LOG(INFO) 
     << "XXXDEBUG resourcesForRequestReservation: " << " defaultPart " <<  defaultPart << " Role: " <<  Global::role(); ///  <<  "createReservation: " << Global::createReservation();
   // defaultPart = defaultPart.flatten(Global::role(), Global::createReservation()).get();
@@ -345,6 +345,8 @@ static mesos::Resources resourcesForRequestReservation (
   defaultPart += ports;
 
   // TODO(fc) check if we could use additional resources
+  LOG(INFO) 
+    << "XXXDEBUG resourcesForRequestReservation: " << " defaultPart to return: " <<  defaultPart ;
 
   return defaultPart;
 }
@@ -376,7 +378,7 @@ static mesos::Resources suitablePersistent (string const& name,
   LOG(INFO) 
     << "XXXDEBUG suitablePersistent: " << " minimum " <<  minimum;
 
-  minimum = Caretaker::oldFlattenWithRole(minimum);
+  /// minimum = Caretaker::oldFlattenWithRole(minimum);
   // minimum = minimum.flatten(Global::role()).get();
   mesos::Resources minimumDisk = filterIsDisk(minimum);
   minimum = filterNotIsDisk(minimum);
@@ -451,7 +453,7 @@ static mesos::Resources suitablePersistent (string const& name,
 
 static bool notInterested (mesos::Offer const& offer, bool doDecline, const char *who) {
   if (doDecline) {
-    LOG(INFO) << who << "Declining offer " << offer.id().value();
+    LOG(INFO) << who << " Declining offer " << offer.id().value();
     Global::scheduler().declineOffer(offer.id());
     return true;
   }
@@ -1189,7 +1191,9 @@ bool Caretaker::checkOfferOneType (ArangoState::Lease& lease,
   for (int i = 0; i < p; ++i) {
     TaskPlan* task = tasks->mutable_entries(i);
     TaskCurrent* taskCur = current->mutable_entries(i);
-    
+    std::string taskstr;
+    pbjson::pb2json(task, taskstr);
+    LOG(INFO) << "taskstate: " << task->state() << " not: " << TASK_STATE_NEW << " => \n" << taskstr;
     if (task->state() == TASK_STATE_NEW) {
       required.push_back(i);
       continue;
