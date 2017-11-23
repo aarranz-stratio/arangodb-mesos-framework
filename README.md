@@ -40,22 +40,6 @@ of thumb, scale the DBserver layer up to get more storage space and
 scale the coordinator layer up if the bottleneck is CPU power for
 queries or Foxx apps (which run on the coordinators).
 
-Prerequisites
--------------
-For deploying arangodb in a mesos-0.26 cluster and below you will have
-to create a separate role "arangodb" on the master so be sure to start
-your master with `--roles=arangodb`.
-
-On mesosphere dcos edit /opt/mesosphere/etc/mesos-master and ensure the
-role is present:
-
-```
-MESOS_ROLES=slave_public,arangodb
-MESOS_WEIGHTS=slave_public=1,arangodb=1
-```
-
-Make sure to restart the master so mesos knows about the new role.
-
 Installation
 ------------
 
